@@ -1,0 +1,23 @@
+# Environnement Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Modèles (trop lourds pour GitHub)
+models/*.pt
+models/*.pth
+
+# Outputs générés
+output/
+test.jpg
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

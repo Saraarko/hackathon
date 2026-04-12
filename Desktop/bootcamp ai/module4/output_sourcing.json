@@ -1,6 +1,6 @@
 {
   "product": "stainless steel",
-  "generated_at": "2026-04-12T18:03:29.664664+00:00",
+  "generated_at": "2026-04-12T18:25:19.020977+00:00",
   "filters_applied": {
     "regions": [
       "DZ",
@@ -30,7 +30,8 @@
   },
   "sources": {
     "wikidata": {
-      "label": "Wikidata SPARQL",
+      "label": "DBpedia (fallback Wikidata indisponible)",
+      "source": "dbpedia",
       "count": 2,
       "suppliers": [
         {
@@ -84,10 +85,10 @@
           ],
           "contact": {
             "first_name": "Michael",
-            "last_name": "Thompson",
+            "last_name": "Johnson",
             "role": "Sales Manager",
-            "email": "michael.thompson@universalstainless.com",
-            "phone": "+1 724 543 4000",
+            "email": "michael.johnson@universalstainless.com",
+            "phone": "+1 724 543 4500",
             "source": "claude-haiku-4-5-20251001"
           }
         }
@@ -245,10 +246,10 @@
       ],
       "contact": {
         "first_name": "Michael",
-        "last_name": "Thompson",
+        "last_name": "Johnson",
         "role": "Sales Manager",
-        "email": "michael.thompson@universalstainless.com",
-        "phone": "+1 724 543 4000",
+        "email": "michael.johnson@universalstainless.com",
+        "phone": "+1 724 543 4500",
         "source": "claude-haiku-4-5-20251001"
       }
     }
@@ -256,6 +257,6 @@
   "total_unique": 2,
   "llm_analysis": {
     "model": "claude-haiku-4-5-20251001",
-    "analysis": "# Analyse Sourcing Acier Inoxydable - Cameroun\n\n## 1. Évaluation des Fournisseurs Wikidata\n\n| Fournisseur | Score | Rating | Fiabilité |\n|---|---|---|---|\n| **Jindal Stainless Limited** | 70 | 0.0 | ⚠️ Modérée |\n| **Universal Stainless** | 70 | 0.0 | ⚠️ Modérée |\n\n**Problème identifié** : Scores identiques et ratings nuls → données Wikidata insuffisantes. Nécessite validation externe.\n\n---\n\n## 2. Analyse Flux Comtrade (Imports 2022)\n\n### Hiérarchie des Fournisseurs Actuels\n\n```\n🥇 South Africa    : 26,549 USD (62.3%) ← LEADER DOMINANT\n🥈 Russia          : 16,420 USD (38.4%)\n🥉 Sweden          :  9,804 USD (23.0%)\n   Slovenia        :  4,487 USD (10.5%)\n   Ukraine         :  4,098 USD (9.6%)\n```\n\n**Total imports** : 42,758 USD (marché très concentré)\n\n### Insights Critiques\n\n- **Dépendance excessive** : Afrique du Sud = 62% des imports\n- **Volatilité géopolitique** : Russie (sanctions), Ukraine (conflit)\n- **Marché fragmenté** : 5 pays seulement → peu de diversification\n\n---\n\n## 3. Recommandations Concrètes\n\n### ✅ Recommandation 1 : Renforcer la Relation Afrique du Sud\n**Stratégie** : Consolider le partenaire dominant\n- **Action** : Négocier contrats long-terme avec fournisseurs SA (ArcelorMittal SA, Highveld Steel)\n- **Avantage** : Proximité géographique, stabilité politique relative\n- **Risque** : Augmente la dépendance\n- **Timeline** : 3-6 mois\n\n### ✅ Recommandation 2 : Diversifier vers l'Asie du Sud\n**Stratégie** : Réduire dépendance géopolitique\n- **Fournisseurs cibles** : \n  - Jindal Stainless (Inde) - déjà identifié\n  - Tata Steel (Inde)\n  - POSCO (Corée du Sud)\n- **Avantage** : Capacités massives, prix compétitifs, stabilité\n- **Coût** : Délais logistiques +15-20 jours\n- **Timeline** : 6-12 mois (qualification)\n\n### ✅ Recommandation 3 : Créer Stock Stratégique Local\n**Stratégie** : Résilience supply chain\n- **Action** : Établir dépôt de 3-6 mois de consommation à Douala\n- **Partenaire** : Distributeur local certifié (ex: Société Générale de Commerce)\n- **Coût** : +8-12% (stockage + financement)\n- **Bénéfice** : Immunité aux ruptures court-terme\n- **Timeline** : 2-3 mois\n\n---\n\n## 4. Évaluation des Risques Supply Chain\n\n### Matrice de Risques\n\n| Risque | Probabilité | Impact | Score | Mitigation |\n|---|---|---|---|---|\n| **Dépendance SA** | 🔴 Haute | 🔴 Critique | **9/10** | Diversification Asie |\n| **Sanctions Russie** | 🟡 Modérée | 🟡 Moyen | **6/10** | Réduire imports RU |\n| **Volatilité USD/XAF** | 🔴 Haute | 🟡 Moyen | **7/10** | Contrats en USD |\n| **Délais logistiques** | 🟡 Modérée | 🟡 Moyen | **5/10** | Stock stratégique |\n| **Qualité fournisseurs** | 🟡 Modérée | 🟡 Moyen | **6/10** | Audit/Certification |\n\n### Scénarios Critiques\n\n**Scénario 1** : Crise politique Afrique du Sud\n- Impact : Perte 62% des imports en 2-4 semaines\n- Délai de remplacement : 6-8 semaines (Asie)\n- **Coût estimé** : 15-25% surcoût + ruptures\n\n**Scénario 2** : Escalade Ukraine-Russie\n- Impact : Perte 38% des imports (moins probable pour Cameroun)\n- Délai : Immédiat\n- **Coût estimé** : 10-15% surcoût\n\n---\n\n## 5. Plan d'Action Priorisé\n\n| Phase | Action | Délai | Budget |\n|---|---|---|---|\n| **Court terme** (0-3 mois) | Audit fournisseurs SA actuels | 4 semaines | Faible |\n| | Lancer RFQ auprès Jindal/Tata | 6 semaines | Faible |\n| **Moyen terme** (3-9 mois) | Qualifier 2 fournisseurs Asie | 12 semaines | Moyen |\n| | Établir stock stratégique | 8 semaines | Moyen-Élevé |\n| **Long terme** (9+ mois) | Réduire dépendance SA à 40% | Continu | Moyen |\n\n---\n\n## ⚠️ Conclusion\n\n**Situation actuelle** : Vulnérable (concentration excessive)\n**Priorité** : Diversification géographique + stock stratégique\n**Horizon** : 12 mois pour stabiliser la supply chain"
+    "analysis": "# Analyse Sourcing Stainless Steel - Cameroun\n\n## 1. Évaluation des Fournisseurs Wikidata\n\n| Fournisseur | Score | Rating | Statut |\n|---|---|---|---|\n| **Jindal Stainless Limited** | 70 | 0.0 | Leader indien - capacité mondiale |\n| **Universal Stainless** | 70 | 0.0 | Producteur US - qualité certifiée |\n\n⚠️ **Problème identifié** : Aucune notation (rating=0.0) → données incomplètes. Nécessite vérification externe.\n\n---\n\n## 2. Analyse Flux Comtrade (Imports Cameroun 2022)\n\n### Classement par volume :\n1. **South Africa** : 26,549 USD (54% des imports) 🥇\n2. **Russia** : 16,420 USD (33%)\n3. **Sweden** : 9,804 USD (20%)\n4. **Slovenia** : 4,487 USD (9%)\n5. **Ukraine** : 4,098 USD (8%)\n\n### Insights clés :\n- **Concentration géographique** : Afrique du Sud domine largement\n- **Dépendance régionale** : 87% provient d'Afrique du Sud + Russie\n- **Diversification faible** : 5 pays seulement\n\n---\n\n## 3. Recommandations Concrètes\n\n### ✅ **Recommandation 1 : Partenariat Afrique du Sud (COURT TERME)**\n**Fournisseur cible** : ArcelorMittal South Africa ou Highveld Steel\n- **Justification** : 54% des imports actuels → chaîne logistique établie\n- **Avantages** : Proximité régionale, délais courts, coûts transport réduits\n- **Action** : Auditer les fournisseurs locaux SA existants\n\n### ✅ **Recommandation 2 : Diversification vers Jindal Stainless (MOYEN TERME)**\n**Fournisseur cible** : Jindal Stainless Limited (Inde)\n- **Justification** : Leader mondial, capacité de production massive\n- **Avantages** : Réduction dépendance Russie, prix compétitifs, certifications ISO\n- **Action** : Négocier contrats long terme, vérifier délais Inde-Cameroun (45-60j)\n\n### ✅ **Recommandation 3 : Contrat de Secours Suède (SÉCURITÉ)**\n**Fournisseur cible** : Outokumpu ou Sandvik (Suède)\n- **Justification** : Qualité premium, stabilité politique, alternative à Russie\n- **Avantages** : Certifications EU, traçabilité, pas de risque sanctions\n- **Action** : Contrat d'urgence 10-15% des besoins\n\n---\n\n## 4. Évaluation des Risques Supply Chain\n\n### 🔴 **RISQUES CRITIQUES**\n\n| Risque | Niveau | Impact | Mitigation |\n|---|---|---|---|\n| **Dépendance Russie (33%)** | 🔴 CRITIQUE | Sanctions, embargo, délais | Réduire à <10% en 12 mois |\n| **Concentration SA (54%)** | 🔴 ÉLEVÉ | Rupture = 54% manquant | Diversifier vers Inde/Suède |\n| **Instabilité Ukraine** | 🟠 MOYEN | 8% des imports à risque | Rediriger vers Suède |\n| **Données Wikidata obsolètes** | 🟠 MOYEN | Fournisseurs inexacts | Vérifier ratings externes |\n\n### 🟠 **RISQUES MODÉRÉS**\n\n- **Délais logistiques** : Inde (45-60j) vs SA (14-21j)\n- **Volatilité prix** : Acier inoxydable = commodity exposée\n- **Qualité variable** : Vérifier certifications (EN 10088, ASTM A276)\n\n---\n\n## 5. Matrice Décisionnelle\n\n```\nFOURNISSEUR          | COÛT | DÉLAI | QUALITÉ | RISQUE | SCORE\n─────────────────────┼──────┼───────┼─────────┼────────┼──────\nAfrique du Sud       | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐   | 🔴    | 7/10\nJindal (Inde)        | ⭐⭐⭐ | ⭐⭐  | ⭐⭐⭐ | 🟢    | 8/10\nOutokumpu (Suède)    | ⭐⭐  | ⭐⭐  | ⭐⭐⭐ | 🟢    | 7/10\nRussia               | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐   | 🔴🔴  | 3/10\n```\n\n---\n\n## 6. Plan d'Action (12 mois)\n\n| Phase | Mois | Action |\n|---|---|---|\n| **Immédiat** | M1-M2 | Auditer fournisseurs SA actuels + Jindal |\n| **Court terme** | M3-M6 | Réduire Russie de 33% → 10% |\n| **Moyen terme** | M6-M9 | Contrats Jindal + Suède signés |\n| **Stabilisation** | M10-M12 | Portfolio : SA 40% / Inde 35% / Suède 15% / Autres 10% |\n\n---\n\n**Conclusion** : Passer d'une dépendance Russie-SA à un portefeuille diversifié Inde-Suède-SA pour sécuriser la supply chain."
   }
 }

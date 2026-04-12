@@ -159,12 +159,56 @@ def get_match_reasons(supplier: Supplier, product_name: str, filters: SourcingFi
     return reasons
 
 
-# ── Source 1 : DBpedia SPARQL (alternative open a Wikidata) ──────────────── #
+# ── Source 1 : Wikidata (principal) + DBpedia (fallback) ─────────────────── #
 
-DBPEDIA_ENDPOINT = "https://dbpedia.org/sparql"
+WIKIDATA_ENDPOINT = "https://query.wikidata.org/sparql"
+DBPEDIA_ENDPOINT  = "https://dbpedia.org/sparql"
 
-def fetch_wikidata_suppliers(material: str) -> list[Supplier]:
-    # Utilise le premier mot du materiau pour maximiser les resultats DBpedia
+
+def _parse_suppliers(bindings: list[dict], id_prefix: str, source: str, material: str) -> list[Supplier]:
+    suppliers = []
+    for i, b in enumerate(bindings):
+        name    = b.get("companyLabel", b.get("label", {})).get("value", "Unknown")
+        country = b.get("countryLabel", b.get("country", {})).get("value", "XX")
+        country_code = country[:2].upper() if country not in ("XX", "") else "XX"
+        website = b.get("websiteLabel", b.get("website", {})).get("value")
+        suppliers.append(Supplier(
+            id=f"{id_prefix}_{i:03d}",
+            name=name,
+            category=SupplierCategory.RAW_MATERIALS,
+            status=SupplierStatus.VERIFIED,
+            country=country_code,
+            website=website,
+            products=[material],
+            source=source,
+        ))
+    return suppliers
+
+
+def _fetch_wikidata(material: str) -> list[Supplier]:
+    query = f"""
+SELECT DISTINCT ?companyLabel ?countryLabel ?websiteLabel WHERE {{
+  ?company wdt:P31 wd:Q4830453 ;
+           rdfs:label ?companyLabel .
+  FILTER(LANG(?companyLabel) = "en")
+  FILTER(CONTAINS(LCASE(?companyLabel), "{material.lower()}"))
+  OPTIONAL {{ ?company wdt:P17/rdfs:label ?countryLabel . FILTER(LANG(?countryLabel)="en") }}
+  OPTIONAL {{ ?company wdt:P856 ?websiteLabel . }}
+}}
+LIMIT 15
+"""
+    resp = requests.get(
+        WIKIDATA_ENDPOINT,
+        params={"query": query, "format": "json"},
+        headers={"User-Agent": "OpenIndustry-Algeria/1.0", "Accept": "application/sparql-results+json"},
+        timeout=15,
+    )
+    resp.raise_for_status()
+    bindings = resp.json().get("results", {}).get("bindings", [])
+    return _parse_suppliers(bindings, "wd", "wikidata", material)
+
+
+def _fetch_dbpedia(material: str) -> list[Supplier]:
     keyword = material.lower().split()[0]
     query = f"""
 SELECT DISTINCT ?label ?country ?website WHERE {{
@@ -181,36 +225,36 @@ SELECT DISTINCT ?label ?country ?website WHERE {{
 }}
 LIMIT 15
 """
+    resp = requests.get(
+        DBPEDIA_ENDPOINT,
+        params={"query": query, "format": "application/json"},
+        headers={"User-Agent": "OpenIndustry-Algeria/1.0"},
+        timeout=20,
+    )
+    resp.raise_for_status()
+    bindings = resp.json().get("results", {}).get("bindings", [])
+    return _parse_suppliers(bindings, "dbp", "dbpedia", material)
+
+
+def fetch_wikidata_suppliers(material: str) -> tuple[list[Supplier], str]:
+    """
+    Essaie Wikidata en premier.
+    Si timeout ou erreur → fallback automatique sur DBpedia.
+    Retourne (suppliers, source_utilisee).
+    """
     try:
-        resp = requests.get(
-            DBPEDIA_ENDPOINT,
-            params={"query": query, "format": "application/json"},
-            headers={"User-Agent": "OpenIndustry-Algeria/1.0"},
-            timeout=20,
-        )
-        resp.raise_for_status()
-        bindings = resp.json().get("results", {}).get("bindings", [])
-        print(f"[DBpedia] {len(bindings)} fournisseurs trouves pour '{material}'")
-        suppliers = []
-        for i, b in enumerate(bindings):
-            name    = b.get("label",   {}).get("value", "Unknown")
-            country = b.get("country", {}).get("value", "XX")
-            country_code = country[:2].upper() if country != "XX" else "XX"
-            website = b.get("website", {}).get("value")
-            suppliers.append(Supplier(
-                id=f"dbp_{i:03d}",
-                name=name,
-                category=SupplierCategory.RAW_MATERIALS,
-                status=SupplierStatus.VERIFIED,
-                country=country_code,
-                website=website,
-                products=[material],
-                source="dbpedia",
-            ))
-        return suppliers
-    except Exception as exc:
-        print(f"[DBpedia] erreur: {exc}")
-        return []
+        suppliers = _fetch_wikidata(material)
+        print(f"[Wikidata] {len(suppliers)} fournisseurs trouves pour '{material}'")
+        return suppliers, "wikidata"
+    except Exception as e:
+        print(f"[Wikidata] indisponible ({type(e).__name__}) -> fallback DBpedia")
+        try:
+            suppliers = _fetch_dbpedia(material)
+            print(f"[DBpedia]  {len(suppliers)} fournisseurs trouves pour '{material}'")
+            return suppliers, "dbpedia"
+        except Exception as e2:
+            print(f"[DBpedia] erreur: {e2}")
+            return [], "none"
 
 
 # ── Estimation certifications via Claude Haiku ───────────────────────────── #
@@ -368,8 +412,8 @@ class SourcingAgent:
             filters.required_certifications = required_certs
         print(f"[LLM] Certifications requises : {required_certs}")
 
-        # 2. Wikidata
-        wikidata_suppliers = fetch_wikidata_suppliers(product_name)
+        # 2. Wikidata (avec fallback DBpedia automatique)
+        wikidata_suppliers, supplier_source = fetch_wikidata_suppliers(product_name)
 
         # 2b. Contacts generes par Claude Haiku (batch)
         print("[LLM] Generation des contacts fournisseurs...")
@@ -421,7 +465,8 @@ class SourcingAgent:
             },
             "sources": {
                 "wikidata": {
-                    "label":     "Wikidata SPARQL",
+                    "label":     f"{'Wikidata' if supplier_source == 'wikidata' else 'DBpedia (fallback Wikidata indisponible)'}",
+                    "source":    supplier_source,
                     "count":     len(wikidata_results),
                     "suppliers": [self._serialize(r) for r in wikidata_results],
                 },
@@ -508,7 +553,8 @@ if __name__ == "__main__":
     )
 
     print(f"\nProduit      : {result['product']}")
-    print(f"DBpedia      : {result['sources']['wikidata']['count']} fournisseurs")
+    src = result['sources']['wikidata']
+    print(f"Fournisseurs : {src['count']} ({src['source']})")
     print(f"Comtrade     : {len(result['sources']['comtrade']['flows'])} flux")
     print(f"Total unique : {result['total_unique']}")
     print("\nTop 5 :")

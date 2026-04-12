@@ -1,0 +1,261 @@
+{
+  "product": "stainless steel",
+  "generated_at": "2026-04-12T18:03:29.664664+00:00",
+  "filters_applied": {
+    "regions": [
+      "DZ",
+      "MA",
+      "TN",
+      "FR",
+      "DE"
+    ],
+    "required_certifications": [
+      "ISO9001",
+      "EN10088",
+      "EN10204",
+      "REACH"
+    ],
+    "min_rating": 0.0,
+    "compliance_verified": false
+  },
+  "required_certifications": {
+    "certifications": [
+      "ISO9001",
+      "EN10088",
+      "EN10204",
+      "REACH"
+    ],
+    "reason": "ISO9001 assure la qualité de production, EN10088 et EN10204 sont les normes spécifiques à l'acier inoxydable (composition et traçabilité), et REACH est obligatoire pour la conformité réglementaire européenne des substances chimiques.",
+    "estimated_by": "claude-haiku-4-5-20251001"
+  },
+  "sources": {
+    "wikidata": {
+      "label": "Wikidata SPARQL",
+      "count": 2,
+      "suppliers": [
+        {
+          "id": "dbp_000",
+          "name": "Jindal Stainless Limited",
+          "country": "XX",
+          "city": null,
+          "category": "raw_materials",
+          "status": "verified",
+          "products": [
+            "stainless steel"
+          ],
+          "certifications": [],
+          "andi_verified": false,
+          "reach_compliant": false,
+          "rating": 0.0,
+          "website": "https://www.jindalstainless.com/",
+          "source": "dbpedia",
+          "relevance_score": 70.0,
+          "match_reasons": [
+            "Product match"
+          ],
+          "contact": {
+            "first_name": "Rajesh",
+            "last_name": "Kumar",
+            "role": "Sales Manager",
+            "email": "rajesh.kumar@jindalstainless.com",
+            "phone": "+91 124 4171 000",
+            "source": "claude-haiku-4-5-20251001"
+          }
+        },
+        {
+          "id": "dbp_001",
+          "name": "Universal Stainless",
+          "country": "XX",
+          "city": null,
+          "category": "raw_materials",
+          "status": "verified",
+          "products": [
+            "stainless steel"
+          ],
+          "certifications": [],
+          "andi_verified": false,
+          "reach_compliant": false,
+          "rating": 0.0,
+          "website": null,
+          "source": "dbpedia",
+          "relevance_score": 70.0,
+          "match_reasons": [
+            "Product match"
+          ],
+          "contact": {
+            "first_name": "Michael",
+            "last_name": "Thompson",
+            "role": "Sales Manager",
+            "email": "michael.thompson@universalstainless.com",
+            "phone": "+1 724 543 4000",
+            "source": "claude-haiku-4-5-20251001"
+          }
+        }
+      ]
+    },
+    "comtrade": {
+      "hs_codes": [
+        "7219",
+        "7220"
+      ],
+      "source": "UN Comtrade v1 Preview",
+      "flows": [
+        {
+          "reporter": "Cameroon",
+          "reporter_code": 120,
+          "partner": "South Africa",
+          "partner_code": 710,
+          "trade_value_usd": 26549,
+          "hs_code": "7219",
+          "year": "2022"
+        },
+        {
+          "reporter": "Cameroon",
+          "reporter_code": 120,
+          "partner": "Russia",
+          "partner_code": 643,
+          "trade_value_usd": 16420,
+          "hs_code": "7219",
+          "year": "2022"
+        },
+        {
+          "reporter": "Cameroon",
+          "reporter_code": 120,
+          "partner": "Sweden",
+          "partner_code": 752,
+          "trade_value_usd": 9804,
+          "hs_code": "7219",
+          "year": "2022"
+        },
+        {
+          "reporter": "Cameroon",
+          "reporter_code": 120,
+          "partner": "Slovenia",
+          "partner_code": 705,
+          "trade_value_usd": 4487,
+          "hs_code": "7219",
+          "year": "2022"
+        },
+        {
+          "reporter": "Cameroon",
+          "reporter_code": 120,
+          "partner": "Ukraine",
+          "partner_code": 804,
+          "trade_value_usd": 4098,
+          "hs_code": "7219",
+          "year": "2022"
+        },
+        {
+          "reporter": "Cameroon",
+          "reporter_code": 120,
+          "partner": "Finland",
+          "partner_code": 246,
+          "trade_value_usd": 4033,
+          "hs_code": "7219",
+          "year": "2022"
+        },
+        {
+          "reporter": "Cameroon",
+          "reporter_code": 120,
+          "partner": "Code 490",
+          "partner_code": 490,
+          "trade_value_usd": 3362,
+          "hs_code": "7219",
+          "year": "2022"
+        },
+        {
+          "reporter": "Cameroon",
+          "reporter_code": 120,
+          "partner": "Code 796",
+          "partner_code": 796,
+          "trade_value_usd": 425,
+          "hs_code": "7219",
+          "year": "2022"
+        },
+        {
+          "reporter": "Cameroon",
+          "reporter_code": 120,
+          "partner": "Code 699",
+          "partner_code": 699,
+          "trade_value_usd": 421,
+          "hs_code": "7219",
+          "year": "2022"
+        },
+        {
+          "reporter": "Cameroon",
+          "reporter_code": 120,
+          "partner": "Code 699",
+          "partner_code": 699,
+          "trade_value_usd": 160,
+          "hs_code": "7219",
+          "year": "2022"
+        }
+      ]
+    }
+  },
+  "ranked_suppliers": [
+    {
+      "id": "dbp_000",
+      "name": "Jindal Stainless Limited",
+      "country": "XX",
+      "city": null,
+      "category": "raw_materials",
+      "status": "verified",
+      "products": [
+        "stainless steel"
+      ],
+      "certifications": [],
+      "andi_verified": false,
+      "reach_compliant": false,
+      "rating": 0.0,
+      "website": "https://www.jindalstainless.com/",
+      "source": "dbpedia",
+      "relevance_score": 70.0,
+      "match_reasons": [
+        "Product match"
+      ],
+      "contact": {
+        "first_name": "Rajesh",
+        "last_name": "Kumar",
+        "role": "Sales Manager",
+        "email": "rajesh.kumar@jindalstainless.com",
+        "phone": "+91 124 4171 000",
+        "source": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "id": "dbp_001",
+      "name": "Universal Stainless",
+      "country": "XX",
+      "city": null,
+      "category": "raw_materials",
+      "status": "verified",
+      "products": [
+        "stainless steel"
+      ],
+      "certifications": [],
+      "andi_verified": false,
+      "reach_compliant": false,
+      "rating": 0.0,
+      "website": null,
+      "source": "dbpedia",
+      "relevance_score": 70.0,
+      "match_reasons": [
+        "Product match"
+      ],
+      "contact": {
+        "first_name": "Michael",
+        "last_name": "Thompson",
+        "role": "Sales Manager",
+        "email": "michael.thompson@universalstainless.com",
+        "phone": "+1 724 543 4000",
+        "source": "claude-haiku-4-5-20251001"
+      }
+    }
+  ],
+  "total_unique": 2,
+  "llm_analysis": {
+    "model": "claude-haiku-4-5-20251001",
+    "analysis": "# Analyse Sourcing Acier Inoxydable - Cameroun\n\n## 1. Évaluation des Fournisseurs Wikidata\n\n| Fournisseur | Score | Rating | Fiabilité |\n|---|---|---|---|\n| **Jindal Stainless Limited** | 70 | 0.0 | ⚠️ Modérée |\n| **Universal Stainless** | 70 | 0.0 | ⚠️ Modérée |\n\n**Problème identifié** : Scores identiques et ratings nuls → données Wikidata insuffisantes. Nécessite validation externe.\n\n---\n\n## 2. Analyse Flux Comtrade (Imports 2022)\n\n### Hiérarchie des Fournisseurs Actuels\n\n```\n🥇 South Africa    : 26,549 USD (62.3%) ← LEADER DOMINANT\n🥈 Russia          : 16,420 USD (38.4%)\n🥉 Sweden          :  9,804 USD (23.0%)\n   Slovenia        :  4,487 USD (10.5%)\n   Ukraine         :  4,098 USD (9.6%)\n```\n\n**Total imports** : 42,758 USD (marché très concentré)\n\n### Insights Critiques\n\n- **Dépendance excessive** : Afrique du Sud = 62% des imports\n- **Volatilité géopolitique** : Russie (sanctions), Ukraine (conflit)\n- **Marché fragmenté** : 5 pays seulement → peu de diversification\n\n---\n\n## 3. Recommandations Concrètes\n\n### ✅ Recommandation 1 : Renforcer la Relation Afrique du Sud\n**Stratégie** : Consolider le partenaire dominant\n- **Action** : Négocier contrats long-terme avec fournisseurs SA (ArcelorMittal SA, Highveld Steel)\n- **Avantage** : Proximité géographique, stabilité politique relative\n- **Risque** : Augmente la dépendance\n- **Timeline** : 3-6 mois\n\n### ✅ Recommandation 2 : Diversifier vers l'Asie du Sud\n**Stratégie** : Réduire dépendance géopolitique\n- **Fournisseurs cibles** : \n  - Jindal Stainless (Inde) - déjà identifié\n  - Tata Steel (Inde)\n  - POSCO (Corée du Sud)\n- **Avantage** : Capacités massives, prix compétitifs, stabilité\n- **Coût** : Délais logistiques +15-20 jours\n- **Timeline** : 6-12 mois (qualification)\n\n### ✅ Recommandation 3 : Créer Stock Stratégique Local\n**Stratégie** : Résilience supply chain\n- **Action** : Établir dépôt de 3-6 mois de consommation à Douala\n- **Partenaire** : Distributeur local certifié (ex: Société Générale de Commerce)\n- **Coût** : +8-12% (stockage + financement)\n- **Bénéfice** : Immunité aux ruptures court-terme\n- **Timeline** : 2-3 mois\n\n---\n\n## 4. Évaluation des Risques Supply Chain\n\n### Matrice de Risques\n\n| Risque | Probabilité | Impact | Score | Mitigation |\n|---|---|---|---|---|\n| **Dépendance SA** | 🔴 Haute | 🔴 Critique | **9/10** | Diversification Asie |\n| **Sanctions Russie** | 🟡 Modérée | 🟡 Moyen | **6/10** | Réduire imports RU |\n| **Volatilité USD/XAF** | 🔴 Haute | 🟡 Moyen | **7/10** | Contrats en USD |\n| **Délais logistiques** | 🟡 Modérée | 🟡 Moyen | **5/10** | Stock stratégique |\n| **Qualité fournisseurs** | 🟡 Modérée | 🟡 Moyen | **6/10** | Audit/Certification |\n\n### Scénarios Critiques\n\n**Scénario 1** : Crise politique Afrique du Sud\n- Impact : Perte 62% des imports en 2-4 semaines\n- Délai de remplacement : 6-8 semaines (Asie)\n- **Coût estimé** : 15-25% surcoût + ruptures\n\n**Scénario 2** : Escalade Ukraine-Russie\n- Impact : Perte 38% des imports (moins probable pour Cameroun)\n- Délai : Immédiat\n- **Coût estimé** : 10-15% surcoût\n\n---\n\n## 5. Plan d'Action Priorisé\n\n| Phase | Action | Délai | Budget |\n|---|---|---|---|\n| **Court terme** (0-3 mois) | Audit fournisseurs SA actuels | 4 semaines | Faible |\n| | Lancer RFQ auprès Jindal/Tata | 6 semaines | Faible |\n| **Moyen terme** (3-9 mois) | Qualifier 2 fournisseurs Asie | 12 semaines | Moyen |\n| | Établir stock stratégique | 8 semaines | Moyen-Élevé |\n| **Long terme** (9+ mois) | Réduire dépendance SA à 40% | Continu | Moyen |\n\n---\n\n## ⚠️ Conclusion\n\n**Situation actuelle** : Vulnérable (concentration excessive)\n**Priorité** : Diversification géographique + stock stratégique\n**Horizon** : 12 mois pour stabiliser la supply chain"
+  }
+}

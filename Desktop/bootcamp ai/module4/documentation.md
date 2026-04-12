@@ -284,8 +284,4 @@ pip install fastapi uvicorn requests pydantic python-dotenv langchain-anthropic 
 
 ---
 
-## Credits
 
-- Modeles Pydantic et logique de scoring adaptes de [Elite-hack/group3](https://github.com/Ouail-Ahmed/Elite-hack)
-- Donnees : Wikidata, UN Comtrade
-- LLM : Anthropic Claude Haiku (`claude-haiku-4-5-20251001`)

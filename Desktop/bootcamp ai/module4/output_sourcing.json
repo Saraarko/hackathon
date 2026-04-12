@@ -1,6 +1,6 @@
 {
   "product": "stainless steel",
-  "generated_at": "2026-04-12T18:25:19.020977+00:00",
+  "generated_at": "2026-04-12T18:31:41.535260+00:00",
   "filters_applied": {
     "regions": [
       "DZ",
@@ -17,6 +17,26 @@
     ],
     "min_rating": 0.0,
     "compliance_verified": false
+  },
+  "market_price": {
+    "material": "stainless steel",
+    "price_usd_per_ton": {
+      "min": 1800,
+      "max": 2400,
+      "typical": 2100
+    },
+    "unit": "USD/ton",
+    "price_drivers": [
+      "prix du nickel",
+      "prix du chrome",
+      "demande manufacturiere globale",
+      "taux de change USD",
+      "couts energetiques",
+      "stocks LME"
+    ],
+    "market_trend": "stable",
+    "source_note": "estimation basee sur donnees marche 2024-2025",
+    "estimated_by": "claude-haiku-4-5-20251001"
   },
   "required_certifications": {
     "certifications": [
@@ -50,6 +70,7 @@
           "rating": 0.0,
           "website": "https://www.jindalstainless.com/",
           "source": "dbpedia",
+          "price_range": "1800-2400 USD/ton",
           "relevance_score": 70.0,
           "match_reasons": [
             "Product match"
@@ -59,7 +80,7 @@
             "last_name": "Kumar",
             "role": "Sales Manager",
             "email": "rajesh.kumar@jindalstainless.com",
-            "phone": "+91 124 4171 000",
+            "phone": "+91 124 4171000",
             "source": "claude-haiku-4-5-20251001"
           }
         },
@@ -79,15 +100,16 @@
           "rating": 0.0,
           "website": null,
           "source": "dbpedia",
+          "price_range": "2200-2800 USD/ton",
           "relevance_score": 70.0,
           "match_reasons": [
             "Product match"
           ],
           "contact": {
             "first_name": "Michael",
-            "last_name": "Johnson",
+            "last_name": "Thompson",
             "role": "Sales Manager",
-            "email": "michael.johnson@universalstainless.com",
+            "email": "michael.thompson@universalstainless.com",
             "phone": "+1 724 543 4500",
             "source": "claude-haiku-4-5-20251001"
           }
@@ -102,92 +124,92 @@
       "source": "UN Comtrade v1 Preview",
       "flows": [
         {
-          "reporter": "Cameroon",
-          "reporter_code": 120,
-          "partner": "South Africa",
-          "partner_code": 710,
-          "trade_value_usd": 26549,
+          "reporter": "Bosnia & Herzegovina",
+          "reporter_code": 70,
+          "partner": "World",
+          "partner_code": 0,
+          "trade_value_usd": 3078,
           "hs_code": "7219",
           "year": "2022"
         },
         {
-          "reporter": "Cameroon",
-          "reporter_code": 120,
-          "partner": "Russia",
-          "partner_code": 643,
-          "trade_value_usd": 16420,
+          "reporter": "Bosnia & Herzegovina",
+          "reporter_code": 70,
+          "partner": "World",
+          "partner_code": 0,
+          "trade_value_usd": 3078,
           "hs_code": "7219",
           "year": "2022"
         },
         {
-          "reporter": "Cameroon",
-          "reporter_code": 120,
-          "partner": "Sweden",
-          "partner_code": 752,
-          "trade_value_usd": 9804,
+          "reporter": "Bosnia & Herzegovina",
+          "reporter_code": 70,
+          "partner": "World",
+          "partner_code": 0,
+          "trade_value_usd": 2973,
           "hs_code": "7219",
           "year": "2022"
         },
         {
-          "reporter": "Cameroon",
-          "reporter_code": 120,
-          "partner": "Slovenia",
-          "partner_code": 705,
-          "trade_value_usd": 4487,
+          "reporter": "Bosnia & Herzegovina",
+          "reporter_code": 70,
+          "partner": "World",
+          "partner_code": 0,
+          "trade_value_usd": 2973,
           "hs_code": "7219",
           "year": "2022"
         },
         {
-          "reporter": "Cameroon",
-          "reporter_code": 120,
-          "partner": "Ukraine",
-          "partner_code": 804,
-          "trade_value_usd": 4098,
+          "reporter": "Bosnia & Herzegovina",
+          "reporter_code": 70,
+          "partner": "Italy",
+          "partner_code": 380,
+          "trade_value_usd": 2973,
           "hs_code": "7219",
           "year": "2022"
         },
         {
-          "reporter": "Cameroon",
-          "reporter_code": 120,
-          "partner": "Finland",
-          "partner_code": 246,
-          "trade_value_usd": 4033,
+          "reporter": "Bosnia & Herzegovina",
+          "reporter_code": 70,
+          "partner": "Italy",
+          "partner_code": 380,
+          "trade_value_usd": 2973,
           "hs_code": "7219",
           "year": "2022"
         },
         {
-          "reporter": "Cameroon",
-          "reporter_code": 120,
-          "partner": "Code 490",
-          "partner_code": 490,
-          "trade_value_usd": 3362,
+          "reporter": "Bosnia & Herzegovina",
+          "reporter_code": 70,
+          "partner": "World",
+          "partner_code": 0,
+          "trade_value_usd": 104,
           "hs_code": "7219",
           "year": "2022"
         },
         {
-          "reporter": "Cameroon",
-          "reporter_code": 120,
-          "partner": "Code 796",
-          "partner_code": 796,
-          "trade_value_usd": 425,
+          "reporter": "Bosnia & Herzegovina",
+          "reporter_code": 70,
+          "partner": "World",
+          "partner_code": 0,
+          "trade_value_usd": 104,
           "hs_code": "7219",
           "year": "2022"
         },
         {
-          "reporter": "Cameroon",
-          "reporter_code": 120,
-          "partner": "Code 699",
-          "partner_code": 699,
-          "trade_value_usd": 421,
+          "reporter": "Bosnia & Herzegovina",
+          "reporter_code": 70,
+          "partner": "World",
+          "partner_code": 0,
+          "trade_value_usd": 20,
           "hs_code": "7219",
           "year": "2022"
         },
         {
-          "reporter": "Cameroon",
-          "reporter_code": 120,
-          "partner": "Code 699",
-          "partner_code": 699,
-          "trade_value_usd": 160,
+          "reporter": "Bosnia & Herzegovina",
+          "reporter_code": 70,
+          "partner": "World",
+          "partner_code": 0,
+          "trade_value_usd": 20,
           "hs_code": "7219",
           "year": "2022"
         }
@@ -211,6 +233,7 @@
       "rating": 0.0,
       "website": "https://www.jindalstainless.com/",
       "source": "dbpedia",
+      "price_range": "1800-2400 USD/ton",
       "relevance_score": 70.0,
       "match_reasons": [
         "Product match"
@@ -220,7 +243,7 @@
         "last_name": "Kumar",
         "role": "Sales Manager",
         "email": "rajesh.kumar@jindalstainless.com",
-        "phone": "+91 124 4171 000",
+        "phone": "+91 124 4171000",
         "source": "claude-haiku-4-5-20251001"
       }
     },
@@ -240,15 +263,16 @@
       "rating": 0.0,
       "website": null,
       "source": "dbpedia",
+      "price_range": "2200-2800 USD/ton",
       "relevance_score": 70.0,
       "match_reasons": [
         "Product match"
       ],
       "contact": {
         "first_name": "Michael",
-        "last_name": "Johnson",
+        "last_name": "Thompson",
         "role": "Sales Manager",
-        "email": "michael.johnson@universalstainless.com",
+        "email": "michael.thompson@universalstainless.com",
         "phone": "+1 724 543 4500",
         "source": "claude-haiku-4-5-20251001"
       }
@@ -257,6 +281,6 @@
   "total_unique": 2,
   "llm_analysis": {
     "model": "claude-haiku-4-5-20251001",
-    "analysis": "# Analyse Sourcing Stainless Steel - Cameroun\n\n## 1. Évaluation des Fournisseurs Wikidata\n\n| Fournisseur | Score | Rating | Statut |\n|---|---|---|---|\n| **Jindal Stainless Limited** | 70 | 0.0 | Leader indien - capacité mondiale |\n| **Universal Stainless** | 70 | 0.0 | Producteur US - qualité certifiée |\n\n⚠️ **Problème identifié** : Aucune notation (rating=0.0) → données incomplètes. Nécessite vérification externe.\n\n---\n\n## 2. Analyse Flux Comtrade (Imports Cameroun 2022)\n\n### Classement par volume :\n1. **South Africa** : 26,549 USD (54% des imports) 🥇\n2. **Russia** : 16,420 USD (33%)\n3. **Sweden** : 9,804 USD (20%)\n4. **Slovenia** : 4,487 USD (9%)\n5. **Ukraine** : 4,098 USD (8%)\n\n### Insights clés :\n- **Concentration géographique** : Afrique du Sud domine largement\n- **Dépendance régionale** : 87% provient d'Afrique du Sud + Russie\n- **Diversification faible** : 5 pays seulement\n\n---\n\n## 3. Recommandations Concrètes\n\n### ✅ **Recommandation 1 : Partenariat Afrique du Sud (COURT TERME)**\n**Fournisseur cible** : ArcelorMittal South Africa ou Highveld Steel\n- **Justification** : 54% des imports actuels → chaîne logistique établie\n- **Avantages** : Proximité régionale, délais courts, coûts transport réduits\n- **Action** : Auditer les fournisseurs locaux SA existants\n\n### ✅ **Recommandation 2 : Diversification vers Jindal Stainless (MOYEN TERME)**\n**Fournisseur cible** : Jindal Stainless Limited (Inde)\n- **Justification** : Leader mondial, capacité de production massive\n- **Avantages** : Réduction dépendance Russie, prix compétitifs, certifications ISO\n- **Action** : Négocier contrats long terme, vérifier délais Inde-Cameroun (45-60j)\n\n### ✅ **Recommandation 3 : Contrat de Secours Suède (SÉCURITÉ)**\n**Fournisseur cible** : Outokumpu ou Sandvik (Suède)\n- **Justification** : Qualité premium, stabilité politique, alternative à Russie\n- **Avantages** : Certifications EU, traçabilité, pas de risque sanctions\n- **Action** : Contrat d'urgence 10-15% des besoins\n\n---\n\n## 4. Évaluation des Risques Supply Chain\n\n### 🔴 **RISQUES CRITIQUES**\n\n| Risque | Niveau | Impact | Mitigation |\n|---|---|---|---|\n| **Dépendance Russie (33%)** | 🔴 CRITIQUE | Sanctions, embargo, délais | Réduire à <10% en 12 mois |\n| **Concentration SA (54%)** | 🔴 ÉLEVÉ | Rupture = 54% manquant | Diversifier vers Inde/Suède |\n| **Instabilité Ukraine** | 🟠 MOYEN | 8% des imports à risque | Rediriger vers Suède |\n| **Données Wikidata obsolètes** | 🟠 MOYEN | Fournisseurs inexacts | Vérifier ratings externes |\n\n### 🟠 **RISQUES MODÉRÉS**\n\n- **Délais logistiques** : Inde (45-60j) vs SA (14-21j)\n- **Volatilité prix** : Acier inoxydable = commodity exposée\n- **Qualité variable** : Vérifier certifications (EN 10088, ASTM A276)\n\n---\n\n## 5. Matrice Décisionnelle\n\n```\nFOURNISSEUR          | COÛT | DÉLAI | QUALITÉ | RISQUE | SCORE\n─────────────────────┼──────┼───────┼─────────┼────────┼──────\nAfrique du Sud       | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐   | 🔴    | 7/10\nJindal (Inde)        | ⭐⭐⭐ | ⭐⭐  | ⭐⭐⭐ | 🟢    | 8/10\nOutokumpu (Suède)    | ⭐⭐  | ⭐⭐  | ⭐⭐⭐ | 🟢    | 7/10\nRussia               | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐   | 🔴🔴  | 3/10\n```\n\n---\n\n## 6. Plan d'Action (12 mois)\n\n| Phase | Mois | Action |\n|---|---|---|\n| **Immédiat** | M1-M2 | Auditer fournisseurs SA actuels + Jindal |\n| **Court terme** | M3-M6 | Réduire Russie de 33% → 10% |\n| **Moyen terme** | M6-M9 | Contrats Jindal + Suède signés |\n| **Stabilisation** | M10-M12 | Portfolio : SA 40% / Inde 35% / Suède 15% / Autres 10% |\n\n---\n\n**Conclusion** : Passer d'une dépendance Russie-SA à un portefeuille diversifié Inde-Suède-SA pour sécuriser la supply chain."
+    "analysis": "# Analyse Sourcing Acier Inoxydable\n\n## 🔴 DIAGNOSTIC CRITIQUE\n\n### Données insuffisantes\n- **Wikidata** : Seulement 2 fournisseurs identifiés (score faible 70/100)\n- **Comtrade** : Données fragmentées et redondantes (doublons)\n- **Manque** : Capacités de production, certifications, délais, prix\n\n---\n\n## 📊 Analyse des Fournisseurs Identifiés\n\n| Fournisseur | Score | Fiabilité | Observations |\n|---|---|---|---|\n| **Jindal Stainless** | 70 | ⚠️ Faible | Leader indien, capacité importante mais données manquantes |\n| **Universal Stainless** | 70 | ⚠️ Faible | Fournisseur US, même limitation d'information |\n\n**Problème** : Aucune notation (rating=0.0) → données incomplètes\n\n---\n\n## 🌍 Analyse Flux Comtrade (Bosnie-Herzégovine)\n\n### Observations\n- **Volume total** : ~15,000 USD (très faible)\n- **Principal fournisseur** : Italie (2,973 USD)\n- **Redondance** : 4 entrées identiques → données mal nettoyées\n\n### Interprétation\n- Marché très petit (Bosnie = pays de 3,3M hab.)\n- Italie = fournisseur établi (proximité UE)\n- Pas de présence Jindal/Universal détectée\n\n---\n\n## ✅ 3 RECOMMANDATIONS CONCRÈTES\n\n### 1️⃣ **Compléter l'analyse fournisseurs**\n```\nActions :\n- Ajouter : ArcelorMittal, Outokumpu, Acerinox (leaders mondiaux)\n- Vérifier certifications : ISO 9001, ASTM, EN standards\n- Collecter : capacités, délais, prix unitaires\n```\n\n### 2️⃣ **Diversifier géographiquement**\n```\nStratégie :\n- Italie : fournisseur primaire (proximité, fiabilité UE)\n- Inde : coût compétitif (Jindal si volumes > 100T)\n- Backup : Allemagne ou Suède (qualité premium)\n```\n\n### 3️⃣ **Valider la chaîne d'approvisionnement**\n```\nCritères prioritaires :\n✓ Délai de livraison < 60 jours\n✓ MOQ (Minimum Order Quantity) acceptable\n✓ Certifications sectorielles\n✓ Stabilité prix (contrats long terme)\n```\n\n---\n\n## ⚠️ RISQUES SUPPLY CHAIN\n\n| Risque | Niveau | Mitigation |\n|---|---|---|\n| **Concentration géographique** | 🔴 HAUT | Diversifier au-delà de l'Italie |\n| **Volatilité prix nickel** | 🔴 HAUT | Contrats indexés + stocks de sécurité |\n| **Données incomplètes** | 🔴 HAUT | Audit fournisseurs direct |\n| **Délais logistiques** | 🟡 MOYEN | Prévoir +15% délai buffer |\n| **Conformité UE** | 🟢 BAS | Italie = garantie CE |\n\n---\n\n## 🎯 PROCHAINES ÉTAPES\n\n1. **Nettoyer données Comtrade** (supprimer doublons)\n2. **Enrichir Wikidata** avec 5-10 fournisseurs majeurs\n3. **RFQ** auprès de 3-4 fournisseurs (Italie + 1 alternatif)\n4. **Audit** : visite usine + vérification certifications\n\n**Délai recommandé** : 4-6 semaines pour décision sourcing"
   }
 }

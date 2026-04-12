@@ -261,17 +261,19 @@ def fetch_wikidata_suppliers(material: str) -> tuple[list[Supplier], str]:
 
 CONTACT_PROMPT = """Tu es un expert en sourcing industriel.
 Pour chaque fournisseur ci-dessous, genere un contact commercial realiste
-(nom coherent avec le pays, email au format professionnel du domaine de l'entreprise).
+(nom coherent avec le pays, email au format professionnel du domaine de l'entreprise)
+ET une fourchette de prix indicative pour la matiere premiere "{material}".
 
 Reponds UNIQUEMENT en JSON valide, format exact :
 {{
   "contacts": {{
     "<nom_entreprise>": {{
-      "first_name": "...",
-      "last_name":  "...",
-      "role":       "Sales Manager",
-      "email":      "prenom.nom@domaine.com",
-      "phone":      "+XX XXX XXX XXXX"
+      "first_name":  "...",
+      "last_name":   "...",
+      "role":        "Sales Manager",
+      "email":       "prenom.nom@domaine.com",
+      "phone":       "+XX XXX XXX XXXX",
+      "price_range": "XXXX-YYYY USD/ton"
     }}
   }}
 }}
@@ -280,8 +282,43 @@ Fournisseurs :
 {suppliers_list}
 """
 
-def estimate_contacts(suppliers: list[Supplier]) -> dict[str, dict]:
-    """Claude Haiku genere des contacts realistes pour chaque fournisseur en un seul appel."""
+MARKET_PRICE_PROMPT = """Tu es un expert en matieres premieres industrielles.
+
+Donne le prix de marche actuel (2024-2025) pour : "{material}"
+
+Reponds UNIQUEMENT en JSON valide, format exact :
+{{
+  "material": "{material}",
+  "price_usd_per_ton": {{
+    "min": <nombre>,
+    "max": <nombre>,
+    "typical": <nombre>
+  }},
+  "unit": "USD/ton",
+  "price_drivers": ["facteur1", "facteur2", "facteur3"],
+  "market_trend": "stable | rising | falling",
+  "source_note": "estimation basee sur donnees marche 2024-2025"
+}}
+"""
+
+def estimate_market_price(product_name: str) -> dict:
+    """Claude Haiku estime le prix de marche actuel de la matiere premiere."""
+    prompt = MARKET_PRICE_PROMPT.format(material=product_name)
+    try:
+        response = llm.invoke([HumanMessage(content=prompt)])
+        raw   = response.content.strip()
+        start = raw.find("{")
+        end   = raw.rfind("}") + 1
+        data  = json.loads(raw[start:end])
+        data["estimated_by"] = "claude-haiku-4-5-20251001"
+        return data
+    except Exception as exc:
+        print(f"[Market Price LLM] erreur: {exc}")
+        return {"error": str(exc)}
+
+
+def estimate_contacts(suppliers: list[Supplier], material: str = "") -> dict[str, dict]:
+    """Claude Haiku genere des contacts realistes + price_range pour chaque fournisseur."""
     if not suppliers:
         return {}
 
@@ -289,7 +326,10 @@ def estimate_contacts(suppliers: list[Supplier]) -> dict[str, dict]:
         f"- {s.name} | pays: {s.country} | site: {s.website or 'inconnu'}"
         for s in suppliers
     ]
-    prompt = CONTACT_PROMPT.format(suppliers_list="\n".join(lines))
+    prompt = CONTACT_PROMPT.format(
+        material=material or "matiere premiere",
+        suppliers_list="\n".join(lines),
+    )
 
     try:
         response = llm.invoke([HumanMessage(content=prompt)])
@@ -405,7 +445,12 @@ class SourcingAgent:
         if filters is None:
             filters = SourcingFilter()
 
-        # 1. Claude Haiku estime les certifications requises pour ce produit
+        # 1a. Claude Haiku estime le prix de marche de la matiere premiere
+        print("[LLM] Estimation du prix de marche...")
+        market_price = estimate_market_price(product_name)
+        print(f"[LLM] Prix marche : {market_price.get('price_usd_per_ton', {})}")
+
+        # 1b. Claude Haiku estime les certifications requises pour ce produit
         print("[LLM] Estimation des certifications requises...")
         required_certs, cert_reason = estimate_required_certifications(product_name)
         if required_certs and not filters.required_certifications:
@@ -415,9 +460,9 @@ class SourcingAgent:
         # 2. Wikidata (avec fallback DBpedia automatique)
         wikidata_suppliers, supplier_source = fetch_wikidata_suppliers(product_name)
 
-        # 2b. Contacts generes par Claude Haiku (batch)
-        print("[LLM] Generation des contacts fournisseurs...")
-        contact_map = estimate_contacts(wikidata_suppliers)
+        # 2b. Contacts + price_range generes par Claude Haiku (batch)
+        print("[LLM] Generation des contacts et prix fournisseurs...")
+        contact_map = estimate_contacts(wikidata_suppliers, material=product_name)
         for s in wikidata_suppliers:
             c = contact_map.get(s.name, {})
             if c:
@@ -428,6 +473,7 @@ class SourcingAgent:
                     email      = c.get("email",      ""),
                     phone      = c.get("phone",      ""),
                 )
+                s.price_range = c.get("price_range")
 
         wikidata_results = [
             SupplierSearchResult(
@@ -458,6 +504,7 @@ class SourcingAgent:
             "product":         product_name,
             "generated_at":    datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "filters_applied": filters.model_dump(),
+            "market_price":    market_price,
             "required_certifications": {
                 "certifications": required_certs,
                 "reason":         cert_reason,
@@ -502,6 +549,7 @@ class SourcingAgent:
             "rating":          s.rating.overall,
             "website":         s.website,
             "source":          s.source,
+            "price_range":     s.price_range,
             "relevance_score": round(r.relevance_score, 1),
             "match_reasons":   r.match_reasons,
             "contact": {

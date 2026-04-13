@@ -240,9 +240,37 @@ class WikidataSourceAgent:
 
     def _node_enrich_materials(self, state: WikidataState) -> WikidataState:
         """
-        Pour chaque fournisseur, interroge Wikidata (propriété P1056 = 'produit fabriqué')
-        et ajoute le champ 'materials_produced' à chaque entrée.
+        Pour chaque fournisseur, interroge Wikidata (P1056 = 'produit fabriqué')
+        et filtre les résultats pour ne garder que les produits pertinents
+        vis-à-vis du type d'équipement extrait par Module 1.
         """
+        # Mots-clés de filtrage : équipement ciblé + matériau
+        eq_info  = state.get("equipment_info", {})
+        eq_label = (eq_info.get("label") or "").lower()
+        mat_label = state["material_info"].get("label", "").lower()
+
+        # Construire un ensemble de mots-clés à partir du type d'équipement
+        filter_keywords: set[str] = set()
+        if eq_label:
+            filter_keywords.update(eq_label.split())          # ex: {"centrifugal", "pump"}
+        if mat_label:
+            filter_keywords.update(mat_label.split())         # ex: {"stainless", "steel"}
+        # Ajouter les synonymes industriels courants
+        synonyms = {
+            "pump": {"pump", "pumpe", "pompe", "pumping"},
+            "valve": {"valve", "vanne", "valvula", "fitting"},
+            "heat_exchanger": {"heat", "exchanger", "thermal"},
+            "compressor": {"compressor", "compression"},
+            "filter": {"filter", "filtration", "filtres"},
+            "motor": {"motor", "engine", "moteur"},
+            "reducer": {"reducer", "gearbox", "gear"},
+            "pressure_vessel": {"vessel", "tank", "pressure"},
+            "actuator": {"actuator", "actuation"},
+        }
+        for key, syns in synonyms.items():
+            if key in eq_label or eq_label in key:
+                filter_keywords.update(syns)
+
         enriched = []
         for supplier in state["suppliers"]:
             qid = supplier.get("wikidata_id", "")
@@ -256,16 +284,28 @@ SELECT DISTINCT ?productLabel WHERE {{
   wd:{qid} wdt:P1056 ?product .
   SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en,fr". }}
 }}
-LIMIT 15
+LIMIT 30
 """
             try:
                 rows = self._sparql_query(sparql)
-                materials = [
+                all_products = [
                     r.get("productLabel", {}).get("value", "")
                     for r in rows
                     if r.get("productLabel", {}).get("value", "")
                 ]
-                supplier["materials_produced"] = materials
+
+                # Filtrage : ne garder que les produits dont le label
+                # contient au moins un mot-clé lié à l'équipement du PDF
+                if filter_keywords:
+                    relevant = [
+                        p for p in all_products
+                        if any(kw in p.lower() for kw in filter_keywords)
+                    ]
+                    # Si rien ne correspond, conserver tous les produits (évite liste vide)
+                    supplier["materials_produced"] = relevant if relevant else all_products
+                else:
+                    supplier["materials_produced"] = all_products
+
                 time.sleep(0.5)   # respecte le rate limit Wikidata
             except Exception as exc:
                 supplier["materials_produced"] = []

@@ -35,6 +35,9 @@ class GlobalState(TypedDict):
     # ── Module 6 : Finance ───────────────────────────────────────────────── #
     financial_result: dict    # roi, risk, scenarios, report
 
+    # ── Module 7 : Business Plan ──────────────────────────────────────── #
+    businessplan_result: dict  # financials, projections, npv, decision, swot, summary
+
     # ── Méta ─────────────────────────────────────────────────────────────── #
     errors:  list[str]
     summary: dict

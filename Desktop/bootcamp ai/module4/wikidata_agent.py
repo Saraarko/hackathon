@@ -26,8 +26,8 @@ HEADERS = {
 # Mapping matière → QID Wikidata
 MATERIAL_QIDS: dict[str, dict] = {
     "stainless steel 316l": {
-        "material_qid": "Q172587",       # acier inoxydable (stainless steel)
-        "industry_qid": "Q22667",        # sidérurgie
+        "material_qid": "Q172587",
+        "industry_qid": "Q22667",
         "hs_family":    "7219",
         "label":        "Stainless Steel 316L",
     },
@@ -57,12 +57,28 @@ MATERIAL_QIDS: dict[str, dict] = {
     },
 }
 
+# Mapping type équipement (module 1) → QID Wikidata du produit fabriqué
+EQUIPMENT_QIDS: dict[str, dict] = {
+    "pump":             {"qid": "Q11446",   "label": "Pump"},
+    "centrifugal":      {"qid": "Q42240",   "label": "Centrifugal Pump"},
+    "valve":            {"qid": "Q1142266", "label": "Valve"},
+    "heat_exchanger":   {"qid": "Q1124987", "label": "Heat Exchanger"},
+    "compressor":       {"qid": "Q259980",  "label": "Compressor"},
+    "filter":           {"qid": "Q188456",  "label": "Industrial Filter"},
+    "motor":            {"qid": "Q11379",   "label": "Electric Motor"},
+    "reducer":          {"qid": "Q1969897", "label": "Gear Reducer"},
+    "pressure_vessel":  {"qid": "Q747700",  "label": "Pressure Vessel"},
+    "actuator":         {"qid": "Q215206",  "label": "Actuator"},
+}
+
 
 # ── Types LangGraph-style ─────────────────────────────────────────────────── #
 
 class WikidataState(TypedDict):
     material:        str
+    equipment_type:  str
     material_info:   dict
+    equipment_info:  dict
     raw_companies:   list[dict]
     raw_countries:   list[dict]
     suppliers:       list[dict]
@@ -78,14 +94,18 @@ class WikidataSourceAgent:
     un dict partiel fusionné dans l'état global.
     """
 
-    def run(self, material: str) -> dict[str, Any]:
+    def run(self, material: str, equipment_type: str = "unknown") -> dict[str, Any]:
         """
         Point d'entrée principal.
+        Si equipment_type est connu (ex: "valve", "pump"), cherche des fabricants
+        de cet équipement. Sinon, cherche par matière première.
         Retourne {"suppliers": [...], "market_analysis": {...}}.
         """
         state: WikidataState = {
             "material":        material,
+            "equipment_type":  equipment_type.lower().strip(),
             "material_info":   {},
+            "equipment_info":  {},
             "raw_companies":   [],
             "raw_countries":   [],
             "suppliers":       [],
@@ -95,9 +115,11 @@ class WikidataSourceAgent:
 
         # Pipeline de nœuds
         state = self._node_resolve_material(state)
+        state = self._node_resolve_equipment(state)
         state = self._node_fetch_companies(state)
         state = self._node_fetch_top_countries(state)
         state = self._node_build_suppliers(state)
+        state = self._node_enrich_materials(state)
         state = self._node_market_analysis(state)
 
         return {
@@ -113,20 +135,48 @@ class WikidataSourceAgent:
         state["material_info"] = info
         return state
 
+    # ── Nœud 1b : résolution type d'équipement ───────────────────────────── #
+
+    def _node_resolve_equipment(self, state: WikidataState) -> WikidataState:
+        key = state["equipment_type"]
+        # Essaie le type exact, puis cherche si le type contient un mot-clé connu
+        info = EQUIPMENT_QIDS.get(key)
+        if not info:
+            for k, v in EQUIPMENT_QIDS.items():
+                if k in key or key in k:
+                    info = v
+                    break
+        state["equipment_info"] = info or {}
+        if info:
+            logger.info("[Wikidata] Équipement résolu : %s → QID %s", key, info["qid"])
+        else:
+            logger.info("[Wikidata] Type équipement inconnu (%s) — fallback matière", key)
+        return state
+
     # ── Nœud 2 : entreprises via SPARQL ──────────────────────────────────── #
 
     def _node_fetch_companies(self, state: WikidataState) -> WikidataState:
-        qid  = state["material_info"]["industry_qid"]
-        mq   = state["material_info"]["material_qid"]
-
-        # Deux requêtes complémentaires : par industrie & par produit fabriqué
-        queries = [
-            self._sparql_companies_by_industry(qid),
-            self._sparql_companies_by_product(mq),
-        ]
+        eq_info   = state.get("equipment_info", {})
+        mat_info  = state["material_info"]
 
         results: list[dict] = []
         seen: set[str] = set()
+
+        if eq_info:
+            # Mode principal : fabricants de l'équipement ciblé (P1056)
+            eq_qid = eq_info["qid"]
+            logger.info("[Wikidata] Recherche fabricants par équipement QID=%s", eq_qid)
+            queries = [
+                self._sparql_companies_by_equipment(eq_qid),
+                self._sparql_companies_by_industry(mat_info["industry_qid"]),
+            ]
+        else:
+            # Fallback : recherche par matière première
+            logger.info("[Wikidata] Fallback — recherche par matière QID=%s", mat_info["material_qid"])
+            queries = [
+                self._sparql_companies_by_industry(mat_info["industry_qid"]),
+                self._sparql_companies_by_product(mat_info["material_qid"]),
+            ]
 
         for sparql in queries:
             try:
@@ -186,7 +236,47 @@ class WikidataSourceAgent:
         state["suppliers"] = suppliers
         return state
 
-    # ── Nœud 5 : analyse marché ───────────────────────────────────────────── #
+    # ── Nœud 5 : enrichissement matières fabriquées (P1056) ─────────────── #
+
+    def _node_enrich_materials(self, state: WikidataState) -> WikidataState:
+        """
+        Pour chaque fournisseur, interroge Wikidata (propriété P1056 = 'produit fabriqué')
+        et ajoute le champ 'materials_produced' à chaque entrée.
+        """
+        enriched = []
+        for supplier in state["suppliers"]:
+            qid = supplier.get("wikidata_id", "")
+            if not qid:
+                supplier["materials_produced"] = []
+                enriched.append(supplier)
+                continue
+
+            sparql = f"""
+SELECT DISTINCT ?productLabel WHERE {{
+  wd:{qid} wdt:P1056 ?product .
+  SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en,fr". }}
+}}
+LIMIT 15
+"""
+            try:
+                rows = self._sparql_query(sparql)
+                materials = [
+                    r.get("productLabel", {}).get("value", "")
+                    for r in rows
+                    if r.get("productLabel", {}).get("value", "")
+                ]
+                supplier["materials_produced"] = materials
+                time.sleep(0.5)   # respecte le rate limit Wikidata
+            except Exception as exc:
+                supplier["materials_produced"] = []
+                state["errors"].append(f"P1056 [{qid}]: {exc}")
+
+            enriched.append(supplier)
+
+        state["suppliers"] = enriched
+        return state
+
+    # ── Nœud 6 : analyse marché ───────────────────────────────────────────── #
 
     def _node_market_analysis(self, state: WikidataState) -> WikidataState:
         countries_count: dict[str, int] = {}
@@ -203,6 +293,9 @@ class WikidataSourceAgent:
             for r in state["raw_countries"]
         ]
 
+        eq_info = state.get("equipment_info", {})
+        search_label = eq_info.get("label") or state["material_info"]["label"]
+
         state["market_analysis"] = {
             "total_suppliers_found": len(state["suppliers"]),
             "countries_represented": len(
@@ -214,11 +307,31 @@ class WikidataSourceAgent:
             "top_producer_countries": top_producer_countries[:10],
             "data_source": "Wikidata SPARQL (https://query.wikidata.org/sparql)",
             "material": state["material_info"]["label"],
+            "equipment_type": search_label,
+            "search_mode": "equipment" if eq_info else "material",
             "errors": state["errors"],
         }
         return state
 
     # ── SPARQL helpers ────────────────────────────────────────────────────── #
+
+    @staticmethod
+    def _sparql_companies_by_equipment(equipment_qid: str) -> str:
+        """Entreprises qui fabriquent (P1056) le type d'équipement donné ou un sous-type."""
+        return f"""
+SELECT DISTINCT ?company ?companyLabel ?countryLabel ?website ?description ?founded ?revenue WHERE {{
+  ?company wdt:P31 wd:Q4830453 ;
+           wdt:P1056 ?product .
+  ?product wdt:P279* wd:{equipment_qid} .
+  OPTIONAL {{ ?company wdt:P17   ?country  . }}
+  OPTIONAL {{ ?company wdt:P856  ?website  . }}
+  OPTIONAL {{ ?company schema:description ?description FILTER(LANG(?description)="en") . }}
+  OPTIONAL {{ ?company wdt:P571  ?founded  . }}
+  OPTIONAL {{ ?company wdt:P2139 ?revenue  . }}
+  SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en,fr". }}
+}}
+LIMIT 40
+"""
 
     @staticmethod
     def _sparql_companies_by_industry(industry_qid: str) -> str:

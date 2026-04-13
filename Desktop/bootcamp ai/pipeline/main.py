@@ -81,6 +81,7 @@ def main():
         "sourcing_result":     {},
         "negotiation_result":  {},
         "financial_result":    {},
+        "businessplan_result": {},
         "summary":             {},
         "errors":              [],
     }

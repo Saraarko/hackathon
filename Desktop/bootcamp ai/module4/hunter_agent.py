@@ -20,6 +20,14 @@ logger = logging.getLogger(__name__)
 
 HUNTER_ENDPOINT = "https://api.hunter.io/v2/domain-search"
 
+# Postes pertinents pour la prospection B2B industrielle (ordre de priorité)
+RELEVANT_POSITIONS: list[tuple[int, list[str]]] = [
+    (1, ["sales", "commercial", "export", "business development", "account"]),
+    (2, ["procurement", "purchasing", "sourcing", "supply chain", "supply"]),
+    (3, ["director", "manager", "head", "chief", "president", "vp", "vice"]),
+    (4, ["engineer", "technical", "product"]),
+]
+
 
 class HunterAgent:
     """Enrichit une liste de fournisseurs avec leurs contacts via Hunter.io."""
@@ -61,17 +69,24 @@ class HunterAgent:
             contacts = self._search_domain(domain)
             calls   += 1
 
+            # Filtrage par position pertinente
+            best = self._pick_best_contact(contacts)
+
             supplier = {
                 **supplier,
-                "contacts":        contacts,
-                "email_principal": contacts[0]["email"]    if contacts else "",
-                "contact_name":    f"{contacts[0]['first_name']} {contacts[0]['last_name']}".strip() if contacts else "",
-                "contact_position": contacts[0]["position"] if contacts else "",
-                "contact_source":  "Hunter.io",
+                "contacts":         contacts,
+                "email_principal":  best["email"]    if best else "",
+                "contact_name":     f"{best['first_name']} {best['last_name']}".strip() if best else "",
+                "contact_position": best["position"] if best else "",
+                "contact_source":   "Hunter.io",
             }
 
-            if contacts:
-                logger.info("[Hunter] %s → %d contact(s) trouvé(s)", domain, len(contacts))
+            if best:
+                logger.info("[Hunter] %s → contact retenu : %s (%s)",
+                            domain, supplier["contact_name"], best["position"])
+            elif contacts:
+                logger.info("[Hunter] %s → %d contact(s) trouvé(s) mais aucun poste pertinent",
+                            domain, len(contacts))
             else:
                 logger.info("[Hunter] %s → aucun contact", domain)
 
@@ -84,6 +99,36 @@ class HunterAgent:
         return enriched
 
     # ── Interne ───────────────────────────────────────────────────────────── #
+
+    @staticmethod
+    def _position_score(contact: dict) -> int:
+        """
+        Retourne un score de priorité selon le poste (1 = meilleur, 99 = non pertinent).
+        Les postes sans correspondance reçoivent 50 (conservés en dernier recours).
+        """
+        pos = (contact.get("position") or "").lower()
+        if not pos:
+            return 99
+        for score, keywords in RELEVANT_POSITIONS:
+            if any(kw in pos for kw in keywords):
+                return score
+        return 50
+
+    def _pick_best_contact(self, contacts: list[dict]) -> dict | None:
+        """
+        Parmi les contacts retournés par Hunter.io, sélectionne le plus pertinent :
+        1. Trier par score de position (sales > procurement > manager > engineer)
+        2. À score égal, préférer le contact avec la plus haute confiance Hunter
+        3. Si aucun contact n'a de poste connu, prendre le plus fiable (confiance max)
+        """
+        if not contacts:
+            return None
+
+        scored = sorted(
+            contacts,
+            key=lambda c: (self._position_score(c), -c.get("confidence", 0)),
+        )
+        return scored[0]
 
     def _search_domain(self, domain: str) -> list[dict]:
         """Appelle Hunter.io Domain Search et retourne les contacts trouvés."""

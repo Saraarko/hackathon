@@ -215,14 +215,19 @@ def node_sourcing(state: dict) -> dict:
     from hunter_agent    import HunterAgent
 
     # Normalisation du matériau
-    raw_mat  = state.get("material", "316L").upper()
-    material = "Stainless Steel 316L" if "316" in raw_mat else raw_mat
+    raw_mat       = state.get("material", "316L").upper()
+    material      = "Stainless Steel 316L" if "316" in raw_mat else raw_mat
+    equipment_type = state.get("valve_type", "unknown")
 
     wikidata = WikidataSourceAgent()
     comtrade = ComtradeAgent()
 
-    sourcing = wikidata.run(material)
+    sourcing = wikidata.run(material, equipment_type=equipment_type)
     trade    = comtrade.run(material)
+
+    search_mode = sourcing["market_analysis"].get("search_mode", "material")
+    eq_label    = sourcing["market_analysis"].get("equipment_type", equipment_type)
+    print(f"  Mode recherche : {search_mode} ({eq_label})")
 
     suppliers = sourcing["suppliers"]
 
@@ -461,6 +466,105 @@ def node_financial(state: dict) -> dict:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# MODULE 7 — Business Plan
+# ══════════════════════════════════════════════════════════════════════════════
+
+def node_businessplan(state: dict) -> dict:
+    """
+    Module 7 : Génère le business plan complet (financials, NPV, SWOT, PDF/Excel).
+    Input  : extraction_result (M1) + sourcing_result (M4) + financial_result (M6)
+    Output : businessplan_result
+    """
+    print("\n[Pipeline] ▶ Module 7 — Business Plan")
+
+    # Module 7 est un package — on ajoute ROOT au path
+    if ROOT not in sys.path:
+        sys.path.insert(0, ROOT)
+
+    from dotenv import load_dotenv
+    load_dotenv(os.path.join(ROOT, "module4", ".env"))
+    load_dotenv(os.path.join(ROOT, "module5", ".env"))
+    load_dotenv(os.path.join(ROOT, "module7", ".env"))
+
+    import module7.claude_llm as _claude_mod
+    import module7.business_plan_agent as _bp_mod
+
+    llm = _claude_mod.ClaudeLLM()
+
+    # ── Mapping des données des modules amont ────────────────────────────────
+
+    # Module 1 → specs
+    extraction = state.get("extraction_result", {})
+    specs = {
+        "type":     extraction.get("equipment_category") or state.get("valve_type", "valve"),
+        "diameter": state.get("diameter", 100),
+        "pressure": state.get("pressure", 40),
+        "material": state.get("material", "316L"),
+    }
+
+    # Module 4 → suppliers
+    suppliers = state.get("sourcing_result", {}).get("suppliers", [])
+
+    # Module 5 → prix d'achat négocié
+    best_deal      = state.get("negotiation_result", {}).get("best_deal", {})
+    purchase_price = float(best_deal.get("counter_offer_price_eur", 0.0) or 0.0)
+
+    # Module 6 → tco (coût total d'acquisition sur 10 ans)
+    fin = state.get("financial_result", {})
+    base_cost  = float(fin.get("base_cost", 0.0) or 0.0)
+    total_cost = float(fin.get("total_cost") or base_cost)
+
+    # Marge industrielle standard B2B (35 %) : le prix de revente/valorisation
+    # dépasse le coût d'achat pour que le projet soit rentable
+    INDUSTRIAL_MARGIN = 1.35
+    price_per_unit = round(purchase_price * INDUSTRIAL_MARGIN, 2)
+
+    tco = {
+        # Coût total d'acquisition sur 10 ans (achat + maintenance 2 %/an)
+        "total_cost_10y": total_cost * 10 + base_cost * 0.02 * 10,
+        "maintenance":    base_cost * 0.02,
+    }
+
+    quantity = int(state.get("quantity", 200))
+
+    # ── Appel business_agent ─────────────────────────────────────────────────
+    orig_dir = os.getcwd()
+    try:
+        os.chdir(os.path.join(ROOT, "module7"))
+        os.makedirs("output", exist_ok=True)
+
+        m7_state = {
+            "specs":          specs,
+            "suppliers":      suppliers,
+            "tco":            tco,
+            "quantity":       quantity,
+            "price_per_unit": float(price_per_unit),
+        }
+
+        result = _bp_mod.business_agent(m7_state, llm)
+    finally:
+        os.chdir(orig_dir)
+
+    businessplan_result = {
+        "financials":    result.get("financials", {}),
+        "projections":   result.get("projections", []),
+        "npv":           result.get("npv", 0.0),
+        "decision":      result.get("decision", "N/A"),
+        "swot":          result.get("swot", ""),
+        "summary":       result.get("summary", ""),
+        "pdf_path":      os.path.join(ROOT, "module7", "output", "business.pdf"),
+        "excel_path":    os.path.join(ROOT, "module7", "output", "business.xlsx"),
+        "status":        "ok",
+    }
+
+    print(f"  ✓ Décision  : {businessplan_result['decision']}")
+    print(f"  ✓ NPV 3 ans : ${businessplan_result['npv']:,.0f}")
+    print(f"  ✓ Rapport   : {businessplan_result['pdf_path']}")
+
+    return {**state, "businessplan_result": businessplan_result}
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 # SYNTHÈSE FINALE
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -470,6 +574,7 @@ def node_summary(state: dict) -> dict:
 
     best_deal = state.get("negotiation_result", {}).get("best_deal", {})
     fin       = state.get("financial_result", {})
+    bp        = state.get("businessplan_result", {})
 
     summary = {
         "valve": {
@@ -497,6 +602,12 @@ def node_summary(state: dict) -> dict:
             "total_cost":    fin.get("total_cost"),
             "roi":           fin.get("roi"),
             "risk":          fin.get("risk"),
+        },
+        "businessplan": {
+            "decision":   bp.get("decision"),
+            "npv":        bp.get("npv"),
+            "pdf_path":   bp.get("pdf_path"),
+            "excel_path": bp.get("excel_path"),
         },
         "errors": state.get("errors", []),
     }

@@ -1,14 +1,18 @@
 """
-Pipeline Global — État partagé entre tous les modules (2→3→4→5→6)
+Pipeline Global — État partagé entre tous les modules (1→2→3→4→5→6)
 """
 
 from __future__ import annotations
-from typing import TypedDict
+from typing import TypedDict, Optional
 
 
 class GlobalState(TypedDict):
-    # ── Entrée utilisateur ───────────────────────────────────────────────── #
-    valve_type:     str    # "valve"
+    # ── Module 1 : Extraction PDF ────────────────────────────────────────── #
+    pdf_path:          str    # chemin vers le PDF technique
+    extraction_result: dict   # specs complètes extraites par module1
+
+    # ── Entrée (peuplée par module1 ou par défaut) ───────────────────────── #
+    valve_type:     str    # "valve", "pump", etc.
     diameter:       int    # mm
     pressure:       int    # bar
     material:       str    # "316L"
@@ -34,3 +38,4 @@ class GlobalState(TypedDict):
     # ── Méta ─────────────────────────────────────────────────────────────── #
     errors:  list[str]
     summary: dict
+

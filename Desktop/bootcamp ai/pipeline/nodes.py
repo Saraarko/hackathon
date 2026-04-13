@@ -9,6 +9,7 @@ Chaque nœud :
 
 from __future__ import annotations
 
+import importlib.util
 import os
 import sys
 
@@ -24,6 +25,17 @@ def _add_path(module_dir: str):
         sys.path.insert(0, p)
 
 
+def _import_from(module_dir: str, module_name: str):
+    """Importe un module par chemin absolu pour éviter les conflits de noms."""
+    module_path = os.path.join(ROOT, module_dir, f"{module_name}.py")
+    spec = importlib.util.spec_from_file_location(
+        f"{module_dir}.{module_name}", module_path
+    )
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
 def _safe(fn, state: dict, key: str) -> dict:
     """Execute fn(state), capture les exceptions dans state['errors']."""
     try:
@@ -32,6 +44,69 @@ def _safe(fn, state: dict, key: str) -> dict:
         errors = list(state.get("errors", []))
         errors.append(f"[{key}] {type(exc).__name__}: {exc}")
         return {**state, "errors": errors, key: {"error": str(exc)}}
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# MODULE 1 — Extraction PDF
+# ══════════════════════════════════════════════════════════════════════════════
+
+def node_extraction(state: dict) -> dict:
+    """
+    Module 1 : Lit le PDF technique et extrait les specs via Claude.
+    Output : met à jour diameter, pressure, material, valve_type, quantity
+             depuis les specs extraites — tous les modules avals s'en nourrissent.
+    """
+    print("\n[Pipeline] ▶ Module 1 — Extraction PDF")
+
+    pdf_path = state.get("pdf_path", "")
+    if not pdf_path or not os.path.exists(pdf_path):
+        print(f"  ⚠ PDF introuvable ({pdf_path}) — paramètres par défaut conservés")
+        return {**state, "extraction_result": {}}
+
+    # Module1 est un package : on ajoute module1/ au path
+    _add_path("module1")
+
+    from dotenv import load_dotenv
+    load_dotenv(os.path.join(ROOT, "module4", ".env"))   # contient ANTHROPIC_API_KEY
+    load_dotenv(os.path.join(ROOT, "module5", ".env"))
+
+    from module_1.config import get_llm_client
+    from module_1 import run as m1_run
+
+    client = get_llm_client()
+    specs  = m1_run(pdf_path=pdf_path, llm_client=client, save_output=True,
+                    output_dir=os.path.join(ROOT, "module1", "module_1", "outputs"))
+
+    if specs is None:
+        print("  ⚠ Extraction échouée — paramètres par défaut conservés")
+        return {**state, "extraction_result": {"error": "extraction failed"}}
+
+    # ── Mapping specs → GlobalState ──────────────────────────────────────────
+    category = specs.equipment_category or "unknown"
+    diameter = specs.dimensions.nominal_diameter_mm
+    pressure = specs.hydraulics.nominal_pressure_bar
+    material = specs.body_material or state.get("material", "316L")
+    quantity = specs.quantity_required or state.get("quantity", 200)
+    length   = specs.dimensions.face_to_face_mm or specs.dimensions.overall_length_mm
+
+    updates = {
+        "extraction_result": specs.dict(),
+        "valve_type":  category if category != "unknown" else state.get("valve_type", "valve"),
+        "diameter":    int(diameter)  if diameter else state.get("diameter", 100),
+        "pressure":    int(pressure)  if pressure else state.get("pressure", 40),
+        "material":    str(material),
+        "quantity":    int(quantity),
+        "length":      int(length)    if length   else state.get("length", 250),
+    }
+
+    print(f"  ✓ Équipement    : {specs.equipment_category} / {specs.equipment_subtype}")
+    print(f"  ✓ Référence     : {specs.part_number or specs.model_reference or 'N/A'}")
+    print(f"  ✓ DN            : {updates['diameter']} mm")
+    print(f"  ✓ Pression      : {updates['pressure']} bar")
+    print(f"  ✓ Matériau      : {updates['material']}")
+    print(f"  ✓ Confiance     : {specs.extraction_confidence:.0%}")
+
+    return {**state, **updates}
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -48,7 +123,8 @@ def node_design(state: dict) -> dict:
 
     _add_path("module2")
 
-    from graph import build_graph as build_m2
+    m2_graph = _import_from("module2", "graph")
+    build_m2 = m2_graph.build_graph
 
     m2_state = {
         "type":     state.get("valve_type", "valve"),
@@ -88,15 +164,27 @@ def node_render(state: dict) -> dict:
         os.makedirs("outputs", exist_ok=True)
 
         from blender_runner import render_video
-        render_video()
+        render_video(
+            diameter_mm    = float(state.get("diameter", 100)),
+            material       = str(state.get("material", "316L")),
+            equipment_type = str(state.get("valve_type", "valve")),
+        )
 
-        video_path = os.path.join(ROOT, "module3", "outputs", "valve.mp4")
+        # Pick whichever format was generated (mp4 if ffmpeg present, else gif)
+        for ext in ("mp4", "gif"):
+            candidate = os.path.join(ROOT, "module3", "outputs", f"valve.{ext}")
+            if os.path.exists(candidate):
+                video_path = candidate
+                break
+        else:
+            video_path = os.path.join(ROOT, "module3", "outputs", "valve.gif")
+
         result = {
             "video_path":   video_path,
             "scene_config": {"material": state.get("material", "316L")},
             "status":       "ok",
         }
-        print(f"  ✓ Vidéo : {video_path}")
+        print(f"  ✓ Rendu  : {video_path}")
     finally:
         os.chdir(orig_dir)
 
@@ -109,7 +197,8 @@ def node_render(state: dict) -> dict:
 
 def node_sourcing(state: dict) -> dict:
     """
-    Module 4 : Identifie les fournisseurs via Wikidata + UN Comtrade.
+    Module 4 : Identifie les fournisseurs via Wikidata + UN Comtrade,
+               puis enrichit les contacts via Hunter.io.
     Input  : material (ex: "Stainless Steel 316L")
     Output : sourcing_result → suppliers[], market_analysis, trade_data
     """
@@ -119,32 +208,75 @@ def node_sourcing(state: dict) -> dict:
 
     from dotenv import load_dotenv
     load_dotenv(os.path.join(ROOT, ".env"))
+    load_dotenv(os.path.join(ROOT, "module4", ".env"))
 
     from wikidata_agent import WikidataSourceAgent
-    from comtrade_agent import ComtradeAgent
+    from comtrade_agent  import ComtradeAgent
+    from hunter_agent    import HunterAgent
 
     # Normalisation du matériau
-    raw_mat = state.get("material", "316L").upper()
+    raw_mat  = state.get("material", "316L").upper()
     material = "Stainless Steel 316L" if "316" in raw_mat else raw_mat
 
-    wikidata  = WikidataSourceAgent()
-    comtrade  = ComtradeAgent()
+    wikidata = WikidataSourceAgent()
+    comtrade = ComtradeAgent()
 
-    sourcing  = wikidata.run(material)
-    trade     = comtrade.run(material)
+    sourcing = wikidata.run(material)
+    trade    = comtrade.run(material)
+
+    suppliers = sourcing["suppliers"]
+
+    # ── Enrichissement Hunter.io ────────────────────────────────────────────
+    hunter    = HunterAgent()
+    suppliers = hunter.enrich_suppliers(suppliers, max_suppliers=10)
+
+    nb_contacts = sum(1 for s in suppliers if s.get("email_principal") or s.get("contact_name"))
+    print(f"  ✓ {len(suppliers)} fournisseurs · {nb_contacts} contacts Hunter.io trouvés")
 
     result = {
         "material":        material,
-        "suppliers":       sourcing["suppliers"],
+        "suppliers":       suppliers,
         "market_analysis": sourcing["market_analysis"],
         "trade_data":      trade,
     }
 
-    nb = len(result["suppliers"])
     avg = result["market_analysis"].get("avg_price_eur", 0)
-    print(f"  ✓ {nb} fournisseurs · Prix moyen : {avg} €/kg")
+    print(f"  ✓ Prix moyen marché : {avg} €/kg")
 
     return {**state, "sourcing_result": result}
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# MODULE 5 — Helpers
+# ══════════════════════════════════════════════════════════════════════════════
+
+def _map_wikidata_supplier(s: dict, idx: int, base_price: float = 980.0) -> dict:
+    """
+    Convertit un fournisseur Wikidata (module 4) vers le format
+    attendu par negotiate_node (module 5).
+    Les champs manquants (prix, délai, certifs) sont estimés.
+    """
+    # Légère variation de prix par rang pour simuler des catalogues différents
+    # idx=0 → le moins cher, idx=2 → le plus cher
+    price = round(base_price * (1.0 + idx * 0.08), 2)
+
+    return {
+        "id":                 s.get("wikidata_id") or f"WD{idx:03d}",
+        "name":               s.get("name", "Unknown Supplier"),
+        "country":            s.get("country", "Unknown"),
+        "city":               "",
+        "description":        s.get("description") or f"Fournisseur industriel — {s.get('material', '')}",
+        "price_per_unit_usd": price,
+        "min_quantity":       50,
+        "delivery_days":      60,
+        "certifications":     "ISO 9001",
+        "email":              s.get("email_principal", ""),
+        "phone":              "",
+        # Champs bonus conservés depuis Wikidata/Hunter
+        "website":            s.get("website", ""),
+        "contact_name":       s.get("contact_name", ""),
+        "contact_position":   s.get("contact_position", ""),
+    }
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -154,7 +286,7 @@ def node_sourcing(state: dict) -> dict:
 def node_negotiation(state: dict) -> dict:
     """
     Module 5 : Négocie avec les top-3 fournisseurs via Claude Haiku.
-    Input  : sourcing_result.suppliers, budget_per_unit
+    Utilise build_graph / build_initial_state / load_suppliers de negotiation_agent.
     Output : negotiation_result → best_deal, all_negotiations
     """
     print("\n[Pipeline] ▶ Module 5 — Négociation IA (Claude Haiku)")
@@ -163,27 +295,111 @@ def node_negotiation(state: dict) -> dict:
 
     from dotenv import load_dotenv
     load_dotenv(os.path.join(ROOT, ".env"))
+    load_dotenv(os.path.join(ROOT, "module5", ".env"))  # credentials email + ANTHROPIC_API_KEY
 
-    from claude_agent import NegotiationAgent
+    from negotiation_agent import build_graph, build_initial_state, load_suppliers, ORDER_DEFAULTS
 
-    suppliers = state.get("sourcing_result", {}).get("suppliers", [])
-    material  = state.get("sourcing_result", {}).get("material", "Stainless Steel 316L")
-    budget    = float(state.get("budget_per_unit", 2.5))
+    quantity = int(state.get("quantity", 200))
+    material = state.get("material", "316L")
+    eq_type  = state.get("valve_type", "valve")
+    diameter = state.get("diameter", 100)
+    pressure = state.get("pressure", 40)
 
-    if not suppliers:
-        return {**state, "negotiation_result": {"error": "Aucun fournisseur disponible"}}
+    product_desc = f"{eq_type} industriel(le) — DN{diameter} — {pressure} bar — {material}"
 
-    agent  = NegotiationAgent()
-    result = agent.negotiate_all(
-        suppliers=suppliers[:3],
-        material=material,
-        budget_eur_per_kg=budget,
-    )
+    order = {
+        **ORDER_DEFAULTS,
+        "quantity": quantity,
+        "product":  product_desc,
+    }
 
-    best = result.get("best_deal", {})
-    print(f"  ✓ {result.get('total_suppliers_negotiated', 0)} négociations")
-    print(f"  ✓ Meilleur deal : {best.get('supplier_name')} à {best.get('counter_offer_price_eur')} €/kg")
-    print(f"  ✓ Économies     : {best.get('savings_pct', 0)}%")
+    # ── Fournisseurs : priorité aux résultats réels de Module 4 ──────────────
+    m4_suppliers = state.get("sourcing_result", {}).get("suppliers", [])
+
+    if m4_suppliers:
+        # Mapper les fournisseurs Wikidata vers le format attendu par negotiate_node
+        # Prix catalogue estimé : ORDER_DEFAULTS max_price ± variation par rang
+        base_price = ORDER_DEFAULTS.get("max_price", 980.0)
+        suppliers = [
+            _map_wikidata_supplier(s, idx, base_price)
+            for idx, s in enumerate(m4_suppliers[:3])
+        ]
+        print(f"  (utilise les {len(suppliers)} fournisseurs trouvés par Module 4)")
+    else:
+        # Fallback : CSV local de module5
+        suppliers = load_suppliers()[:3]
+        print("  (fallback : fournisseurs CSV module5)")
+
+    graph = build_graph()
+
+    negotiations = []
+    for supplier in suppliers:
+        thread_cfg = {"configurable": {"thread_id": f"pipeline_{supplier['id']}"}}
+        catalog    = float(supplier["price_per_unit_usd"])
+
+        # Round 0 — ouverture automatique (last_input vide)
+        s0 = build_initial_state(supplier)
+        s0 = {**s0, "order": order}
+        current = graph.invoke(s0, config=thread_cfg)
+
+        # Rounds 1-7 — réponse simulée du fournisseur pour alimenter last_input
+        for _ in range(7):
+            if current.get("status") in ("agreed", "rejected"):
+                break
+            best_so_far = current.get("current_best_price", catalog)
+            counter     = round(best_so_far * 0.97, 2)   # fournisseur concède 3 %
+            simulated   = (
+                f"Nous reconnaissons votre intérêt pour {quantity} unités. "
+                f"Notre meilleure offre révisée est {counter:.2f} USD/unité avec livraison 45 jours."
+            )
+            current = graph.invoke({"last_input": simulated}, config=thread_cfg)
+
+        negotiations.append(current)
+
+    # Meilleur deal parmi les accords obtenus
+    agreed = [n for n in negotiations if n.get("status") == "agreed" and n.get("agreement")]
+
+    if agreed:
+        best_neg = min(agreed, key=lambda n: n["agreement"]["price_per_unit"])
+        agr      = best_neg["agreement"]
+        catalog  = float(best_neg["supplier"]["price_per_unit_usd"])
+        best_deal = {
+            "supplier_name":            agr["supplier_name"],
+            "counter_offer_price_eur":  round(agr["price_per_unit"] * 0.92, 2),
+            "savings_pct":              round((catalog - agr["price_per_unit"]) / catalog * 100, 1),
+        }
+    elif negotiations:
+        # Pas d'accord — prendre le moins cher en cours
+        cheapest  = min(negotiations, key=lambda n: n.get("current_best_price", float("inf")))
+        s         = cheapest["supplier"]
+        catalog   = float(s["price_per_unit_usd"])
+        cur_price = cheapest.get("current_best_price", catalog)
+        best_deal = {
+            "supplier_name":            s["name"],
+            "counter_offer_price_eur":  round(cur_price * 0.92, 2),
+            "savings_pct":              round((catalog - cur_price) / catalog * 100, 1),
+        }
+    else:
+        best_deal = {}
+
+    result = {
+        "total_suppliers_negotiated": len(negotiations),
+        "best_deal":                  best_deal,
+        "all_negotiations": [
+            {
+                "supplier": n["supplier"]["name"],
+                "status":   n.get("status"),
+                "rounds":   n.get("rounds", 0),
+                "price":    n.get("current_best_price"),
+            }
+            for n in negotiations
+        ],
+    }
+
+    print(f"  ✓ {result['total_suppliers_negotiated']} négociations")
+    if best_deal:
+        print(f"  ✓ Meilleur deal : {best_deal.get('supplier_name')} à {best_deal.get('counter_offer_price_eur')} €/unité")
+        print(f"  ✓ Économies     : {best_deal.get('savings_pct', 0)}%")
 
     return {**state, "negotiation_result": result}
 
@@ -205,7 +421,8 @@ def node_financial(state: dict) -> dict:
     from dotenv import load_dotenv
     load_dotenv(os.path.join(ROOT, ".env"))
 
-    from graph import build_graph as build_m6
+    m6_graph = _import_from("module6", "graph")
+    build_m6 = m6_graph.build_graph
 
     # Calcul du coût de base depuis le meilleur deal négocié
     best_deal = state.get("negotiation_result", {}).get("best_deal", {})

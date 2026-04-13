@@ -1,4 +1,4 @@
 id,name,country,city,phone,email,price_per_unit_usd,min_quantity,delivery_days,certifications,rating,description
 S001,AlgéroMéca SARL,DZ,Alger,0541254689,sarahriehe@gmail.com,850,50,45,ISO9001|ISO14001,4.2,Fabricant algérien spécialisé en composants mécaniques industriels haute pression
-S002,Maghreb Industrial Parts,MA,Casablanca,+212 522 34 56 78,sarahriehe@gmail.com,920,100,30,ISO9001|EN10088,4.5,Distributeur régional certifié de pièces industrielles et vannes
+S002,Maghreb Industrial Parts,MA,Casablanca,+212 522 34 56 78,kadriimane077@gmail.com,920,100,30,ISO9001|EN10088,4.5,Distributeur régional certifié de pièces industrielles et vannes
 S003,EuroValves France SAS,FR,Lyon,+33 4 78 56 78 90,sarahriehe@gmail.com,1100,20,21,ISO9001|EN10088|REACH|PED,4.8,Fabricant européen premium de vannes haute pression pour industrie lourde

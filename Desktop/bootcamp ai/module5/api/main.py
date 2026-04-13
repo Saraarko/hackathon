@@ -31,7 +31,7 @@ templates     = Jinja2Templates(directory=TEMPLATES_DIR)
 CSV_PATH      = os.path.join(os.path.dirname(os.path.dirname(__file__)), "suppliers.csv")
 
 ORDER = {
-    "product":           "vannes industrielles haute pression — acier inoxydable 316L",
+    "product":           "matière première",
     "quantity":          200,
     "target_price":      720.0,
     "max_price":         980.0,
@@ -181,29 +181,29 @@ async def _gemini_turn(supplier_id: str, user_text: str) -> dict:
     supplier = room["supplier"]
     history  = room["history"]
 
-    system = f"""Tu es ARIA, agente de négociation IA pour OpenIndustry Algérie.
-Tu es en appel téléphonique avec {supplier['name']}, un fournisseur potentiel.
-Tu négocies l'achat de {ORDER['quantity']} vannes industrielles haute pression acier inoxydable 316L.
+    system = f"""Tu es un acheteur professionnel en appel téléphonique avec {supplier['name']}, un fournisseur.
+Tu veux acheter {ORDER['quantity']} unités de {ORDER['product']}.
 
 FOURNISSEUR :
-  Nom       : {supplier['name']} ({supplier['country']}, {supplier['city']})
-  Prix cata.: {supplier['price_per_unit_usd']} USD/unité
-  Délai     : {supplier['delivery_days']} jours
-  Certifs.  : {supplier['certifications']}
+  Nom    : {supplier['name']} ({supplier['country']}, {supplier['city']})
+  Prix   : {supplier['price_per_unit_usd']} USD/unité
+  Délai  : {supplier['delivery_days']} jours
 
 OBJECTIFS :
-  Prix cible  : {ORDER['target_price']} USD/unité
-  Prix MAX    : {ORDER['max_price']} USD/unité
-  Budget total: {ORDER['quantity'] * ORDER['max_price']:,.0f} USD max
-  Délai max   : {ORDER['max_delivery_days']} jours
+  Prix cible : {ORDER['target_price']} USD/unité
+  Prix max   : {ORDER['max_price']} USD/unité
+  Délai max  : {ORDER['max_delivery_days']} jours
 
 ÉTAT : Tour {room['rounds'] + 1}/8 · Meilleure offre : {room['best_price']:.2f} USD/unité
 
-STYLE : phrases courtes et naturelles, comme au téléphone. Professionnel et tactique.
-Si le fournisseur propose ≤ {ORDER['max_price']} USD → accepter et termine ta réponse par [ACCORD: X USD].
-Si la négociation échoue après plusieurs refus → termine ta réponse par [REJET].
-Sinon, ne mets AUCUNE balise spéciale.
-Réponds en français uniquement."""
+RÈGLES IMPORTANTES :
+- Ne te présente pas, ne donne pas de nom — entre directement dans la négociation
+- Phrases courtes et naturelles, comme au téléphone
+- Utilise le volume ({ORDER['quantity']} unités) comme levier
+- Si le fournisseur propose ≤ {ORDER['max_price']} USD → accepter, terminer par [ACCORD: X USD]
+- Si échec après plusieurs refus → terminer par [REJET]
+- Sinon, aucune balise
+- Réponds en français uniquement"""
 
     history.append({"role": "user", "parts": [{"text": user_text}]})
 

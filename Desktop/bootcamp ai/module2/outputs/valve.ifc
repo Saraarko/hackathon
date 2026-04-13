@@ -1,0 +1,15 @@
+
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('Simple IFC'),'2;1');
+ENDSEC;
+
+DATA;
+# INDUSTRIAL VALVE IFC
+# Radius: 50.0
+# Length: 250
+# Thickness: 10
+# Flange: 150.0
+ENDSEC;
+
+END-ISO-10303-21;

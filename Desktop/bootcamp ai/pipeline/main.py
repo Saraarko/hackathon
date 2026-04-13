@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import shutil
 import sys
 import time
 
@@ -168,30 +169,25 @@ def main():
         "all_negotiations":           nego.get("all_negotiations", []),
     })
 
-    fin = final_state.get("financial_result", {})
-    _save("module6_financial.json", {
-        "base_cost_eur":  fin.get("base_cost"),
-        "total_cost_eur": fin.get("total_cost"),
-        "roi":            fin.get("roi"),
-        "risk":           fin.get("risk"),
-        "scenarios":      fin.get("scenarios"),
-        "inflation":      fin.get("inflation"),
-        "monte_carlo":    fin.get("mc"),
-    })
+    ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-    bp = final_state.get("businessplan_result", {})
-    _save("module7_businessplan.json", {
-        "decision":    bp.get("decision"),
-        "npv_3y":      bp.get("npv"),
-        "financials":  bp.get("financials", {}),
-        "projections": bp.get("projections", []),
-        "swot":        bp.get("swot"),
-        "summary":     bp.get("summary"),
-        "exports": {
-            "pdf":   bp.get("pdf_path"),
-            "excel": bp.get("excel_path"),
-        },
-    })
+    # Module 6 → copie le PDF généré par report_agent
+    m6_pdf_src = os.path.join(ROOT, "module6", "outputs", "report.pdf")
+    m6_pdf_dst = os.path.join(output_dir, "module6_financial.pdf")
+    if os.path.exists(m6_pdf_src):
+        shutil.copy2(m6_pdf_src, m6_pdf_dst)
+        print(f"  ✓ module6_financial.pdf")
+    else:
+        print(f"  ⚠ module6_financial.pdf introuvable ({m6_pdf_src})")
+
+    # Module 7 → copie le PDF généré par exporters.py
+    m7_pdf_src = os.path.join(ROOT, "module7", "output", "business.pdf")
+    m7_pdf_dst = os.path.join(output_dir, "module7_businessplan.pdf")
+    if os.path.exists(m7_pdf_src):
+        shutil.copy2(m7_pdf_src, m7_pdf_dst)
+        print(f"  ✓ module7_businessplan.pdf")
+    else:
+        print(f"  ⚠ module7_businessplan.pdf introuvable ({m7_pdf_src})")
 
     # ── Résultat complet (tous modules) ──────────────────────────────────── #
     _save("pipeline_result.json", final_state)

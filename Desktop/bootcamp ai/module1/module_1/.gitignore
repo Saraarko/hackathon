@@ -1,5 +1,4 @@
 .env
 __pycache__/
 *.pyc
-outputs/*.json
 cache/.cache/

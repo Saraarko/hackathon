@@ -1,0 +1,24 @@
+{
+  "body_material": "1.4408",
+  "impeller_material": "1.4408",
+  "shaft_material": "1.4462",
+  "seal_material": null,
+  "trim_material": "1.4408",
+  "fluid_type": "water",
+  "nominal_pressure_bar": 16.0,
+  "nominal_diameter_mm": 65.0,
+  "equipment_category": "pump",
+  "equipment_subtype": "centrifugal",
+  "quantity": 200,
+  "certifications": {
+    "standards": [
+      "EN 733",
+      "EN 1092-1",
+      "ISO 9906",
+      "IEC 60034-30"
+    ],
+    "markings": [
+      "Made in Germany"
+    ]
+  }
+}

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Appel ARIA — {{ supplier.name }}</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#080c10;
+  color:#e6edf3;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* ── Appel entrant overlay ── */
+#incomingOverlay{
+  position:fixed;inset:0;
+  background:rgba(8,12,16,.97);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;
+  z-index:100;
+  animation:fade-in .5s ease;
+}
+.incoming-avatar{
+  width:100px;height:100px;
+  background:linear-gradient(135deg,#1a8cd8,#26a641);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:42px;font-weight:900;color:#fff;
+  box-shadow:0 0 0 0 rgba(26,140,216,.5);
+  animation:ring 1.5s ease infinite;
+}
+@keyframes ring{
+  0%{box-shadow:0 0 0 0 rgba(26,140,216,.5);}
+  70%{box-shadow:0 0 0 30px rgba(26,140,216,0);}
+  100%{box-shadow:0 0 0 0 rgba(26,140,216,0);}
+}
+.incoming-name{font-size:22px;font-weight:700;}
+.incoming-sub{font-size:14px;color:#8b949e;}
+.incoming-company{
+  background:#0d2035;border:1px solid #1a4a7a;
+  border-radius:20px;padding:6px 18px;
+  font-size:13px;color:#4da6ff;
+}
+.btn-accept{
+  background:#238636;color:#fff;border:none;
+  border-radius:50px;padding:16px 40px;
+  font-size:16px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;gap:10px;
+  transition:background .2s,transform .1s;
+  box-shadow:0 4px 20px rgba(35,134,54,.4);
+  animation:pulse-accept 1.5s ease infinite;
+}
+.btn-accept:hover{background:#2ea043;transform:scale(1.05);}
+@keyframes pulse-accept{
+  0%,100%{box-shadow:0 4px 20px rgba(35,134,54,.4);}
+  50%{box-shadow:0 4px 35px rgba(35,134,54,.7);}
+}
+
+/* ── Interface principale ── */
+#callInterface{display:none;height:100vh;flex-direction:column;}
+
+/* Header appel */
+.call-header{
+  background:rgba(13,17,23,.8);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid #1e2733;
+  padding:12px 24px;
+  display:flex;align-items:center;gap:16px;
+  flex-shrink:0;
+}
+.call-timer{
+  font-size:13px;font-weight:700;
+  background:#0d2035;border:1px solid #1a4a7a;
+  border-radius:20px;padding:4px 14px;color:#4da6ff;
+  font-variant-numeric:tabular-nums;
+}
+.call-status-pill{
+  padding:4px 14px;border-radius:20px;
+  font-size:12px;font-weight:700;
+}
+.pill-live{background:#0d2118;color:#3fb950;}
+.pill-thinking{background:#1f2d1f;color:#8b949e;}
+.pill-agreed{background:#0d2118;color:#3fb950;}
+.pill-rejected{background:#2d1111;color:#f85149;}
+
+/* Corps */
+.call-body{
+  flex:1;display:flex;gap:0;overflow:hidden;
+}
+
+/* Zone centrale ARIA */
+.aria-zone{
+  flex:1;
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  padding:30px 20px 24px;
+  position:relative;
+}
+
+/* Fond animé */
+.aria-zone::before{
+  content:"";
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 30%, rgba(26,140,216,.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 30% 70%, rgba(38,166,65,.06) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+/* Avatar ARIA */
+.aria-avatar-wrap{display:flex;flex-direction:column;align-items:center;gap:18px;position:relative;z-index:1;}
+.aria-avatar{
+  width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%,rgba(26,140,216,.95),rgba(38,166,65,.5),rgba(8,12,16,.8));
+  box-shadow:0 0 40px rgba(26,140,216,.3),0 0 80px rgba(26,140,216,.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:42px;font-weight:900;color:#fff;
+  transition:box-shadow .3s,transform .3s;
+}
+.aria-avatar.speaking{
+  animation:aria-speak .6s ease-in-out infinite alternate;
+  box-shadow:0 0 60px rgba(26,140,216,.6),0 0 100px rgba(26,140,216,.2);
+}
+.aria-avatar.listening-ai{
+  box-shadow:0 0 40px rgba(38,166,65,.4),0 0 80px rgba(38,166,65,.15);
+}
+@keyframes aria-speak{
+  from{transform:scale(1);}
+  to  {transform:scale(1.04);}
+}
+.aria-label{font-size:18px;font-weight:700;}
+.aria-sublabel{font-size:12px;color:#8b949e;margin-top:2px;}
+
+/* Barres audio ARIA */
+.audio-bars{display:flex;gap:3px;align-items:center;height:28px;}
+.abar{width:3px;background:#1a8cd8;border-radius:2px;height:4px;animation:abar-anim 1s ease infinite;}
+.abar:nth-child(1){animation-delay:0s;}
+.abar:nth-child(2){animation-delay:.1s;}
+.abar:nth-child(3){animation-delay:.2s;}
+.abar:nth-child(4){animation-delay:.3s;}
+.abar:nth-child(5){animation-delay:.2s;}
+.abar:nth-child(6){animation-delay:.1s;}
+@keyframes abar-anim{0%,100%{height:4px;}50%{height:20px;}}
+.audio-bars.active-bars .abar{animation-play-state:running;}
+.audio-bars.inactive-bars .abar{animation-play-state:paused;height:4px;opacity:.3;}
+.audio-bars.user-bars .abar{background:#3fb950;}
+
+/* Dernier message ARIA */
+.aria-speech-bubble{
+  background:rgba(13,32,53,.8);
+  border:1px solid #1a4a7a;
+  border-radius:16px;padding:14px 20px;
+  max-width:480px;text-align:center;
+  font-size:14px;line-height:1.7;
+  min-height:60px;
+  position:relative;z-index:1;
+}
+.aria-speech-bubble::before{
+  content:"ARIA";
+  position:absolute;top:-10px;left:20px;
+  background:#0d2035;border:1px solid #1a4a7a;
+  border-radius:20px;padding:2px 10px;font-size:10px;color:#4da6ff;font-weight:700;
+}
+
+/* Bouton micro utilisateur */
+.user-controls{display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;z-index:1;}
+.mic-main{
+  width:70px;height:70px;border-radius:50%;border:none;
+  background:#1a8cd8;color:#fff;font-size:26px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .2s,transform .1s;
+  box-shadow:0 4px 20px rgba(26,140,216,.4);
+}
+.mic-main:hover{background:#2299e8;transform:scale(1.05);}
+.mic-main.active{
+  background:#da3633;
+  box-shadow:0 4px 20px rgba(218,54,51,.5);
+  animation:mic-pulse .8s ease infinite;
+}
+.mic-main:disabled{background:#1e2733;cursor:not-allowed;opacity:.5;}
+@keyframes mic-pulse{0%,100%{box-shadow:0 4px 20px rgba(218,54,51,.5);}50%{box-shadow:0 4px 35px rgba(218,54,51,.8);}}
+.mic-hint{font-size:11px;color:#8b949e;text-align:center;}
+
+/* Transcript en direct */
+.live-text{
+  font-size:13px;color:#1a8cd8;
+  min-height:18px;text-align:center;
+  font-style:italic;max-width:300px;
+}
+
+/* Bouton raccrocher */
+.btn-hangup{
+  background:#da3633;color:#fff;border:none;
+  border-radius:50px;padding:10px 28px;
+  font-size:13px;font-weight:700;cursor:pointer;
+  transition:background .2s;
+}
+.btn-hangup:hover{background:#f85149;}
+
+/* ── Transcript panel ── */
+.transcript-panel{
+  width:320px;flex-shrink:0;
+  background:#0f1419;border-left:1px solid #1e2733;
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.tp-header{
+  padding:14px 16px;border-bottom:1px solid #1e2733;
+  font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.08em;color:#8b949e;
+}
+.tp-messages{
+  flex:1;overflow-y:auto;padding:14px;
+  display:flex;flex-direction:column;gap:10px;
+}
+
+.tm-aria{display:flex;gap:8px;}
+.tm-avatar{
+  width:26px;height:26px;flex-shrink:0;border-radius:50%;
+  background:linear-gradient(135deg,#1a8cd8,#26a641);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:900;color:#fff;
+}
+.tm-bubble-aria{
+  background:#0d2035;border:1px solid #1a4a7a;
+  border-radius:0 10px 10px 10px;
+  padding:9px 12px;font-size:12px;line-height:1.6;flex:1;
+}
+.tm-user{display:flex;gap:8px;flex-direction:row-reverse;align-self:flex-end;max-width:85%;}
+.tm-bubble-user{
+  background:#1e2733;border-radius:10px 0 10px 10px;
+  padding:9px 12px;font-size:12px;line-height:1.6;
+}
+.tm-system{
+  text-align:center;font-size:10px;color:#8b949e;
+  padding:3px 10px;background:rgba(255,255,255,.03);
+  border-radius:20px;align-self:center;
+}
+
+/* Accord final */
+.accord-card{
+  background:linear-gradient(135deg,#0a1f10,#071a0e);
+  border:1px solid #238636;border-radius:12px;padding:16px;
+}
+.accord-card h4{color:#3fb950;font-size:13px;margin-bottom:10px;}
+.accord-row{display:flex;justify-content:space-between;font-size:12px;margin:4px 0;}
+.accord-row span:first-child{color:#8b949e;}
+.accord-row .hl{color:#3fb950;font-size:15px;font-weight:700;}
+.accord-row .gd{color:#d29922;}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-thumb{background:#1e2733;border-radius:3px;}
+@keyframes fade-in{from{opacity:0;}to{opacity:1;}}
+</style>
+</head>
+<body>
+
+<!-- ── Écran d'appel entrant ── -->
+<div id="incomingOverlay">
+  <div class="incoming-avatar">A</div>
+  <div class="incoming-name">ARIA</div>
+  <div class="incoming-sub">Appel entrant</div>
+  <div class="incoming-company">OpenIndustry Algérie — Négociation commerciale</div>
+  <p style="font-size:13px;color:#8b949e;text-align:center;max-width:300px;">
+    {{ order.quantity }} vannes haute pression · Acier inoxydable 316L
+  </p>
+  <button class="btn-accept" onclick="acceptCall()">
+    📞 Accepter l'appel
+  </button>
+</div>
+
+<!-- ── Interface appel ── -->
+<div id="callInterface">
+
+  <!-- Header -->
+  <div class="call-header">
+    <div class="incoming-avatar" style="width:32px;height:32px;font-size:14px;">A</div>
+    <div>
+      <div style="font-size:13px;font-weight:700;">ARIA — OpenIndustry Algérie</div>
+      <div style="font-size:11px;color:#8b949e;">{{ supplier.name }}</div>
+    </div>
+    <div class="call-timer" id="callTimer">00:00</div>
+    <div class="call-status-pill pill-live" id="statusPill">En direct</div>
+    <div style="margin-left:auto;display:flex;gap:10px;align-items:center;">
+      <div style="font-size:11px;color:#8b949e;">Tour <strong id="roundCounter">0</strong>/8</div>
+      <button class="btn-hangup" onclick="hangup()">📵 Raccrocher</button>
+    </div>
+  </div>
+
+  <!-- Corps -->
+  <div class="call-body">
+
+    <!-- Zone ARIA -->
+    <div class="aria-zone">
+
+      <!-- Avatar -->
+      <div class="aria-avatar-wrap">
+        <div class="aria-avatar" id="ariaAvatar">A</div>
+        <div>
+          <div class="aria-label">ARIA</div>
+          <div class="aria-sublabel">Agent IA · OpenIndustry Algérie</div>
+        </div>
+      </div>
+
+      <!-- Barres audio -->
+      <div class="audio-bars inactive-bars" id="audioBars">
+        <div class="abar"></div><div class="abar"></div><div class="abar"></div>
+        <div class="abar"></div><div class="abar"></div><div class="abar"></div>
+      </div>
+
+      <!-- Bulle discours ARIA -->
+      <div class="aria-speech-bubble" id="ariaBubble">
+        <span style="color:#8b949e;">Connexion en cours…</span>
+      </div>
+
+      <!-- Transcript direct -->
+      <div class="live-text" id="liveText"></div>
+
+      <!-- Micro utilisateur -->
+      <div class="user-controls">
+        <button class="mic-main" id="micBtn" disabled onclick="toggleMic()">🎤</button>
+        <div class="mic-hint" id="micHint">Attendez qu'ARIA ait fini de parler</div>
+      </div>
+
+    </div>
+
+    <!-- Transcript -->
+    <div class="transcript-panel">
+      <div class="tp-header">📝 Transcript de l'appel</div>
+      <div class="tp-messages" id="tpMessages">
+        <div class="tm-system">Appel en cours…</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── Config injectée dynamiquement par Jinja2 ──────────────────────────────────
+const TOKEN         = "{{ supplier_id }}";
+const SUPPLIER_NAME = "{{ supplier.name }}";
+const SUPPLIER_EMAIL= "{{ supplier.email }}";
+
+// ── État ──────────────────────────────────────────────────────────────────────
+let ws           = null;
+let recognition  = null;
+let synth        = window.speechSynthesis;
+let isListening  = false;
+let isSpeaking   = false;
+let callStarted  = false;
+let timerInterval= null;
+let callSeconds  = 0;
+let negStatus    = "live";
+
+// ── Accepter l'appel ──────────────────────────────────────────────────────────
+function acceptCall() {
+  document.getElementById("incomingOverlay").style.display = "none";
+  document.getElementById("callInterface").style.display = "flex";
+  startTimer();
+  connectWS();
+}
+
+// ── Timer ─────────────────────────────────────────────────────────────────────
+function startTimer() {
+  timerInterval = setInterval(() => {
+    callSeconds++;
+    const m = String(Math.floor(callSeconds / 60)).padStart(2, "0");
+    const s = String(callSeconds % 60).padStart(2, "0");
+    document.getElementById("callTimer").textContent = `${m}:${s}`;
+  }, 1000);
+}
+
+// ── WebSocket ─────────────────────────────────────────────────────────────────
+function connectWS() {
+  const proto = location.protocol === "https:" ? "wss" : "ws";
+  ws = new WebSocket(`${proto}://${location.host}/ws/call/${TOKEN}`);
+
+  ws.onopen  = () => {};
+  ws.onclose = () => {};
+  ws.onerror = () => addTranscript("system", "Erreur de connexion.");
+
+  ws.onmessage = (e) => {
+    const msg = JSON.parse(e.data);
+    switch(msg.type) {
+      case "aria":      handleAriaMessage(msg); break;
+      case "agreement": handleAgreement(msg.agreement); break;
+      case "error":     addTranscript("system", "Erreur : " + msg.message); break;
+    }
+  };
+}
+
+// ── Message ARIA ──────────────────────────────────────────────────────────────
+function handleAriaMessage(msg) {
+  negStatus = msg.status;
+  document.getElementById("roundCounter").textContent = msg.rounds;
+  updateStatusPill(msg.status);
+
+  const text = msg.text;
+  addTranscript("aria", text);
+  document.getElementById("ariaBubble").textContent = text;
+  speak(text, msg.status);
+}
+
+// ── Synthèse vocale (ARIA parle) ──────────────────────────────────────────────
+function speak(text, status) {
+  synth.cancel();
+  isSpeaking = true;
+  disableMic(true);
+
+  setAriaState("speaking");
+  document.getElementById("audioBars").className = "audio-bars active-bars";
+  document.getElementById("micHint").textContent = "ARIA parle…";
+
+  const sentences = text.match(/[^.!?:]+[.!?:]+/g) || [text];
+  let idx = 0;
+
+  function next() {
+    if (idx >= sentences.length) {
+      isSpeaking = false;
+      setAriaState("idle");
+      document.getElementById("audioBars").className = "audio-bars inactive-bars";
+      if (status === "live" || status === "connected" || status === "negotiating") {
+        disableMic(false);
+        document.getElementById("micHint").textContent = "🎤 Cliquez pour répondre";
+      } else {
+        document.getElementById("micHint").textContent = "Appel terminé";
+      }
+      return;
+    }
+    const u = new SpeechSynthesisUtterance(sentences[idx++]);
+    u.lang  = "fr-FR";
+    u.rate  = 1.0;
+    u.pitch = 1.1;
+    // Voix féminine si disponible
+    const voices = synth.getVoices().filter(v => v.lang.startsWith("fr"));
+    const fem = voices.find(v => /female|woman|femme/i.test(v.name)) || voices[0];
+    if (fem) u.voice = fem;
+    u.onend = next;
+    synth.speak(u);
+  }
+  next();
+}
+
+// ── Micro ─────────────────────────────────────────────────────────────────────
+function toggleMic() {
+  if (isSpeaking) return;
+  if (isListening) stopListening();
+  else startListening();
+}
+
+function startListening() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { alert("Utilisez Chrome ou Edge pour la reconnaissance vocale."); return; }
+
+  recognition = new SR();
+  recognition.lang = "fr-FR";
+  recognition.continuous = false;
+  recognition.interimResults = true;
+
+  recognition.onstart = () => {
+    isListening = true;
+    setAriaState("listening-ai");
+    document.getElementById("micBtn").classList.add("active");
+    document.getElementById("micBtn").textContent = "⏹";
+    document.getElementById("audioBars").className = "audio-bars user-bars active-bars";
+    document.getElementById("micHint").textContent = "🎙️ Parlez maintenant…";
+  };
+
+  recognition.onresult = (e) => {
+    let interim = "", final = "";
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      const t = e.results[i][0].transcript;
+      if (e.results[i].isFinal) final += t;
+      else interim += t;
+    }
+    document.getElementById("liveText").textContent = final || interim;
+    if (final.trim()) {
+      addTranscript("user", final.trim());
+      document.getElementById("liveText").textContent = "";
+      sendSpeech(final.trim());
+    }
+  };
+
+  recognition.onend = () => {
+    isListening = false;
+    document.getElementById("micBtn").classList.remove("active");
+    document.getElementById("micBtn").textContent = "🎤";
+    document.getElementById("audioBars").className = "audio-bars inactive-bars";
+    document.getElementById("micHint").textContent = "Traitement…";
+  };
+
+  recognition.onerror = (e) => {
+    if (e.error !== "no-speech") addTranscript("system", `Erreur micro : ${e.error}`);
+  };
+
+  recognition.start();
+}
+
+function stopListening() { if (recognition) recognition.stop(); }
+
+function sendSpeech(text) {
+  if (!ws || ws.readyState !== WebSocket.OPEN) return;
+  disableMic(true);
+  document.getElementById("ariaBubble").innerHTML = `<span style="color:#8b949e">ARIA réfléchit…</span>`;
+  ws.send(JSON.stringify({ type: "speech", text }));
+}
+
+// ── Accord ────────────────────────────────────────────────────────────────────
+function handleAgreement(agr) {
+  clearInterval(timerInterval);
+  disableMic(true);
+  updateStatusPill("agreed");
+  document.getElementById("micHint").textContent = "Accord conclu ✓";
+
+  const tp = document.getElementById("tpMessages");
+  const el = document.createElement("div");
+  el.innerHTML = `
+    <div class="accord-card">
+      <h4>✅ Accord de négociation conclu</h4>
+      <div class="accord-row"><span>Prix unitaire</span><span class="hl">${parseFloat(agr.price_per_unit).toFixed(2)} USD</span></div>
+      <div class="accord-row"><span>Quantité</span><span>${agr.quantity} unités</span></div>
+      <div class="accord-row"><span>Total</span><span>${agr.total_price.toLocaleString("fr-FR")} USD</span></div>
+      <div class="accord-row"><span>Délai</span><span>${agr.delivery_days} jours</span></div>
+      ${agr.savings_vs_catalog > 0
+        ? `<div class="accord-row"><span>Économies</span><span class="gd">+${agr.savings_vs_catalog.toLocaleString("fr-FR")} USD</span></div>` : ""}
+    </div>`;
+  tp.appendChild(el);
+  tp.scrollTop = tp.scrollHeight;
+}
+
+// ── Raccrocher ────────────────────────────────────────────────────────────────
+function hangup() {
+  synth.cancel();
+  if (recognition) recognition.stop();
+  if (ws) ws.close();
+  clearInterval(timerInterval);
+  document.body.innerHTML = `
+    <div style="height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#080c10;color:#e6edf3;">
+      <div style="font-size:48px;">📵</div>
+      <h2>Appel terminé</h2>
+      <p style="color:#8b949e;">Durée : ${document.getElementById("callTimer").textContent}</p>
+      <a href="/" style="background:#1f6feb;color:#fff;padding:10px 28px;border-radius:20px;text-decoration:none;font-size:13px;font-weight:600;">
+        Retour au dashboard
+      </a>
+    </div>`;
+}
+
+// ── Helpers UI ─────────────────────────────────────────────────────────────────
+function setAriaState(state) {
+  const av = document.getElementById("ariaAvatar");
+  av.className = "aria-avatar" + (state !== "idle" ? ` ${state}` : "");
+}
+
+function disableMic(disabled) {
+  document.getElementById("micBtn").disabled = disabled;
+}
+
+function updateStatusPill(status) {
+  const pill = document.getElementById("statusPill");
+  const map = {
+    live:        ["pill-live",     "En direct"],
+    connected:   ["pill-live",     "En direct"],
+    negotiating: ["pill-live",     "En direct"],
+    thinking:    ["pill-thinking", "Traitement…"],
+    agreed:      ["pill-agreed",   "Accord conclu ✓"],
+    rejected:    ["pill-rejected", "Négociation échouée"],
+  };
+  const [cls, label] = map[status] || map.live;
+  pill.className = `call-status-pill ${cls}`;
+  pill.textContent = label;
+}
+
+function addTranscript(who, text) {
+  const tp = document.getElementById("tpMessages");
+  const el = document.createElement("div");
+  if (who === "aria") {
+    el.className = "tm-aria";
+    el.innerHTML = `<div class="tm-avatar">A</div><div class="tm-bubble-aria">${escHtml(text)}</div>`;
+  } else if (who === "user") {
+    el.className = "tm-user";
+    el.innerHTML = `<div class="tm-avatar" style="background:#1e2733;">👤</div><div class="tm-bubble-user">${escHtml(text)}</div>`;
+  } else {
+    el.className = "tm-system";
+    el.textContent = text;
+  }
+  tp.appendChild(el);
+  tp.scrollTop = tp.scrollHeight;
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+// Précharger les voix
+window.speechSynthesis.onvoiceschanged = () => synth.getVoices();
+</script>
+</body>
+</html>

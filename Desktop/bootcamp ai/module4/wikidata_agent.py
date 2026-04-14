@@ -162,20 +162,25 @@ class WikidataSourceAgent:
         results: list[dict] = []
         seen: set[str] = set()
 
+        mat_qid = mat_info["material_qid"]
+
         if eq_info:
-            # Mode principal : fabricants de l'équipement ciblé (P1056)
             eq_qid = eq_info["qid"]
-            logger.info("[Wikidata] Recherche fabricants par équipement QID=%s", eq_qid)
+            logger.info("[Wikidata] Recherche croisée équipement QID=%s + matériau QID=%s",
+                        eq_qid, mat_qid)
             queries = [
+                # Priorité 1 : fabricants de cet équipement EN ce matériau (P1056 + P186)
+                self._sparql_companies_by_equipment_and_material(eq_qid, mat_qid),
+                # Priorité 2 : fabricants de cet équipement (sans filtre matériau)
                 self._sparql_companies_by_equipment(eq_qid),
+                # Priorité 3 : industrie générale comme filet de sécurité
                 self._sparql_companies_by_industry(mat_info["industry_qid"]),
             ]
         else:
-            # Fallback : recherche par matière première
-            logger.info("[Wikidata] Fallback — recherche par matière QID=%s", mat_info["material_qid"])
+            logger.info("[Wikidata] Fallback — recherche par matière QID=%s", mat_qid)
             queries = [
                 self._sparql_companies_by_industry(mat_info["industry_qid"]),
-                self._sparql_companies_by_product(mat_info["material_qid"]),
+                self._sparql_companies_by_product(mat_qid),
             ]
 
         for sparql in queries:
@@ -354,6 +359,30 @@ LIMIT 30
         return state
 
     # ── SPARQL helpers ────────────────────────────────────────────────────── #
+
+    @staticmethod
+    def _sparql_companies_by_equipment_and_material(equipment_qid: str, material_qid: str) -> str:
+        """
+        Entreprises qui fabriquent (P1056) l'équipement ciblé
+        ET dont le produit est fait de (P186) ce matériau.
+        C'est la requête la plus précise : ex. fabricants de pompes EN inox 316L.
+        """
+        return f"""
+SELECT DISTINCT ?company ?companyLabel ?countryLabel ?website ?description ?founded ?revenue WHERE {{
+  ?company wdt:P31 wd:Q4830453 ;
+           wdt:P1056 ?product .
+  ?product wdt:P279* wd:{equipment_qid} .
+  ?product wdt:P186  ?mat .
+  ?mat     wdt:P279* wd:{material_qid} .
+  OPTIONAL {{ ?company wdt:P17   ?country  . }}
+  OPTIONAL {{ ?company wdt:P856  ?website  . }}
+  OPTIONAL {{ ?company schema:description ?description FILTER(LANG(?description)="en") . }}
+  OPTIONAL {{ ?company wdt:P571  ?founded  . }}
+  OPTIONAL {{ ?company wdt:P2139 ?revenue  . }}
+  SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en,fr". }}
+}}
+LIMIT 40
+"""
 
     @staticmethod
     def _sparql_companies_by_equipment(equipment_qid: str) -> str:

@@ -44,10 +44,16 @@ EQUIPMENT_SEARCH_TERMS: dict[str, str] = {
 
 MATERIAL_SEARCH_TERMS: dict[str, str] = {
     "stainless steel 316l": "316L_stainless_steel",
+    "316l":                 "316L_stainless_steel",
+    "316":                  "316L_stainless_steel",
+    "inox":                 "316L_stainless_steel",
     "titanium":             "titanium_metal",
     "aluminum":             "aluminum_alloy",
+    "aluminium":            "aluminum_alloy",
     "iron":                 "cast_iron",
     "nickel":               "nickel_alloy",
+    "carbon steel":         "carbon_steel",
+    "duplex":               "duplex_stainless_steel",
 }
 
 
@@ -106,16 +112,35 @@ class MadeInChinaAgent:
     # ── Helpers ───────────────────────────────────────────────────────────── #
 
     def _resolve_query(self, equipment_type: str, material: str) -> str:
-        key_eq = equipment_type.lower().strip()
-        # Essai correspondance exacte ou partielle sur l'équipement
+        key_eq  = equipment_type.lower().strip()
+        key_mat = material.lower().strip()
+
+        # Trouver le terme équipement
+        eq_term = None
         for k, term in EQUIPMENT_SEARCH_TERMS.items():
             if k in key_eq or key_eq in k:
-                return term
-        # Fallback sur le matériau
-        key_mat = material.lower().strip()
+                eq_term = term
+                break
+
+        # Trouver le terme matériau
+        mat_term = None
         for k, term in MATERIAL_SEARCH_TERMS.items():
             if k in key_mat or key_mat in k:
-                return term
+                mat_term = term
+                break
+
+        # Cas 1 : équipement + matériau connus → recherche croisée (la plus précise)
+        if eq_term and mat_term:
+            return f"{mat_term}_{eq_term}"
+
+        # Cas 2 : équipement seul
+        if eq_term:
+            return eq_term
+
+        # Cas 3 : matériau seul
+        if mat_term:
+            return mat_term
+
         return "industrial_equipment"
 
     @staticmethod

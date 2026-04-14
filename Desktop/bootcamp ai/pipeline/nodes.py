@@ -513,6 +513,83 @@ def node_financial(state: dict) -> dict:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# MODULE 9 — Catalogue multi-format
+# ══════════════════════════════════════════════════════════════════════════════
+
+def node_catalogue(state: dict) -> dict:
+    """
+    Module 9 : Génère le catalogue produit multi-format (PDF/HTML/Excel/JSON/XML)
+    en agrégeant les résultats de tous les modules amont (M1→M7).
+    """
+    print("\n[Pipeline] ▶ Module 9 — Catalogue multi-format")
+
+    if ROOT not in sys.path:
+        sys.path.insert(0, ROOT)
+
+    from dotenv import load_dotenv
+    load_dotenv(os.path.join(ROOT, "module4", ".env"))
+    load_dotenv(os.path.join(ROOT, "module5", ".env"))
+    load_dotenv(os.path.join(ROOT, "module9", ".env"))
+
+    orig_dir = os.getcwd()
+    try:
+        os.chdir(os.path.join(ROOT, "module9"))
+        os.makedirs("outputs", exist_ok=True)
+
+        import module9.graph as _m9_graph
+
+        m9_state = {
+            # Résultats modules amont
+            "extraction_result":   state.get("extraction_result", {}),
+            "design_result":       state.get("design_result", {}),
+            "render_result":       state.get("render_result", {}),
+            "sourcing_result":     state.get("sourcing_result", {}),
+            "negotiation_result":  state.get("negotiation_result", {}),
+            "financial_result":    state.get("financial_result", {}),
+            "businessplan_result": state.get("businessplan_result", {}),
+            # Scalaires
+            "valve_type":      state.get("valve_type", "valve"),
+            "diameter":        state.get("diameter", 100),
+            "pressure":        state.get("pressure", 40),
+            "material":        state.get("material", "316L"),
+            "length":          state.get("length", 250),
+            "quantity":        state.get("quantity", 200),
+            "budget_per_unit": state.get("budget_per_unit", 2.5),
+            # Champs M9 initialisés
+            "catalogue_data": {},
+            "ai_description": "",
+            "outputs":        {},
+            "errors":         list(state.get("errors", [])),
+            "status":         "",
+        }
+
+        result = _m9_graph.build_graph().invoke(m9_state)
+
+    finally:
+        os.chdir(orig_dir)
+
+    outputs = result.get("outputs", {})
+    status  = result.get("status", "unknown")
+
+    catalogue_result = {
+        "pdf_path":   outputs.get("pdf_path", ""),
+        "html_path":  outputs.get("html_path", ""),
+        "excel_path": outputs.get("excel_path", ""),
+        "json_path":  outputs.get("json_path", ""),
+        "xml_path":   outputs.get("xml_path", ""),
+        "status":     status,
+    }
+
+    print(f"  ✓ Statut  : {status}")
+    for fmt, path in outputs.items():
+        if path:
+            size = os.path.getsize(path) // 1024 if os.path.exists(path) else 0
+            print(f"  ✓ {fmt.replace('_path','').upper():6} : {os.path.basename(path)} ({size} Ko)")
+
+    return {**state, "catalogue_result": catalogue_result}
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 # MODULE 7 — Business Plan
 # ══════════════════════════════════════════════════════════════════════════════
 

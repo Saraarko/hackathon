@@ -83,6 +83,7 @@ def main():
         "negotiation_result":  {},
         "financial_result":    {},
         "businessplan_result": {},
+        "catalogue_result":    {},
         "summary":             {},
         "errors":              [],
     }
@@ -180,6 +181,23 @@ def main():
     })
 
     ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    # Module 9 → copie les 5 formats du catalogue
+    cat = final_state.get("catalogue_result", {})
+    for fmt, src_path in [
+        ("pdf",   cat.get("pdf_path",   "")),
+        ("html",  cat.get("html_path",  "")),
+        ("excel", cat.get("excel_path", "")),
+        ("json",  cat.get("json_path",  "")),
+        ("xml",   cat.get("xml_path",   "")),
+    ]:
+        ext = "xlsx" if fmt == "excel" else fmt
+        dst = os.path.join(output_dir, f"module9_catalogue.{ext}")
+        if src_path and os.path.exists(src_path):
+            shutil.copy2(src_path, dst)
+            print(f"  ✓ module9_catalogue.{ext}")
+        else:
+            print(f"  ⚠ module9_catalogue.{ext} introuvable")
 
     # Module 6 → copie le PDF généré par report_agent
     m6_pdf_src = os.path.join(ROOT, "module6", "outputs", "report.pdf")

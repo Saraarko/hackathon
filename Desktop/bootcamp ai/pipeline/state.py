@@ -38,6 +38,9 @@ class GlobalState(TypedDict):
     # ── Module 7 : Business Plan ──────────────────────────────────────── #
     businessplan_result: dict  # financials, projections, npv, decision, swot, summary
 
+    # ── Module 9 : Catalogue ─────────────────────────────────────── #
+    catalogue_result: dict     # pdf, html, excel, json, xml paths + status
+
     # ── Méta ─────────────────────────────────────────────────────────────── #
     errors:  list[str]
     summary: dict

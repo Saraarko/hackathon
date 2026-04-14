@@ -3,28 +3,28 @@
   "quantity": 200,
   "total_suppliers_negotiated": 3,
   "best_deal": {
-    "supplier_name": "Abeking & Rasmussen",
-    "counter_offer_price_eur": 554.01,
-    "savings_pct": 81.0
+    "supplier_name": "AnsaldoBreda",
+    "counter_offer_price_eur": 561.77,
+    "savings_pct": 81.2
   },
   "all_negotiations": [
     {
       "supplier": "Abeking & Rasmussen",
       "status": "agreed",
-      "rounds": 5,
-      "price": 602.18
+      "rounds": 4,
+      "price": 630.5
     },
     {
       "supplier": "Adtranz",
       "status": "agreed",
       "rounds": 4,
-      "price": 615.95
+      "price": 657.13
     },
     {
       "supplier": "AnsaldoBreda",
       "status": "agreed",
-      "rounds": 3,
-      "price": 677.45
+      "rounds": 4,
+      "price": 610.62
     }
   ]
 }

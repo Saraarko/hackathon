@@ -111,29 +111,108 @@
   "quantity": 200,
   "budget_per_unit": 2.5,
   "design_result": {
-    "type": "pump",
-    "diameter": 65,
-    "pressure": 16,
-    "material": "1.4408",
-    "length": 1050,
-    "thickness": 5,
-    "flange": 97.5,
-    "geometry": {
-      "radius": 32.5,
-      "length": 1050,
-      "thickness": 5,
-      "flange": 97.5
+    "specs": {
+      "equipment_category": "pump",
+      "dimensions": {
+        "nominal_diameter_mm": 65,
+        "overall_length_mm": 1050
+      },
+      "hydraulics": {
+        "nominal_pressure_bar": 16
+      },
+      "pressure": 16,
+      "material": "1.4408",
+      "part_number": "Etanorm C 050-125 C10",
+      "revision": null,
+      "drawing_number": null,
+      "description": "Standardpump acc. EN 733 (excluding Baseplate, Coupling and Motor)",
+      "manufacturer": "KSB",
+      "model_reference": "Etanorm C 050-125 C10",
+      "equipment_subtype": "centrifugal",
+      "mounting": "horizontal",
+      "temperature": {
+        "min_temp_celsius": null,
+        "max_temp_celsius": null,
+        "design_temp_celsius": 20.0
+      },
+      "body_material": "1.4408",
+      "impeller_material": "1.4408",
+      "shaft_material": "1.4462",
+      "trim_material": "1.4408",
+      "seal_material": null,
+      "fluid_type": "water",
+      "fluid_density_kg_m3": 998.0,
+      "fluid_viscosity_mm2s": 1.0,
+      "connections": {
+        "inlet_type": "flanged",
+        "outlet_type": "flanged",
+        "flange_standard": "EN 1092-1",
+        "bolt_standard": null,
+        "bolt_material": "A2-70",
+        "bolt_size": "M16x250"
+      },
+      "drive_type": "electric_motor",
+      "electrical": {
+        "rated_power_kw": 5.5,
+        "voltage_v": 400.0,
+        "frequency_hz": 50.0,
+        "rated_current_a": 10.1,
+        "motor_efficiency_class": "IE2",
+        "motor_enclosure": "IP55",
+        "number_of_poles": 2,
+        "insulation_class": "F"
+      },
+      "sealing": {
+        "seal_type": "Single acting mechanical seal",
+        "seal_material": null,
+        "seal_code": "10",
+        "sealing_plan": "I"
+      },
+      "tolerances": {
+        "dimensional_tolerance": "ISO 2768-m",
+        "surface_finish_ra": null,
+        "leakage_class": null,
+        "acceptance_standard": "ISO 9906 Class 2 Annex A"
+      },
+      "surface_treatment": {
+        "coating": null,
+        "paint_color": "Ultramarine blue (RAL 5002)",
+        "internal_lining": null
+      },
+      "certifications": {
+        "standards": [
+          "EN 733",
+          "EN 1092-1",
+          "ISO 9906",
+          "IEC 60034-30"
+        ],
+        "markings": [
+          "Made in Germany"
+        ]
+      },
+      "quantity_required": 200,
+      "extraction_confidence": 1.0,
+      "extraction_warnings": []
     },
-    "dxf": "outputs/valve.dxf",
-    "step": "outputs/valve.step",
-    "ifc": "outputs/valve.ifc",
+    "run_id": "run_1776129579",
+    "step": "C:\\Users\\Administrator\\Desktop\\bootcamp ai\\outputs\\run_1776129579\\agent2\\pump.step",
+    "obj": "C:\\Users\\Administrator\\Desktop\\bootcamp ai\\outputs\\run_1776129579\\agent2\\pump.obj",
+    "png": null,
+    "dxf": "C:\\Users\\Administrator\\Desktop\\bootcamp ai\\outputs\\run_1776129579\\agent2\\pump.dxf",
     "validation": {
       "status": "OK",
-      "warnings": []
+      "vertices": 836,
+      "faces": 1306,
+      "is_watertight": false,
+      "bbox": {
+        "x": 113.64084282039983,
+        "y": 107.25000020000006,
+        "z": 113.50776894304909
+      }
     }
   },
   "render_result": {
-    "video_path": "C:\\Users\\Administrator\\Desktop\\bootcamp ai\\module3\\outputs\\valve.gif",
+    "video_path": "C:\\Users\\Administrator\\Desktop\\bootcamp ai\\outputs\\run_1776129579\\agent3\\pump_reveal.mp4",
     "scene_config": {
       "material": "1.4408"
     },
@@ -256,6 +335,26 @@
         ]
       },
       {
+        "name": "Astilleros Armada",
+        "country": "Spain",
+        "website": "http://www.astillerosarmada.com//",
+        "description": "",
+        "founded": "1924",
+        "revenue_usd": "",
+        "wikidata_id": "Q19801194",
+        "wikidata_url": "http://www.wikidata.org/entity/Q19801194",
+        "source": "Wikidata",
+        "material": "1.4408",
+        "materials_produced": [
+          "ship"
+        ],
+        "contacts": [],
+        "email_principal": "",
+        "contact_name": "",
+        "contact_position": "",
+        "contact_source": "Hunter.io"
+      },
+      {
         "name": "Austal USA",
         "country": "United States",
         "website": "https://www.austal.com/",
@@ -317,6 +416,40 @@
         "contact_source": "Hunter.io"
       },
       {
+        "name": "Belarusian River Shipping",
+        "country": "Belarus",
+        "website": "https://parohodstvo.by/",
+        "description": "Belarusian trasport enterprise",
+        "founded": "1930",
+        "revenue_usd": "",
+        "wikidata_id": "Q134928550",
+        "wikidata_url": "http://www.wikidata.org/entity/Q134928550",
+        "source": "Wikidata",
+        "material": "1.4408",
+        "materials_produced": [
+          "ship",
+          "clamshell grab",
+          "warehousing and support activities for transportation",
+          "freight forwarder",
+          "sharp sand",
+          "river transport"
+        ],
+        "contacts": [
+          {
+            "email": "brp@parohodstvo.by",
+            "first_name": "",
+            "last_name": "",
+            "position": "",
+            "confidence": 10,
+            "type": "personal"
+          }
+        ],
+        "email_principal": "brp@parohodstvo.by",
+        "contact_name": "",
+        "contact_position": "",
+        "contact_source": "Hunter.io"
+      },
+      {
         "name": "British-India Steam Navigation Company",
         "country": "United Kingdom",
         "website": "http://www.biships.com",
@@ -337,21 +470,154 @@
         "contact_source": "Hunter.io"
       },
       {
-        "name": "COSCO SHIPPING Energy Transportation Co., Ltd.",
-        "country": "People's Republic of China",
-        "website": "http://en.energy.coscoshipping.com",
-        "description": "Chinese oil tanker company",
-        "founded": "1994",
+        "name": "COTECMAR",
+        "country": "Colombia",
+        "website": "http://www.cotecmar.com/en",
+        "description": "Colombian shipbuilding and naval engineering corporation",
+        "founded": "2000",
         "revenue_usd": "",
-        "wikidata_id": "Q641021",
-        "wikidata_url": "http://www.wikidata.org/entity/Q641021",
+        "wikidata_id": "Q44698252",
+        "wikidata_url": "http://www.wikidata.org/entity/Q44698252",
         "source": "Wikidata",
         "material": "1.4408",
         "materials_produced": [
-          "oil tanker"
+          "warship"
         ],
-        "contacts": [],
-        "email_principal": "",
+        "contacts": [
+          {
+            "email": "fzarate@cotecmar.com",
+            "first_name": "Fredy",
+            "last_name": "Zarate",
+            "position": "Director of Naval Architecture and Marine Engineering",
+            "confidence": 99,
+            "type": "personal"
+          },
+          {
+            "email": "kmartinez@cotecmar.com",
+            "first_name": "Kevin",
+            "last_name": "Martinez",
+            "position": "Construction Assistant",
+            "confidence": 99,
+            "type": "personal"
+          },
+          {
+            "email": "cgil@cotecmar.com",
+            "first_name": "Carlos",
+            "last_name": "Gil",
+            "position": "Director of Science and Technology",
+            "confidence": 99,
+            "type": "personal"
+          },
+          {
+            "email": "vbarrios@cotecmar.com",
+            "first_name": "Viviana",
+            "last_name": "Barrios",
+            "position": "Project Director",
+            "confidence": 98,
+            "type": "personal"
+          },
+          {
+            "email": "amonterrosa@cotecmar.com",
+            "first_name": "Ana",
+            "last_name": "Monterrosa",
+            "position": "Head of Contracts",
+            "confidence": 97,
+            "type": "personal"
+          }
+        ],
+        "email_principal": "fzarate@cotecmar.com",
+        "contact_name": "Fredy Zarate",
+        "contact_position": "Director of Naval Architecture and Marine Engineering",
+        "contact_source": "Hunter.io"
+      },
+      {
+        "name": "CSBC Corporation, Taiwan",
+        "country": "Taiwan",
+        "website": "https://www.csbcnet.com.tw/",
+        "description": "shipbuilder headquartered in Kaohsiung, Taiwan",
+        "founded": "1973",
+        "revenue_usd": "",
+        "wikidata_id": "Q703928",
+        "wikidata_url": "http://www.wikidata.org/entity/Q703928",
+        "source": "Wikidata",
+        "material": "1.4408",
+        "materials_produced": [
+          "ship"
+        ],
+        "contacts": [
+          {
+            "email": "robert@csbcnet.com.tw",
+            "first_name": "Robert",
+            "last_name": "Lai",
+            "position": "Chairman",
+            "confidence": 94,
+            "type": "personal"
+          },
+          {
+            "email": "ben@csbcnet.com.tw",
+            "first_name": "Ben",
+            "last_name": "Yue",
+            "position": "Director",
+            "confidence": 93,
+            "type": "personal"
+          },
+          {
+            "email": "chung@csbcnet.com.tw",
+            "first_name": "Chung-Shiy",
+            "last_name": "Chen",
+            "position": "Deputy Director of Design",
+            "confidence": 92,
+            "type": "personal"
+          },
+          {
+            "email": "jeff@csbcnet.com.tw",
+            "first_name": "Jeff",
+            "last_name": "Zhao",
+            "position": "Chief Executive Officer",
+            "confidence": 91,
+            "type": "personal"
+          },
+          {
+            "email": "wen@csbcnet.com.tw",
+            "first_name": "Wen",
+            "last_name": "Liaw",
+            "position": "Executive Vice President",
+            "confidence": 90,
+            "type": "personal"
+          }
+        ],
+        "email_principal": "ben@csbcnet.com.tw",
+        "contact_name": "Ben Yue",
+        "contact_position": "Director",
+        "contact_source": "Hunter.io"
+      },
+      {
+        "name": "Cantieri Navali Codecasa",
+        "country": "Italy",
+        "website": "https://www.codecasayachts.com/",
+        "description": "Italian luxury super yacht building firm",
+        "founded": "1825",
+        "revenue_usd": "",
+        "wikidata_id": "Q56012145",
+        "wikidata_url": "http://www.wikidata.org/entity/Q56012145",
+        "source": "Wikidata",
+        "material": "1.4408",
+        "materials_produced": [
+          "yacht",
+          "offshore patrol vessel",
+          "luxury yacht"
+        ],
+        "contacts": [
+          {
+            "email": "info@codecasayachts.com",
+            "first_name": "",
+            "last_name": "",
+            "position": "",
+            "confidence": 99,
+            "type": "generic"
+          }
+        ],
+        "email_principal": "info@codecasayachts.com",
         "contact_name": "",
         "contact_position": "",
         "contact_source": "Hunter.io"
@@ -416,49 +682,39 @@
         "contact_source": "Hunter.io"
       },
       {
-        "name": "Christensen Shipyards",
-        "country": "United States",
-        "website": "https://www.christensenyachts.com/",
-        "description": "former American yacht builder",
-        "founded": "",
+        "name": "China Merchants Shenzhen Xunlong Shipping Co. Ltd",
+        "country": "People's Republic of China",
+        "website": "http://www.xunlongferry.com/",
+        "description": "Chinese ferry company",
+        "founded": "1993",
         "revenue_usd": "",
-        "wikidata_id": "Q5109176",
-        "wikidata_url": "http://www.wikidata.org/entity/Q5109176",
+        "wikidata_id": "Q28224036",
+        "wikidata_url": "http://www.wikidata.org/entity/Q28224036",
         "source": "Wikidata",
         "material": "1.4408",
         "materials_produced": [
-          "yacht"
+          "ferry"
         ],
-        "contacts": [
-          {
-            "email": "sales@christensenyachts.com",
-            "first_name": "",
-            "last_name": "",
-            "position": "",
-            "confidence": 81,
-            "type": "generic"
-          },
-          {
-            "email": "info@christensenyachts.com",
-            "first_name": "",
-            "last_name": "",
-            "position": "",
-            "confidence": 77,
-            "type": "generic"
-          },
-          {
-            "email": "bmadden@christensenyachts.com",
-            "first_name": "",
-            "last_name": "",
-            "position": "",
-            "confidence": 10,
-            "type": "personal"
-          }
-        ],
-        "email_principal": "sales@christensenyachts.com",
+        "contacts": [],
+        "email_principal": "",
         "contact_name": "",
         "contact_position": "",
         "contact_source": "Hunter.io"
+      },
+      {
+        "name": "D/S Norden",
+        "country": "Denmark",
+        "website": "http://www.ds-norden.com",
+        "description": "Danish shipping company",
+        "founded": "1871",
+        "revenue_usd": "25600000000",
+        "wikidata_id": "Q3374840",
+        "wikidata_url": "http://www.wikidata.org/entity/Q3374840",
+        "source": "Wikidata",
+        "material": "1.4408",
+        "materials_produced": [
+          "tanker"
+        ]
       },
       {
         "name": "Division des études des locomotives de la SNCF",
@@ -486,53 +742,7 @@
         "material": "1.4408",
         "materials_produced": [
           "ship"
-        ],
-        "contacts": [
-          {
-            "email": "carlos.perez@chouest.com",
-            "first_name": "Carlos",
-            "last_name": "Perez",
-            "position": "Chief Engineer",
-            "confidence": 94,
-            "type": "personal"
-          },
-          {
-            "email": "jane.barrilleaux@chouest.com",
-            "first_name": "Jane",
-            "last_name": "Barrilleaux",
-            "position": "Legal Assistant",
-            "confidence": 94,
-            "type": "personal"
-          },
-          {
-            "email": "patricia.moreira@chouest.com",
-            "first_name": "Patricia",
-            "last_name": "Moreira",
-            "position": "Human Resources Director",
-            "confidence": 94,
-            "type": "personal"
-          },
-          {
-            "email": "jose.sampaio@chouest.com",
-            "first_name": "José",
-            "last_name": "Sampaio",
-            "position": "Director of Legal and Compliance",
-            "confidence": 94,
-            "type": "personal"
-          },
-          {
-            "email": "rogerio.lacourt@chouest.com",
-            "first_name": "Rogerio",
-            "last_name": "Lacourt",
-            "position": "Subsea Engineering Director",
-            "confidence": 94,
-            "type": "personal"
-          }
-        ],
-        "email_principal": "carlos.perez@chouest.com",
-        "contact_name": "Carlos Perez",
-        "contact_position": "Chief Engineer",
-        "contact_source": "Hunter.io"
+        ]
       },
       {
         "name": "Enviri",
@@ -545,68 +755,7 @@
         "wikidata_url": "http://www.wikidata.org/entity/Q1586955",
         "source": "Wikidata",
         "material": "1.4408",
-        "materials_produced": [],
-        "contacts": [
-          {
-            "email": "aevans@harsco.com",
-            "first_name": "Andrew",
-            "last_name": "Evans",
-            "position": "Manager",
-            "confidence": 94,
-            "type": "personal"
-          },
-          {
-            "email": "aooi@harsco.com",
-            "first_name": "Adrian",
-            "last_name": "Ooi",
-            "position": "",
-            "confidence": 94,
-            "type": "personal"
-          },
-          {
-            "email": "sfirey@harsco.com",
-            "first_name": "Susan",
-            "last_name": "Firey",
-            "position": "Media Contact",
-            "confidence": 94,
-            "type": "personal"
-          },
-          {
-            "email": "tmarcordes@harsco.com",
-            "first_name": "Terry",
-            "last_name": "Marcordes",
-            "position": "Supervisor",
-            "confidence": 94,
-            "type": "personal"
-          },
-          {
-            "email": "jmakepeace@harsco.com",
-            "first_name": "Jeremy",
-            "last_name": "Makepeace",
-            "position": "Water Treatment",
-            "confidence": 94,
-            "type": "personal"
-          }
-        ],
-        "email_principal": "aevans@harsco.com",
-        "contact_name": "Andrew Evans",
-        "contact_position": "Manager",
-        "contact_source": "Hunter.io"
-      },
-      {
-        "name": "Estaleiro Mauá",
-        "country": "Brazil",
-        "website": "",
-        "description": "shipyard in Niterói, Brazil",
-        "founded": "1846",
-        "revenue_usd": "",
-        "wikidata_id": "Q10275472",
-        "wikidata_url": "http://www.wikidata.org/entity/Q10275472",
-        "source": "Wikidata",
-        "material": "1.4408",
-        "materials_produced": [
-          "oil tanker"
-        ]
+        "materials_produced": []
       },
       {
         "name": "European Rail Infrastructure Managers",
@@ -619,53 +768,7 @@
         "wikidata_url": "http://www.wikidata.org/entity/Q5413075",
         "source": "Wikidata",
         "material": "1.4408",
-        "materials_produced": [],
-        "contacts": [
-          {
-            "email": "giuseppe.miccoli@eimrail.org",
-            "first_name": "Giuseppe",
-            "last_name": "Miccoli",
-            "position": "Technical Manager",
-            "confidence": 99,
-            "type": "personal"
-          },
-          {
-            "email": "sandrine.roussel@eimrail.org",
-            "first_name": "Sandrine",
-            "last_name": "Roussel",
-            "position": "Communications Manager",
-            "confidence": 99,
-            "type": "personal"
-          },
-          {
-            "email": "ludwig.landsted@eimrail.org",
-            "first_name": "Ludwig",
-            "last_name": "Landsted",
-            "position": "Policy Advisor",
-            "confidence": 98,
-            "type": "personal"
-          },
-          {
-            "email": "monika.heiming@eimrail.org",
-            "first_name": "Heiming",
-            "last_name": "Monika",
-            "position": "Executive Director",
-            "confidence": 97,
-            "type": "personal"
-          },
-          {
-            "email": "direction@eimrail.org",
-            "first_name": "",
-            "last_name": "",
-            "position": "",
-            "confidence": 96,
-            "type": "generic"
-          }
-        ],
-        "email_principal": "giuseppe.miccoli@eimrail.org",
-        "contact_name": "Giuseppe Miccoli",
-        "contact_position": "Technical Manager",
-        "contact_source": "Hunter.io"
+        "materials_produced": []
       },
       {
         "name": "Farstad Shipping",
@@ -682,53 +785,7 @@
           "platform supply vessel",
           "subsea technology",
           "anchor handling tug supply vessel"
-        ],
-        "contacts": [
-          {
-            "email": "jeff.knight@farstad.com",
-            "first_name": "Jeff",
-            "last_name": "Knight",
-            "position": "",
-            "confidence": 90,
-            "type": "personal"
-          },
-          {
-            "email": "felipe.meira@farstad.com",
-            "first_name": "Felipe",
-            "last_name": "Meira",
-            "position": "",
-            "confidence": 89,
-            "type": "personal"
-          },
-          {
-            "email": "kristin.devold@farstad.com",
-            "first_name": "Kristin",
-            "last_name": "Devold",
-            "position": "",
-            "confidence": 88,
-            "type": "personal"
-          },
-          {
-            "email": "marcelino.souza@farstad.com",
-            "first_name": "Marcelino",
-            "last_name": "Souza",
-            "position": "",
-            "confidence": 87,
-            "type": "personal"
-          },
-          {
-            "email": "post.macae@farstad.com",
-            "first_name": "",
-            "last_name": "",
-            "position": "",
-            "confidence": 80,
-            "type": "personal"
-          }
-        ],
-        "email_principal": "jeff.knight@farstad.com",
-        "contact_name": "Jeff Knight",
-        "contact_position": "",
-        "contact_source": "Hunter.io"
+        ]
       },
       {
         "name": "Ferrovie Venete",
@@ -772,36 +829,6 @@
         "materials_produced": [
           "axle counter",
           "sensor"
-        ]
-      },
-      {
-        "name": "Fred. Olsen Cruise Lines",
-        "country": "United Kingdom",
-        "website": "http://www.fredolsencruises.com",
-        "description": "company",
-        "founded": "1848",
-        "revenue_usd": "",
-        "wikidata_id": "Q547924",
-        "wikidata_url": "http://www.wikidata.org/entity/Q547924",
-        "source": "Wikidata",
-        "material": "1.4408",
-        "materials_produced": [
-          "cruise ship"
-        ]
-      },
-      {
-        "name": "Fred. Olsen Production",
-        "country": "Norway",
-        "website": "http://www.fpso.no/",
-        "description": "Norwegian gas and oil company",
-        "founded": "1994",
-        "revenue_usd": "",
-        "wikidata_id": "Q13634860",
-        "wikidata_url": "http://www.wikidata.org/entity/Q13634860",
-        "source": "Wikidata",
-        "material": "1.4408",
-        "materials_produced": [
-          "floating production storage and offloading"
         ]
       },
       {
@@ -1012,21 +1039,6 @@
         ]
       },
       {
-        "name": "Köln-Düsseldorfer",
-        "country": "Germany",
-        "website": "http://www.k-d.com/",
-        "description": "company",
-        "founded": "1826",
-        "revenue_usd": "",
-        "wikidata_id": "Q1384809",
-        "wikidata_url": "http://www.wikidata.org/entity/Q1384809",
-        "source": "Wikidata",
-        "material": "1.4408",
-        "materials_produced": [
-          "cruise ship"
-        ]
-      },
-      {
         "name": "La Brugeoise et Nivelles",
         "country": "Belgium",
         "website": "",
@@ -1081,6 +1093,21 @@
         "source": "Wikidata",
         "material": "1.4408",
         "materials_produced": []
+      },
+      {
+        "name": "Meyer Wismar",
+        "country": "Germany",
+        "website": "https://www.mv-werften.com/",
+        "description": "German shipyard in Wismar",
+        "founded": "1946",
+        "revenue_usd": "",
+        "wikidata_id": "Q884303",
+        "wikidata_url": "http://www.wikidata.org/entity/Q884303",
+        "source": "Wikidata",
+        "material": "1.4408",
+        "materials_produced": [
+          "ship"
+        ]
       },
       {
         "name": "Mitsubishi Heavy Industries",
@@ -1171,21 +1198,6 @@
         "materials_produced": []
       },
       {
-        "name": "Pakistan National Shipping Corporation",
-        "country": "Pakistan",
-        "website": "https://www.pnsc.com.pk/",
-        "description": "government owned company",
-        "founded": "1971",
-        "revenue_usd": "",
-        "wikidata_id": "Q7125629",
-        "wikidata_url": "http://www.wikidata.org/entity/Q7125629",
-        "source": "Wikidata",
-        "material": "1.4408",
-        "materials_produced": [
-          "cargo ship"
-        ]
-      },
-      {
         "name": "Peninsular and Oriental Steam Navigation Company",
         "country": "United Kingdom",
         "website": "http://www.pogroup.com/",
@@ -1257,6 +1269,21 @@
         "materials_produced": []
       },
       {
+        "name": "Q131896580",
+        "country": "Netherlands",
+        "website": "",
+        "description": "",
+        "founded": "1916",
+        "revenue_usd": "",
+        "wikidata_id": "Q131896580",
+        "wikidata_url": "http://www.wikidata.org/entity/Q131896580",
+        "source": "Wikidata",
+        "material": "1.4408",
+        "materials_produced": [
+          "ship"
+        ]
+      },
+      {
         "name": "Q138318102",
         "country": "Sweden",
         "website": "https://tagkraft.com/",
@@ -1296,22 +1323,6 @@
         "materials_produced": []
       },
       {
-        "name": "SBM Offshore",
-        "country": "Netherlands",
-        "website": "http://www.sbmoffshore.com/",
-        "description": "global group of companies selling systems and services to the offshore oil and gas industry",
-        "founded": "1965",
-        "revenue_usd": "",
-        "wikidata_id": "Q1779056",
-        "wikidata_url": "http://www.wikidata.org/entity/Q1779056",
-        "source": "Wikidata",
-        "material": "1.4408",
-        "materials_produced": [
-          "floating production storage and offloading",
-          "Tension-leg platform"
-        ]
-      },
-      {
         "name": "SG RAIL. Co.,Ltd",
         "country": "South Korea",
         "website": "",
@@ -1342,21 +1353,6 @@
         ]
       },
       {
-        "name": "Silversea Cruises",
-        "country": "The Bahamas",
-        "website": "http://www.silversea.com/",
-        "description": "luxury cruise line",
-        "founded": "1994",
-        "revenue_usd": "",
-        "wikidata_id": "Q2286599",
-        "wikidata_url": "http://www.wikidata.org/entity/Q2286599",
-        "source": "Wikidata",
-        "material": "1.4408",
-        "materials_produced": [
-          "cruise ship"
-        ]
-      },
-      {
         "name": "Sorefame",
         "country": "Portugal",
         "website": "",
@@ -1369,6 +1365,21 @@
         "material": "1.4408",
         "materials_produced": [
           "rolling stock"
+        ]
+      },
+      {
+        "name": "UCOCAR",
+        "country": "Venezuela",
+        "website": "http://www.ucocar.gob.ve",
+        "description": "Venezuelan shipbuilding company",
+        "founded": "1990",
+        "revenue_usd": "",
+        "wikidata_id": "Q44885674",
+        "wikidata_url": "http://www.wikidata.org/entity/Q44885674",
+        "source": "Wikidata",
+        "material": "1.4408",
+        "materials_produced": [
+          "warship"
         ]
       },
       {
@@ -1439,33 +1450,36 @@
         "materials_produced": []
       },
       {
-        "name": "Aker Floating Production",
-        "country": "Unknown",
-        "website": "http://www.akerfloatingproduction.com/",
-        "description": "Norwegian vessel operator",
-        "founded": "2006",
+        "name": "Yarrow Shipbuilders Limited",
+        "country": "United Kingdom of Great Britain and Ireland",
+        "website": "",
+        "description": "British shipbuilding firm",
+        "founded": "1865",
         "revenue_usd": "",
-        "wikidata_id": "Q4700630",
-        "wikidata_url": "http://www.wikidata.org/entity/Q4700630",
+        "wikidata_id": "Q932897",
+        "wikidata_url": "http://www.wikidata.org/entity/Q932897",
         "source": "Wikidata",
         "material": "1.4408",
         "materials_produced": [
-          "floating production storage and offloading"
+          "destroyer",
+          "warship",
+          "torpedo boat",
+          "Yarrow boiler"
         ]
       },
       {
-        "name": "Cruise & Maritime Voyages",
+        "name": "Atlas Maritime",
         "country": "Unknown",
-        "website": "http://www.cruiseandmaritime.com/",
-        "description": "British passenger shipping company",
-        "founded": "2009",
+        "website": "http://www.atlasmaritimeltd.com",
+        "description": "",
+        "founded": "",
         "revenue_usd": "",
-        "wikidata_id": "Q5189941",
-        "wikidata_url": "http://www.wikidata.org/entity/Q5189941",
+        "wikidata_id": "Q4816826",
+        "wikidata_url": "http://www.wikidata.org/entity/Q4816826",
         "source": "Wikidata",
         "material": "1.4408",
         "materials_produced": [
-          "cruise ship"
+          "tanker"
         ]
       },
       {
@@ -1511,37 +1525,40 @@
       }
     ],
     "market_analysis": {
-      "total_suppliers_found": 69,
-      "countries_represented": 27,
+      "total_suppliers_found": 70,
+      "countries_represented": 30,
       "suppliers_by_country": {
+        "Italy": 8,
         "Germany": 7,
-        "Italy": 7,
-        "United States": 7,
-        "United Kingdom": 6,
-        "Unknown": 5,
-        "Spain": 4,
+        "United States": 6,
+        "United Kingdom": 5,
+        "Spain": 5,
         "Japan": 4,
+        "Unknown": 4,
         "Belgium": 3,
         "People's Republic of China": 2,
         "France": 2,
-        "Norway": 2,
         "Sweden": 2,
         "Netherlands": 2,
         "South Korea": 2,
         "German Reich": 1,
-        "Brazil": 1,
+        "Belarus": 1,
+        "Colombia": 1,
+        "Taiwan": 1,
+        "Denmark": 1,
+        "Norway": 1,
         "Austria": 1,
         "India": 1,
         "Croatia": 1,
         "German Empire": 1,
         "Malaysia": 1,
         "Algeria": 1,
-        "Pakistan": 1,
         "Canada": 1,
         "Slovakia": 1,
-        "The Bahamas": 1,
         "Portugal": 1,
-        "Finland": 1
+        "Venezuela": 1,
+        "Finland": 1,
+        "United Kingdom of Great Britain and Ireland": 1
       },
       "top_producer_countries": [
         {
@@ -1561,11 +1578,9 @@
       "material": "Stainless Steel 316L",
       "equipment_type": "Pump",
       "search_mode": "equipment",
-      "errors": [
-        "SPARQL companies error: 502 Server Error: Bad Gateway for url: https://query.wikidata.org/sparql?query=%0ASELECT+DISTINCT+%3Fcompany+%3FcompanyLabel+%3FcountryLabel+%3Fwebsite+%3Fdescription+%3Ffounded+%3Frevenue+WHERE+%7B%0A++%3Fcompany+wdt%3AP31+wd%3AQ4830453+%3B%0A+++++++++++wdt%3AP1056+%3Fproduct+.%0A++%3Fproduct+wdt%3AP279%2A+wd%3AQ11446+.%0A++%3Fproduct+wdt%3AP186++%3Fmat+.%0A++%3Fmat+++++wdt%3AP279%2A+wd%3AQ172587+.%0A++OPTIONAL+%7B+%3Fcompany+wdt%3AP17+++%3Fcountry++.+%7D%0A++OPTIONAL+%7B+%3Fcompany+wdt%3AP856++%3Fwebsite++.+%7D%0A++OPTIONAL+%7B+%3Fcompany+schema%3Adescription+%3Fdescription+FILTER%28LANG%28%3Fdescription%29%3D%22en%22%29+.+%7D%0A++OPTIONAL+%7B+%3Fcompany+wdt%3AP571++%3Ffounded++.+%7D%0A++OPTIONAL+%7B+%3Fcompany+wdt%3AP2139+%3Frevenue++.+%7D%0A++SERVICE+wikibase%3Alabel+%7B+bd%3AserviceParam+wikibase%3Alanguage+%22en%2Cfr%22.+%7D%0A%7D%0ALIMIT+40%0A&format=json"
-      ],
-      "mic_price_avg_usd": 3163.35,
-      "mic_price_min_usd": 100.0,
+      "errors": [],
+      "mic_price_avg_usd": 2805.82,
+      "mic_price_min_usd": 99.0,
       "mic_price_max_usd": 50000.0
     },
     "trade_data": {
@@ -1582,8 +1597,8 @@
           "flow": "Export",
           "hs_code": "7219",
           "year": "2022",
-          "trade_value_usd": 7419280882,
-          "quantity_kg": 1867329636.95,
+          "trade_value_usd": 8936639378,
+          "quantity_kg": 2410857441.1,
           "source": "UN Comtrade v1 Preview API"
         },
         {
@@ -1592,8 +1607,8 @@
           "flow": "Export",
           "hs_code": "7219",
           "year": "2022",
-          "trade_value_usd": 638743488,
-          "quantity_kg": 145345471.46,
+          "trade_value_usd": 602991282,
+          "quantity_kg": 136703382.82,
           "source": "UN Comtrade v1 Preview API"
         },
         {
@@ -1612,18 +1627,8 @@
           "flow": "Export",
           "hs_code": "7219",
           "year": "2022",
-          "trade_value_usd": 80161897,
-          "quantity_kg": 29251464.21,
-          "source": "UN Comtrade v1 Preview API"
-        },
-        {
-          "reporter_code": 124,
-          "reporter": "Canada",
-          "flow": "Export",
-          "hs_code": "7219",
-          "year": "2022",
-          "trade_value_usd": 31548251,
-          "quantity_kg": 6651096.0,
+          "trade_value_usd": 250642530,
+          "quantity_kg": 93310500.61,
           "source": "UN Comtrade v1 Preview API"
         },
         {
@@ -1632,18 +1637,18 @@
           "flow": "Export",
           "hs_code": "7219",
           "year": "2022",
-          "trade_value_usd": 22393900,
-          "quantity_kg": 18217716.0,
+          "trade_value_usd": 22479325,
+          "quantity_kg": 18221716.0,
           "source": "UN Comtrade v1 Preview API"
         },
         {
-          "reporter_code": 208,
-          "reporter": "Denmark",
+          "reporter_code": 124,
+          "reporter": "Canada",
           "flow": "Export",
           "hs_code": "7219",
           "year": "2022",
-          "trade_value_usd": 4537354,
-          "quantity_kg": 1235800.0,
+          "trade_value_usd": 16721535,
+          "quantity_kg": 4395398.0,
           "source": "UN Comtrade v1 Preview API"
         },
         {
@@ -1652,8 +1657,8 @@
           "flow": "Export",
           "hs_code": "7219",
           "year": "2022",
-          "trade_value_usd": 2105611,
-          "quantity_kg": 557508.5,
+          "trade_value_usd": 2241425,
+          "quantity_kg": 590269.64,
           "source": "UN Comtrade v1 Preview API"
         },
         {
@@ -1664,16 +1669,6 @@
           "year": "2022",
           "trade_value_usd": 1476392,
           "quantity_kg": 380800.0,
-          "source": "UN Comtrade v1 Preview API"
-        },
-        {
-          "reporter_code": 170,
-          "reporter": "Colombia",
-          "flow": "Export",
-          "hs_code": "7220",
-          "year": "2022",
-          "trade_value_usd": 1223868,
-          "quantity_kg": 124891.5,
           "source": "UN Comtrade v1 Preview API"
         },
         {
@@ -1692,8 +1687,18 @@
           "flow": "Export",
           "hs_code": "7219",
           "year": "2022",
-          "trade_value_usd": 740874,
-          "quantity_kg": 67597.54,
+          "trade_value_usd": 909136,
+          "quantity_kg": 80863.5,
+          "source": "UN Comtrade v1 Preview API"
+        },
+        {
+          "reporter_code": 170,
+          "reporter": "Colombia",
+          "flow": "Export",
+          "hs_code": "7220",
+          "year": "2022",
+          "trade_value_usd": 745204,
+          "quantity_kg": 87656.64,
           "source": "UN Comtrade v1 Preview API"
         },
         {
@@ -1702,8 +1707,18 @@
           "flow": "Export",
           "hs_code": "7219",
           "year": "2022",
-          "trade_value_usd": 622248,
-          "quantity_kg": 60916.0,
+          "trade_value_usd": 472578,
+          "quantity_kg": 46239.0,
+          "source": "UN Comtrade v1 Preview API"
+        },
+        {
+          "reporter_code": 96,
+          "reporter": "96",
+          "flow": "Export",
+          "hs_code": "7219",
+          "year": "2022",
+          "trade_value_usd": 245767,
+          "quantity_kg": 431746.36,
           "source": "UN Comtrade v1 Preview API"
         },
         {
@@ -1714,16 +1729,6 @@
           "year": "2022",
           "trade_value_usd": 22924,
           "quantity_kg": 667.2,
-          "source": "UN Comtrade v1 Preview API"
-        },
-        {
-          "reporter_code": 96,
-          "reporter": "96",
-          "flow": "Export",
-          "hs_code": "7219",
-          "year": "2022",
-          "trade_value_usd": 5071,
-          "quantity_kg": 945.0,
           "source": "UN Comtrade v1 Preview API"
         },
         {
@@ -1747,43 +1752,33 @@
           "source": "UN Comtrade v1 Preview API"
         },
         {
+          "reporter_code": 56,
+          "reporter": "Belgium",
+          "flow": "Import",
+          "hs_code": "7219",
+          "year": "2022",
+          "trade_value_usd": 1091423163,
+          "quantity_kg": 293875692.84,
+          "source": "UN Comtrade v1 Preview API"
+        },
+        {
+          "reporter_code": 40,
+          "reporter": "Austria",
+          "flow": "Import",
+          "hs_code": "7220",
+          "year": "2022",
+          "trade_value_usd": 424782823,
+          "quantity_kg": 86193965.48,
+          "source": "UN Comtrade v1 Preview API"
+        },
+        {
           "reporter_code": 70,
           "reporter": "Bosnia & Herzegovina",
           "flow": "Import",
           "hs_code": "7219",
           "year": "2022",
-          "trade_value_usd": 231043767,
-          "quantity_kg": 58000919.16,
-          "source": "UN Comtrade v1 Preview API"
-        },
-        {
-          "reporter_code": 56,
-          "reporter": "Belgium",
-          "flow": "Import",
-          "hs_code": "7220",
-          "year": "2022",
-          "trade_value_usd": 98929077,
-          "quantity_kg": 23378226.9,
-          "source": "UN Comtrade v1 Preview API"
-        },
-        {
-          "reporter_code": 104,
-          "reporter": "Myanmar",
-          "flow": "Import",
-          "hs_code": "7219",
-          "year": "2022",
-          "trade_value_usd": 19774537,
-          "quantity_kg": 10270073.59,
-          "source": "UN Comtrade v1 Preview API"
-        },
-        {
-          "reporter_code": 68,
-          "reporter": "Bolivia",
-          "flow": "Import",
-          "hs_code": "7219",
-          "year": "2022",
-          "trade_value_usd": 16210917,
-          "quantity_kg": 642436.98,
+          "trade_value_usd": 94293194,
+          "quantity_kg": 23059143.19,
           "source": "UN Comtrade v1 Preview API"
         },
         {
@@ -1792,8 +1787,38 @@
           "flow": "Import",
           "hs_code": "7219",
           "year": "2022",
-          "trade_value_usd": 8145849,
-          "quantity_kg": 1779636.81,
+          "trade_value_usd": 78164589,
+          "quantity_kg": 21962961.84,
+          "source": "UN Comtrade v1 Preview API"
+        },
+        {
+          "reporter_code": 104,
+          "reporter": "Myanmar",
+          "flow": "Import",
+          "hs_code": "7219",
+          "year": "2022",
+          "trade_value_usd": 20931347,
+          "quantity_kg": 10837935.73,
+          "source": "UN Comtrade v1 Preview API"
+        },
+        {
+          "reporter_code": 68,
+          "reporter": "Bolivia",
+          "flow": "Import",
+          "hs_code": "7219",
+          "year": "2022",
+          "trade_value_usd": 19033287,
+          "quantity_kg": 642464.8,
+          "source": "UN Comtrade v1 Preview API"
+        },
+        {
+          "reporter_code": 84,
+          "reporter": "84",
+          "flow": "Import",
+          "hs_code": "7219",
+          "year": "2022",
+          "trade_value_usd": 4765825,
+          "quantity_kg": 2085330.16,
           "source": "UN Comtrade v1 Preview API"
         },
         {
@@ -1802,8 +1827,8 @@
           "flow": "Import",
           "hs_code": "7220",
           "year": "2022",
-          "trade_value_usd": 3346622,
-          "quantity_kg": 936791.0,
+          "trade_value_usd": 4417575,
+          "quantity_kg": 1793100.0,
           "source": "UN Comtrade v1 Preview API"
         },
         {
@@ -1812,28 +1837,8 @@
           "flow": "Import",
           "hs_code": "7219",
           "year": "2022",
-          "trade_value_usd": 1072372,
-          "quantity_kg": 195096.42,
-          "source": "UN Comtrade v1 Preview API"
-        },
-        {
-          "reporter_code": 20,
-          "reporter": "20",
-          "flow": "Import",
-          "hs_code": "7219",
-          "year": "2022",
-          "trade_value_usd": 120375,
-          "quantity_kg": 12255.0,
-          "source": "UN Comtrade v1 Preview API"
-        },
-        {
-          "reporter_code": 28,
-          "reporter": "28",
-          "flow": "Import",
-          "hs_code": "7219",
-          "year": "2022",
-          "trade_value_usd": 74849,
-          "quantity_kg": 10158.24,
+          "trade_value_usd": 901632,
+          "quantity_kg": 183118.22,
           "source": "UN Comtrade v1 Preview API"
         }
       ],
@@ -1847,16 +1852,16 @@
         ],
         "description": "Flat-rolled stainless steel products and bars/rods",
         "year": "2022",
-        "total_export_value_usd": 8571120047,
-        "total_import_value_usd": 378718365,
+        "total_export_value_usd": 10203844763,
+        "total_import_value_usd": 1738713435,
         "top_exporters": [
           {
             "country": "Belgium",
-            "trade_value_usd": 7419280882
+            "trade_value_usd": 8936639378
           },
           {
             "country": "Bulgaria",
-            "trade_value_usd": 638743488
+            "trade_value_usd": 602991282
           },
           {
             "country": "Austria",
@@ -1864,72 +1869,72 @@
           },
           {
             "country": "Brazil",
-            "trade_value_usd": 80161897
-          },
-          {
-            "country": "Canada",
-            "trade_value_usd": 31548251
+            "trade_value_usd": 250642530
           },
           {
             "country": "Australia",
-            "trade_value_usd": 22393900
+            "trade_value_usd": 22479325
           },
           {
-            "country": "Denmark",
-            "trade_value_usd": 4537354
+            "country": "Canada",
+            "trade_value_usd": 16721535
           },
           {
             "country": "Bosnia & Herzegovina",
-            "trade_value_usd": 2105611
+            "trade_value_usd": 2241425
           },
           {
             "country": "Azerbaijan",
             "trade_value_usd": 1476392
           },
           {
-            "country": "Colombia",
-            "trade_value_usd": 1223868
+            "country": "51",
+            "trade_value_usd": 990388
+          },
+          {
+            "country": "48",
+            "trade_value_usd": 909136
           }
         ],
         "top_importers": [
           {
-            "country": "Bosnia & Herzegovina",
-            "trade_value_usd": 231043767
-          },
-          {
             "country": "Belgium",
-            "trade_value_usd": 98929077
+            "trade_value_usd": 1091423163
           },
           {
-            "country": "Myanmar",
-            "trade_value_usd": 19774537
+            "country": "Austria",
+            "trade_value_usd": 424782823
           },
           {
-            "country": "Bolivia",
-            "trade_value_usd": 16210917
+            "country": "Bosnia & Herzegovina",
+            "trade_value_usd": 94293194
           },
           {
             "country": "Azerbaijan",
-            "trade_value_usd": 8145849
+            "trade_value_usd": 78164589
+          },
+          {
+            "country": "Myanmar",
+            "trade_value_usd": 20931347
+          },
+          {
+            "country": "Bolivia",
+            "trade_value_usd": 19033287
+          },
+          {
+            "country": "84",
+            "trade_value_usd": 4765825
           },
           {
             "country": "96",
-            "trade_value_usd": 3346622
+            "trade_value_usd": 4417575
           },
           {
             "country": "Cameroon",
-            "trade_value_usd": 1072372
-          },
-          {
-            "country": "20",
-            "trade_value_usd": 120375
-          },
-          {
-            "country": "28",
-            "trade_value_usd": 74849
+            "trade_value_usd": 901632
           }
         ],
-        "total_flows_found": 26,
+        "total_flows_found": 25,
         "data_source": "UN Comtrade v1 Preview (https://comtradeapi.un.org/public/v1/preview/C/A/HS)",
         "errors": []
       }
@@ -1937,116 +1942,124 @@
     "mic_prices": {
       "prices": [
         {
-          "title": "US$350.00-2,000.00",
-          "price_min": 350.0,
-          "price_max": 2000.0,
+          "title": "US$199.00-1,999.00",
+          "price_min": 199.0,
+          "price_max": 1999.0,
           "unit": "unit",
           "supplier": "",
-          "raw_price": "US$350.00-2,000.00"
+          "raw_price": "US$199.00-1,999.00"
         },
         {
-          "title": "US$2,000.00-5,000.00",
-          "price_min": 2000.0,
-          "price_max": 5000.0,
+          "title": "US$399.00",
+          "price_min": 399.0,
+          "price_max": 399.0,
           "unit": "unit",
           "supplier": "",
-          "raw_price": "US$2,000.00-5,000.00"
+          "raw_price": "US$399.00"
         },
         {
-          "title": "US$2,000.00-5,000.00",
-          "price_min": 2000.0,
-          "price_max": 5000.0,
+          "title": "US$199.00-1,999.00",
+          "price_min": 199.0,
+          "price_max": 1999.0,
           "unit": "unit",
           "supplier": "",
-          "raw_price": "US$2,000.00-5,000.00"
+          "raw_price": "US$199.00-1,999.00"
         },
         {
-          "title": "US$350.00-3,000.00",
-          "price_min": 350.0,
-          "price_max": 3000.0,
+          "title": "US$199.00-1,999.00",
+          "price_min": 199.0,
+          "price_max": 1999.0,
           "unit": "unit",
           "supplier": "",
-          "raw_price": "US$350.00-3,000.00"
+          "raw_price": "US$199.00-1,999.00"
         },
         {
-          "title": "US$350.00-3,000.00",
-          "price_min": 350.0,
-          "price_max": 3000.0,
+          "title": "US$99.00-1,999.00",
+          "price_min": 99.0,
+          "price_max": 1999.0,
           "unit": "unit",
           "supplier": "",
-          "raw_price": "US$350.00-3,000.00"
+          "raw_price": "US$99.00-1,999.00"
         },
         {
-          "title": "US$100.00-2,000.00",
-          "price_min": 100.0,
-          "price_max": 2000.0,
+          "title": "US$199.00-1,999.00",
+          "price_min": 199.0,
+          "price_max": 1999.0,
           "unit": "unit",
           "supplier": "",
-          "raw_price": "US$100.00-2,000.00"
+          "raw_price": "US$199.00-1,999.00"
         },
         {
-          "title": "US$500.00-3,000.00",
-          "price_min": 500.0,
-          "price_max": 3000.0,
+          "title": "US$199.00-1,999.00",
+          "price_min": 199.0,
+          "price_max": 1999.0,
           "unit": "unit",
           "supplier": "",
-          "raw_price": "US$500.00-3,000.00"
+          "raw_price": "US$199.00-1,999.00"
         },
         {
-          "title": "US$1,000.00-3,000.00",
-          "price_min": 1000.0,
-          "price_max": 3000.0,
+          "title": "US$199.00-599.00",
+          "price_min": 199.0,
+          "price_max": 599.0,
           "unit": "unit",
           "supplier": "",
-          "raw_price": "US$1,000.00-3,000.00"
+          "raw_price": "US$199.00-599.00"
         },
         {
-          "title": "US$1,000.00-2,000.00",
-          "price_min": 1000.0,
-          "price_max": 2000.0,
+          "title": "US$199.00-1,999.00",
+          "price_min": 199.0,
+          "price_max": 1999.0,
           "unit": "unit",
           "supplier": "",
-          "raw_price": "US$1,000.00-2,000.00"
+          "raw_price": "US$199.00-1,999.00"
         },
         {
-          "title": "US$1,000.00-3,000.00",
-          "price_min": 1000.0,
-          "price_max": 3000.0,
+          "title": "US$199.00-1,999.00",
+          "price_min": 199.0,
+          "price_max": 1999.0,
           "unit": "unit",
           "supplier": "",
-          "raw_price": "US$1,000.00-3,000.00"
+          "raw_price": "US$199.00-1,999.00"
         },
         {
-          "title": "US$1,000.00-3,000.00",
-          "price_min": 1000.0,
-          "price_max": 3000.0,
+          "title": "US$399.00-13,999.00",
+          "price_min": 399.0,
+          "price_max": 13999.0,
           "unit": "unit",
           "supplier": "",
-          "raw_price": "US$1,000.00-3,000.00"
+          "raw_price": "US$399.00-13,999.00"
         },
         {
-          "title": "US$350.00-1,000.00",
-          "price_min": 350.0,
-          "price_max": 1000.0,
+          "title": "US$399.00",
+          "price_min": 399.0,
+          "price_max": 399.0,
           "unit": "unit",
           "supplier": "",
-          "raw_price": "US$350.00-1,000.00"
+          "raw_price": "US$399.00"
         },
         {
-          "title": "US$350.00-1,000.00",
-          "price_min": 350.0,
-          "price_max": 1000.0,
+          "title": "US$199.00-1,999.00",
+          "price_min": 199.0,
+          "price_max": 1999.0,
           "unit": "unit",
           "supplier": "",
-          "raw_price": "US$350.00-1,000.00"
+          "raw_price": "US$199.00-1,999.00"
         },
         {
-          "title": "US$350.00-1,000.00",
-          "price_min": 350.0,
-          "price_max": 1000.0,
+          "title": "US$399.00-13,999.00",
+          "price_min": 399.0,
+          "price_max": 13999.0,
           "unit": "unit",
           "supplier": "",
-          "raw_price": "US$350.00-1,000.00"
+          "raw_price": "US$399.00-13,999.00"
+        },
+        {
+          "title": "US$199.00-1,999.00",
+          "price_min": 199.0,
+          "price_max": 1999.0,
+          "unit": "unit",
+          "supplier": "",
+          "raw_price": "US$199.00-1,999.00"
         },
         {
           "title": "US$ 730.00 - 740.00 1 Piece (MOQ)",
@@ -2057,20 +2070,20 @@
           "raw_price": "US$730.00-740.00"
         },
         {
-          "title": "US$ 120.00 - 130.00 10 Pieces (MOQ)",
-          "price_min": 120.0,
-          "price_max": 130.0,
-          "unit": "unit",
-          "supplier": "",
-          "raw_price": "US$120.00-130.00"
-        },
-        {
           "title": "US$ 127.00 - 132.00 2 Pieces (MOQ)",
           "price_min": 127.0,
           "price_max": 132.0,
           "unit": "unit",
           "supplier": "",
           "raw_price": "US$127.00-132.00"
+        },
+        {
+          "title": "US$ 148.00 - 158.00 10 Pieces (MOQ)",
+          "price_min": 148.0,
+          "price_max": 158.0,
+          "unit": "unit",
+          "supplier": "",
+          "raw_price": "US$148.00-158.00"
         },
         {
           "title": "US$ 1,500.00 - 50,000.00 1 Piece (MOQ)",
@@ -2081,25 +2094,17 @@
           "raw_price": "US$1,500.00-50,000.00"
         },
         {
-          "title": "US$ 500.00 - 8,000.00 1 Piece (MOQ)",
-          "price_min": 500.0,
-          "price_max": 8000.0,
+          "title": "US$ 399.00 - 5,229.00 1 Piece (MOQ)",
+          "price_min": 399.0,
+          "price_max": 5229.0,
           "unit": "unit",
           "supplier": "",
-          "raw_price": "US$500.00-8,000.00"
-        },
-        {
-          "title": "US$ 3,855.00 - 13,000.00 1 Piece (MOQ)",
-          "price_min": 3855.0,
-          "price_max": 13000.0,
-          "unit": "unit",
-          "supplier": "",
-          "raw_price": "US$3,855.00-13,000.00"
+          "raw_price": "US$399.00-5,229.00"
         }
       ],
-      "price_min": 100.0,
+      "price_min": 99.0,
       "price_max": 50000.0,
-      "price_avg": 3163.35,
+      "price_avg": 2805.82,
       "currency": "USD",
       "source": "Made-in-China.com",
       "search_term": "stainless steel pump",
@@ -2109,85 +2114,85 @@
   "negotiation_result": {
     "total_suppliers_negotiated": 3,
     "best_deal": {
-      "supplier_name": "Abeking & Rasmussen",
-      "counter_offer_price_eur": 554.01,
-      "savings_pct": 81.0
+      "supplier_name": "AnsaldoBreda",
+      "counter_offer_price_eur": 561.77,
+      "savings_pct": 81.2
     },
     "all_negotiations": [
       {
         "supplier": "Abeking & Rasmussen",
         "status": "agreed",
-        "rounds": 5,
-        "price": 602.18
+        "rounds": 4,
+        "price": 630.5
       },
       {
         "supplier": "Adtranz",
         "status": "agreed",
         "rounds": 4,
-        "price": 615.95
+        "price": 657.13
       },
       {
         "supplier": "AnsaldoBreda",
         "status": "agreed",
-        "rounds": 3,
-        "price": 677.45
+        "rounds": 4,
+        "price": 610.62
       }
     ]
   },
   "financial_result": {
-    "base_cost": 110802.0,
-    "roi": -0.8633262164505253,
+    "base_cost": 112354.0,
+    "roi": -0.8652141573522181,
     "risk": {
       "risk_level": "low"
     },
     "scenarios": {
-      "optimistic": 99721.8,
-      "realistic": 110802.0,
-      "pessimistic": 132962.4
+      "optimistic": 101118.6,
+      "realistic": 112354.0,
+      "pessimistic": 134824.8
     },
     "inflation": 0.05,
-    "total_cost": 1463338.4311600758,
+    "total_cost": 1483835.3648360062,
     "mc": {
-      "mean": 116828.03911582798,
-      "min": 115243.44703108552,
-      "max": 118552.75437032072
+      "mean": 118503.69880217567,
+      "min": 116849.86223730707,
+      "max": 120211.01521267503
     },
     "status": "ok"
   },
   "businessplan_result": {
     "financials": {
-      "revenue": 149582.0,
-      "profit": -1315972.4711600759,
-      "roi": -0.8979348752001032,
+      "revenue": 151678.0,
+      "profit": -1334404.4448360063,
+      "roi": -0.8979343302741605,
       "roi_str": "-89.79%"
     },
     "projections": [
       {
         "year": 1,
-        "revenue": 149582.0,
-        "profit": -1315972.4711600759,
-        "roi": -0.8979348752001032,
+        "revenue": 151678.0,
+        "profit": -1334404.4448360063,
+        "roi": -0.8979343302741605,
         "roi_str": "-89.79%"
       },
       {
         "year": 2,
-        "revenue": 164540.2,
-        "profit": -1301014.271160076,
-        "roi": -0.8877283627201135,
+        "revenue": 166845.80000000002,
+        "profit": -1319236.6448360062,
+        "roi": -0.8877277633015764,
         "roi_str": "-88.77%"
       },
       {
         "year": 3,
-        "revenue": 180994.22000000003,
-        "profit": -1284560.251160076,
-        "roi": -0.8765011989921248,
+        "revenue": 183530.38000000003,
+        "profit": -1302552.0648360061,
+        "roi": -0.876500539631734,
         "roi_str": "-87.65%"
       }
     ],
-    "npv": -3236666.145409354,
+    "npv": -3281999.8139798497,
     "decision": "NOT RECOMMENDED",
-    "swot": "# SWOT Analysis: Industrial Pump Investment Project\n\n## Executive Summary\n**Financial Status**: Negative NPV of -$3.24M over 3 years indicates the project destroys shareholder value in its current form and requires significant restructuring before proceeding.\n\n---\n\n## STRENGTHS\n\n### Operational & Market Position\n- **Essential Industry**: Pumps serve critical infrastructure across water, oil/gas, manufacturing, and utilities sectors\n- **Recurring Revenue Potential**: Industrial pumps generate ongoing maintenance and replacement demand\n- **Established Market**: Mature industry with predictable customer bases and demand patterns\n- **Technical Expertise**: Likely existing engineering and manufacturing capabilities\n- **Scalability**: Once optimized, production can scale to serve multiple market segments\n\n### Competitive Advantages\n- Potential for product differentiation (efficiency, durability, specialized applications)\n- Possible long-term contracts with industrial clients\n- Brand reputation if established manufacturer\n\n---\n\n## WEAKNESSES\n\n### Financial Performance\n- **Critical**: Negative NPV signals costs exceed revenue benefits\n- **Poor ROI**: Project fails to meet minimum return thresholds\n- **Cash Flow Issues**: Likely negative or insufficient cash generation in 3-year window\n- **High Capital Requirements**: Industrial manufacturing typically requires significant upfront investment\n\n### Operational Challenges\n- **Long Payback Period**: 3-year negative NPV suggests breakeven extends beyond analysis period\n- **Manufacturing Costs**: Likely high COGS or operational expenses\n- **Working Capital**: Inventory and receivables may strain liquidity\n- **Market Entry/Expansion Costs**: If new market, customer acquisition costs may be prohibitive\n\n### Strategic Gaps\n- Insufficient pricing power relative to production costs\n- Possible overcapacity or underutilization of assets\n- Weak competitive positioning against established competitors\n\n---\n\n## OPPORTUNITIES\n\n### Revenue Enhancement\n- **Product Line Expansion**: Add high-margin specialty pumps (submersible, centrifugal, positive displacement variants)\n- **Service Revenue**: Develop maintenance contracts, retrofitting, and technical support services (higher margins)\n- **Geographic Expansion**: Enter emerging markets (Asia, Africa) with growing infrastructure demand\n- **Vertical Integration**: Integrate upstream (components) or downstream (system solutions) to capture more value\n\n### Cost Optimization\n- **Operational Efficiency**: Implement lean manufacturing, automation, or Industry 4.0 technologies\n- **Supply Chain Optimization**: Negotiate better supplier terms or nearshoring\n- **Strategic Partnerships**: Joint ventures or licensing to reduce capital burden\n- **Economies of Scale**: Increase production volume to reduce per-unit costs\n\n### Market Development\n- **Green/Renewable Energy**: Position for renewable energy sector (solar, wind, geothermal pumping)\n- **Smart Pumping**: IoT-enabled products with predictive maintenance (premium pricing)\n- **Sustainability Focus**: Water conservation and energy-efficient pumps align with ESG trends\n- **Government Contracts**: Infrastructure stimulus and public utility projects\n\n---\n\n## THREATS\n\n### Market & Competitive Risks\n- **Intense Competition**: Established global competitors (Grundfos, Xylem, Flowserve) with economies of scale\n- **Price Pressure**: Commodity-like pricing in standard pump segments\n- **Market Saturation**: Mature market with limited growth in developed economies\n- **Technological Disruption**: Alternative technologies or materials could obsolete current designs\n\n### Economic & External Risks\n- **Economic Downturn**: Industrial investment cycles decline with recessions; capex spending contracts\n- **Commodity Price Volatility**: Steel and material costs affect margins\n- **Supply Chain Disruption**: Component shortages or logistics challenges impact production and costs\n- **Regulatory Changes**: Environmental regulations may require costly redesigns or compliance\n\n### Operational Risks\n- **Talent/Skill Gaps**: Engineering and manufacturing expertise shortages\n- **Customer Concentration**: Heavy reliance on few major clients creates vulnerability\n- **Warranty/Liability**: Industrial products carry high liability exposure\n- **Technology Obsolescence**: Rapid innovation cycles require continuous R&D investment\n\n---\n\n## STRATEGIC RECOMMENDATIONS\n\n### Immediate Actions (0-6 months)\n1. **Conduct Detailed Cost Analysis**: Identify specific cost drivers causing negative NPV\n2. **Pricing Review**: Assess market pricing vs. actual costs; consider price increases or repositioning\n3. **Scenario Planning**: Model breakeven scenarios—what changes are needed to achieve positive NPV?\n\n### Medium-Term (6-18 months)\n4. **Operational Restructuring**: Target 15-25% cost reduction through efficiency improvements\n5. **Product/Market Repositioning**: Focus on higher-margin segments or specialized applications\n6. **Service Revenue**: Develop 20-30% of revenue from high-margin services and support\n\n### Long-Term (18+ months)\n7. **Strategic Pivot**: Consider partnership, acquisition, or market exit if restructuring fails\n8. **Innovation Investment**: Develop next-generation products aligned with sustainability trends\n9. **Scale Strategy**: Only expand after achieving positive unit economics\n\n---\n\n## CONCLUSION\n\n**Recommendation**: **DO NOT PROCEED** with the current project structure. The -$3.24M NPV is a fundamental red flag. Before investment, conduct a comprehensive restructuring plan addressing cost structure, pricing strategy, and market positioning. The project has potential given the essential nature of pumps, but requires substantial optimization to create shareholder value.",
-    "summary": "# Business Case Summary\n\n## Recommendation: **NOT RECOMMENDED** ❌\n\n### Financial Performance\n- **Net Present Value (NPV):** -$3.2M (negative)\n- **3-Year Total Profit:** -$3.9M (negative)\n\n### Key Findings\nThis project is financially unviable. The negative NPV indicates the project will destroy shareholder value, and cumulative losses over three years exceed $3.9 million. \n\n### Conclusion\nThe project should **not proceed** in its current form. Consider:\n- Restructuring to improve profitability\n- Reducing costs significantly\n- Increasing revenue projections\n- Abandoning the initiative and reallocating resources to higher-return opportunities",
+    "swot": "# SWOT Analysis: Industrial Pump Investment Project\n\n## EXECUTIVE SUMMARY\n**Financial Status:** ⚠️ **NOT VIABLE** - Negative 3-year NPV of -$3.28M indicates value destruction\n\n---\n\n## STRENGTHS\n\n### Operational & Technical\n- **Essential commodity** - Pumps serve critical infrastructure across multiple industries\n- **Established market demand** - Water, oil/gas, chemical, and HVAC sectors require continuous supply\n- **Mature technology** - Lower R&D risk compared to emerging technologies\n- **Scalability potential** - Production can be adjusted based on demand\n\n### Market Position\n- **Recurring revenue potential** - Replacement cycles and maintenance create stable demand\n- **Diverse customer base** - Multiple industry applications reduce sector-specific dependency\n- **Product differentiation opportunities** - Efficiency, durability, or specialized designs\n\n---\n\n## WEAKNESSES\n\n### Financial Performance\n- **Severe negative NPV** - Project destroys $3.28M in value over 3 years\n- **Poor capital efficiency** - Initial investment likely not recovered within timeframe\n- **Inadequate returns** - Fails to meet minimum required rate of return (implied WACC)\n- **Cash flow constraints** - Negative NPV suggests insufficient operational cash generation\n\n### Operational Challenges\n- **High capital intensity** - Manufacturing requires significant upfront investment\n- **Long payback period** - Likely extends beyond 3-year analysis window\n- **Working capital needs** - Inventory and receivables management\n- **Operational complexity** - Supply chain, quality control, and logistics requirements\n\n---\n\n## OPPORTUNITIES\n\n### Market Expansion\n- **Emerging markets growth** - Developing nations increasing infrastructure investment\n- **Green technology transition** - Energy-efficient pump systems gaining market share\n- **Digitalization** - IoT-enabled pumps with monitoring/predictive maintenance features\n- **Renewable energy sector** - Solar, wind, and geothermal applications expanding\n\n### Strategic Development\n- **Product line extension** - Specialized pumps for niche markets (medical, aerospace, etc.)\n- **Value-added services** - Maintenance contracts, leasing models, system integration\n- **Strategic partnerships** - Joint ventures with complementary manufacturers\n- **Export markets** - International expansion beyond domestic market\n\n---\n\n## THREATS\n\n### Market & Competitive\n- **Intense competition** - Established players with economies of scale (Grundfos, Xylem, Flowserve)\n- **Price pressure** - Commoditization leading to margin compression\n- **Supplier concentration** - Raw material cost volatility (steel, electronics)\n- **Market saturation** - Mature markets with limited growth\n\n### External Risks\n- **Economic sensitivity** - Construction and industrial downturns reduce demand\n- **Regulatory changes** - Efficiency standards may require costly redesigns\n- **Technology disruption** - Alternative solutions or pump-less systems\n- **Supply chain disruption** - Geopolitical tensions, pandemic effects\n\n### Financial Risks\n- **Rising interest rates** - Increased cost of capital worsens project economics\n- **Currency fluctuations** - If serving export markets\n- **Commodity inflation** - Raw material cost increases squeeze margins\n\n---\n\n## CRITICAL RECOMMENDATIONS\n\n| Priority | Action | Rationale |\n|----------|--------|-----------|\n| **URGENT** | **Reassess project viability** | Negative NPV requires fundamental restructuring |\n| **HIGH** | Reduce capital expenditure | Lower initial investment to improve returns |\n| **HIGH** | Increase revenue projections | Validate demand assumptions; explore premium positioning |\n| **HIGH** | Extend analysis period | Some capital-intensive projects show positive NPV beyond 3 years |\n| **MEDIUM** | Evaluate alternative models | Consider contract manufacturing, licensing, or partnerships |\n| **MEDIUM** | Conduct sensitivity analysis | Identify which variables most impact NPV |\n\n---\n\n## CONCLUSION\n\n**RECOMMENDATION: DO NOT PROCEED** with current project structure.\n\nThe -$3.28M NPV indicates the project fails to create shareholder value. Before proceeding, conduct:\n1. **Detailed sensitivity analysis** - Test pricing, volume, and cost assumptions\n2. **Revised financial model** - Extend timeline and recalibrate projections\n3. **Competitive benchmarking** - Compare to industry margin standards\n4. **Strategic fit assessment** - Evaluate synergies with existing operations\n\nConsider pivoting to higher-margin specialty pumps, service-based models, or technology partnerships as alternatives to traditional manufacturing.",
+    "summary": "# Business Case Summary\n\n## Recommendation: **NOT RECOMMENDED**\n\n### Financial Performance\nThis project presents **significant financial headwinds**:\n\n- **NPV: -$3.28M** – The project destroys shareholder value over its evaluation period\n- **3-Year Cumulative Profit: -$3.96M** – The project operates at a substantial loss\n\n### Key Implications\n- The project fails to achieve positive returns and will drain company resources\n- Neither metric supports proceeding with implementation\n- Capital would be better allocated to alternative opportunities with positive returns\n\n### Conclusion\nThis project should not move forward unless there are compelling **strategic, non-financial reasons** (market positioning, competitive necessity, etc.) that justify the financial losses.",
     "pdf_path": "C:\\Users\\Administrator\\Desktop\\bootcamp ai\\module7\\output\\business.pdf",
     "excel_path": "C:\\Users\\Administrator\\Desktop\\bootcamp ai\\module7\\output\\business.xlsx",
     "status": "ok"
@@ -2201,33 +2206,40 @@
       "material": "1.4408",
       "validation": {
         "status": "OK",
-        "warnings": []
+        "vertices": 836,
+        "faces": 1306,
+        "is_watertight": false,
+        "bbox": {
+          "x": 113.64084282039983,
+          "y": 107.25000020000006,
+          "z": 113.50776894304909
+        }
       }
     },
     "render": {
-      "video": "C:\\Users\\Administrator\\Desktop\\bootcamp ai\\module3\\outputs\\valve.gif"
+      "video": "C:\\Users\\Administrator\\Desktop\\bootcamp ai\\outputs\\run_1776129579\\agent3\\pump_reveal.mp4"
     },
     "sourcing": {
-      "total_suppliers": 69,
+      "total_suppliers": 70,
       "avg_market_price": null
     },
     "negotiation": {
-      "supplier": "Abeking & Rasmussen",
-      "price_eur_kg": 554.01,
-      "savings_pct": 81.0,
+      "supplier": "AnsaldoBreda",
+      "price_eur_kg": 561.77,
+      "savings_pct": 81.2,
       "recommendation": null
     },
     "finance": {
-      "base_cost_eur": 110802.0,
-      "total_cost": 1463338.4311600758,
-      "roi": -0.8633262164505253,
+      "base_cost_eur": 112354.0,
+      "total_cost": 1483835.3648360062,
+      "roi": -0.8652141573522181,
       "risk": {
         "risk_level": "low"
       }
     },
     "businessplan": {
       "decision": "NOT RECOMMENDED",
-      "npv": -3236666.145409354,
+      "npv": -3281999.8139798497,
       "pdf_path": "C:\\Users\\Administrator\\Desktop\\bootcamp ai\\module7\\output\\business.pdf",
       "excel_path": "C:\\Users\\Administrator\\Desktop\\bootcamp ai\\module7\\output\\business.xlsx"
     },

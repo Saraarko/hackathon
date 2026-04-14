@@ -210,13 +210,14 @@ def node_sourcing(state: dict) -> dict:
     load_dotenv(os.path.join(ROOT, ".env"))
     load_dotenv(os.path.join(ROOT, "module4", ".env"))
 
-    from wikidata_agent import WikidataSourceAgent
-    from comtrade_agent  import ComtradeAgent
-    from hunter_agent    import HunterAgent
+    from wikidata_agent    import WikidataSourceAgent
+    from comtrade_agent    import ComtradeAgent
+    from hunter_agent      import HunterAgent
+    from madeinchina_agent import MadeInChinaAgent
 
     # Normalisation du matériau
-    raw_mat       = state.get("material", "316L").upper()
-    material      = "Stainless Steel 316L" if "316" in raw_mat else raw_mat
+    raw_mat        = state.get("material", "316L").upper()
+    material       = "Stainless Steel 316L" if "316" in raw_mat else raw_mat
     equipment_type = state.get("valve_type", "unknown")
 
     wikidata = WikidataSourceAgent()
@@ -229,6 +230,15 @@ def node_sourcing(state: dict) -> dict:
     eq_label    = sourcing["market_analysis"].get("equipment_type", equipment_type)
     print(f"  Mode recherche : {search_mode} ({eq_label})")
 
+    # ── Scraping prix Made-in-China ─────────────────────────────────────────
+    mic       = MadeInChinaAgent()
+    mic_data  = mic.run(equipment_type=equipment_type, material=material)
+    mic_avg   = mic_data.get("price_avg", 0.0)
+    mic_min   = mic_data.get("price_min", 0.0)
+    mic_max   = mic_data.get("price_max", 0.0)
+    print(f"  ✓ Made-in-China : {len(mic_data.get('prices', []))} prix trouvés "
+          f"· moy. ${mic_avg:.0f} (${mic_min:.0f}–${mic_max:.0f}) USD")
+
     suppliers = sourcing["suppliers"]
 
     # ── Enrichissement Hunter.io ────────────────────────────────────────────
@@ -238,11 +248,17 @@ def node_sourcing(state: dict) -> dict:
     nb_contacts = sum(1 for s in suppliers if s.get("email_principal") or s.get("contact_name"))
     print(f"  ✓ {len(suppliers)} fournisseurs · {nb_contacts} contacts Hunter.io trouvés")
 
+    # Ajouter les données MIC à l'analyse marché
+    sourcing["market_analysis"]["mic_price_avg_usd"] = mic_avg
+    sourcing["market_analysis"]["mic_price_min_usd"] = mic_min
+    sourcing["market_analysis"]["mic_price_max_usd"] = mic_max
+
     result = {
         "material":        material,
         "suppliers":       suppliers,
         "market_analysis": sourcing["market_analysis"],
         "trade_data":      trade,
+        "mic_prices":      mic_data,
     }
 
     avg = result["market_analysis"].get("avg_price_eur", 0)
@@ -322,9 +338,9 @@ def node_negotiation(state: dict) -> dict:
     m4_suppliers = state.get("sourcing_result", {}).get("suppliers", [])
 
     if m4_suppliers:
-        # Mapper les fournisseurs Wikidata vers le format attendu par negotiate_node
-        # Prix catalogue estimé : ORDER_DEFAULTS max_price ± variation par rang
-        base_price = ORDER_DEFAULTS.get("max_price", 980.0)
+        # Prix de base : utiliser le prix moyen Made-in-China si disponible
+        mic_avg    = state.get("sourcing_result", {}).get("mic_prices", {}).get("price_avg", 0.0)
+        base_price = mic_avg if mic_avg > 0 else ORDER_DEFAULTS.get("max_price", 980.0)
         suppliers = [
             _map_wikidata_supplier(s, idx, base_price)
             for idx, s in enumerate(m4_suppliers[:3])

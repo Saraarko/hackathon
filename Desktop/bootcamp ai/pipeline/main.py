@@ -150,6 +150,7 @@ def main():
     })
 
     sourcing = final_state.get("sourcing_result", {})
+    mic      = sourcing.get("mic_prices", {})
     _save("module4_sourcing.json", {
         "material":        sourcing.get("material"),
         "search_mode":     sourcing.get("market_analysis", {}).get("search_mode"),
@@ -158,6 +159,15 @@ def main():
         "suppliers":       sourcing.get("suppliers", []),
         "market_analysis": sourcing.get("market_analysis", {}),
         "trade_data":      sourcing.get("trade_data", {}),
+        "made_in_china_prices": {
+            "search_term": mic.get("search_term"),
+            "url":         mic.get("url"),
+            "price_min_usd": mic.get("price_min"),
+            "price_max_usd": mic.get("price_max"),
+            "price_avg_usd": mic.get("price_avg"),
+            "currency":    mic.get("currency"),
+            "products":    mic.get("prices", []),
+        },
     })
 
     nego = final_state.get("negotiation_result", {})

@@ -115,29 +115,44 @@ def node_extraction(state: dict) -> dict:
 
 def node_design(state: dict) -> dict:
     """
-    Module 2 : Applique les règles de conception, génère géométrie + fichiers CAD.
-    Input  : valve_type, diameter, pressure, material, length
-    Output : design_result
+    Module 2 : Génère le modèle 3D CAD (STEP/OBJ/DXF/PNG) via CadQuery + HLR.
+    Input  : valve_type, diameter, pressure, material, length (depuis M1)
+    Output : design_result avec chemins step/obj/png/dxf + validation
     """
     print("\n[Pipeline] ▶ Module 2 — CAD & Design")
 
     _add_path("module2")
+    _add_path("module2/agents")
 
-    m2_graph = _import_from("module2", "graph")
-    build_m2 = m2_graph.build_graph
+    import time as _time
+    run_id = f"run_{int(_time.time())}"
 
-    m2_state = {
-        "type":     state.get("valve_type", "valve"),
-        "diameter": state.get("diameter", 100),
+    # Construire le dict specs attendu par agent2
+    extraction = state.get("extraction_result", {})
+    specs = {
+        "equipment_category": state.get("valve_type", "valve"),
+        "dimensions": {
+            "nominal_diameter_mm": state.get("diameter", 100),
+            "overall_length_mm":   state.get("length", 250),
+        },
+        "hydraulics": {
+            "nominal_pressure_bar": state.get("pressure", 40),
+        },
         "pressure": state.get("pressure", 40),
         "material": state.get("material", "316L"),
-        "length":   state.get("length", 250),
     }
+    # Enrichir avec les données brutes de M1 si disponibles
+    if extraction:
+        specs.update({k: v for k, v in extraction.items() if k not in specs})
 
-    result = build_m2().invoke(m2_state)
+    m2_graph = _import_from("module2", "graph")
+    m2_state = {"specs": specs, "run_id": run_id}
+    result = m2_graph.build_graph().invoke(m2_state)
 
-    print(f"  ✓ Validation : {result.get('validation', {}).get('status', '?')}")
-    print(f"  ✓ Warnings   : {result.get('validation', {}).get('warnings', [])}")
+    validation = result.get("validation", {})
+    print(f"  ✓ Validation : {validation.get('status', '?')}")
+    print(f"  ✓ STEP  : {result.get('step', '')}")
+    print(f"  ✓ OBJ   : {result.get('obj', '')}")
 
     return {**state, "design_result": result}
 
@@ -148,43 +163,59 @@ def node_design(state: dict) -> dict:
 
 def node_render(state: dict) -> dict:
     """
-    Module 3 : Génère le rendu 3D matplotlib de la vanne.
-    Input  : design_result (geometry)
-    Output : render_result
+    Module 3 : Génère le rendu vidéo 3D (MP4) à partir de l'OBJ produit par M2.
+    Input  : design_result.obj (chemin OBJ), run_id
+    Output : render_result avec video_path
     """
     print("\n[Pipeline] ▶ Module 3 — Rendu 3D")
 
     _add_path("module3")
 
-    os.makedirs(os.path.join(ROOT, "pipeline", "outputs"), exist_ok=True)
-    orig_dir = os.getcwd()
+    design   = state.get("design_result", {})
+    obj_path = design.get("obj", "")
 
+    orig_dir = os.getcwd()
     try:
         os.chdir(os.path.join(ROOT, "module3"))
-        os.makedirs("outputs", exist_ok=True)
 
-        from blender_runner import render_video
-        render_video(
-            diameter_mm    = float(state.get("diameter", 100)),
-            material       = str(state.get("material", "316L")),
-            equipment_type = str(state.get("valve_type", "valve")),
-        )
+        # Vérifier si l'OBJ de M2 est disponible
+        if obj_path and os.path.exists(obj_path):
+            # Nouvelle interface M3 : agent3 + pyrender
+            import importlib.util as _ilu
+            spec = _ilu.spec_from_file_location("agent3", os.path.join(ROOT, "module3", "agent3.py"))
+            agent3_mod = _ilu.module_from_spec(spec)
+            spec.loader.exec_module(agent3_mod)
 
-        # Pick whichever format was generated (mp4 if ffmpeg present, else gif)
-        for ext in ("mp4", "gif"):
-            candidate = os.path.join(ROOT, "module3", "outputs", f"valve.{ext}")
-            if os.path.exists(candidate):
-                video_path = candidate
-                break
+            run_id = design.get("run_id") or f"run_{int(__import__('time').time())}"
+            m3_state = {"obj": obj_path, "run_id": run_id}
+            m3_result = agent3_mod.run_agent3(m3_state)
+            video_path = m3_result.get("video", "")
+            status = "ok" if video_path else "no_video"
         else:
-            video_path = os.path.join(ROOT, "module3", "outputs", "valve.gif")
+            # Fallback matplotlib si pas d'OBJ
+            print("  ⚠ OBJ introuvable — fallback rendu matplotlib")
+            os.makedirs("outputs", exist_ok=True)
+            from blender_runner import render_video
+            render_video(
+                diameter_mm    = float(state.get("diameter", 100)),
+                material       = str(state.get("material", "316L")),
+                equipment_type = str(state.get("valve_type", "valve")),
+            )
+            for ext in ("mp4", "gif"):
+                candidate = os.path.join(ROOT, "module3", "outputs", f"valve.{ext}")
+                if os.path.exists(candidate):
+                    video_path = candidate
+                    break
+            else:
+                video_path = ""
+            status = "fallback"
 
         result = {
             "video_path":   video_path,
             "scene_config": {"material": state.get("material", "316L")},
-            "status":       "ok",
+            "status":       status,
         }
-        print(f"  ✓ Rendu  : {video_path}")
+        print(f"  ✓ Rendu  : {video_path or 'N/A'} ({status})")
     finally:
         os.chdir(orig_dir)
 

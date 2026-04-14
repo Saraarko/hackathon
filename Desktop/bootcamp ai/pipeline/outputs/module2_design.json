@@ -1,0 +1,31 @@
+{
+  "inputs": {
+    "type": "pump",
+    "diameter": 65,
+    "pressure": 16,
+    "material": "1.4408",
+    "length": 1050
+  },
+  "design_result": {
+    "type": "pump",
+    "diameter": 65,
+    "pressure": 16,
+    "material": "1.4408",
+    "length": 1050,
+    "thickness": 5,
+    "flange": 97.5,
+    "geometry": {
+      "radius": 32.5,
+      "length": 1050,
+      "thickness": 5,
+      "flange": 97.5
+    },
+    "dxf": "outputs/valve.dxf",
+    "step": "outputs/valve.step",
+    "ifc": "outputs/valve.ifc",
+    "validation": {
+      "status": "OK",
+      "warnings": []
+    }
+  }
+}

@@ -249,12 +249,22 @@
         <h1>📚 Bibliothèque Numérique</h1>
     </header>
 
-    <nav>
-        <ul>
+    <nav style="display: flex; justify-content: space-between; align-items: center;">
+        <ul style="margin-bottom: 0;">
+            {% if user.is_authenticated %}
             <li><a href="{% url 'auteurs' %}">Auteurs</a></li>
             <li><a href="{% url 'livres' %}">Livres</a></li>
             <li><a href="{% url 'emprunts' %}">Emprunts</a></li>
+            {% endif %}
         </ul>
+        <div style="color: white; display: flex; align-items: center; gap: 1rem;">
+            {% if user.is_authenticated %}
+                <span>👤 {{ user.username }}</span>
+                <a href="{% url 'logout' %}" style="color: white; text-decoration: none; background-color: #e74c3c; padding: 0.5rem 1rem; border-radius: 4px; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#c0392b'" onmouseout="this.style.backgroundColor='#e74c3c'">Déconnexion</a>
+            {% else %}
+                <a href="{% url 'login' %}" style="color: white; text-decoration: none; background-color: #667eea; padding: 0.5rem 1rem; border-radius: 4px; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#764ba2'" onmouseout="this.style.backgroundColor='#667eea'">Connexion</a>
+            {% endif %}
+        </div>
     </nav>
 
     <main>

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Accueil - Bibliothèque Numérique{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 3rem 0;">
+    <h1 style="color: #667eea; margin-bottom: 1rem;">📚 Bienvenue à la Bibliothèque Numérique</h1>
+
+    {% if user.is_authenticated %}
+        <div style="background: white; padding: 2rem; border-radius: 8px; margin: 2rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <h2 style="color: #333; margin-bottom: 1rem;">Bonjour {{ user.username }}! 👋</h2>
+            <p style="font-size: 1.1rem; color: #666; margin-bottom: 1.5rem;">
+                Vous avez visité cette page <strong style="color: #667eea;">{{ visites }}</strong> fois.
+            </p>
+            <p style="color: #666; margin-bottom: 1.5rem;">
+                Utilisez le menu ci-dessus pour accéder à:
+            </p>
+            <ul style="list-style: none; text-align: left; max-width: 400px; margin: 0 auto;">
+                <li style="padding: 0.5rem 0;">📖 <strong>Auteurs</strong> - Consultez et gérez la liste des auteurs</li>
+                <li style="padding: 0.5rem 0;">📚 <strong>Livres</strong> - Découvrez et gérez nos livres</li>
+                <li style="padding: 0.5rem 0;">🤝 <strong>Emprunts</strong> - Suivez vos emprunts</li>
+            </ul>
+        </div>
+    {% else %}
+        <div style="background: white; padding: 3rem; border-radius: 8px; margin: 2rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 600px; margin-left: auto; margin-right: auto;">
+            <p style="font-size: 1.2rem; color: #666; margin-bottom: 2rem;">
+                Veuillez vous connecter pour accéder à la bibliothèque.
+            </p>
+            <a href="{% url 'login' %}" class="btn btn-success" style="font-size: 1.1rem; padding: 0.75rem 2rem;">
+                🔐 Se Connecter
+            </a>
+
+            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+                <p style="color: #999;">Pas encore inscrit? Demandez à un administrateur de créer votre compte.</p>
+            </div>
+        </div>
+    {% endif %}
+
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 8px; margin-top: 2rem;">
+        <h3>À propos de cette bibliothèque</h3>
+        <p>Notre bibliothèque numérique vous permet de consulter et de gérer des livres, des auteurs et vos emprunts en ligne.</p>
+        <p style="font-size: 0.9rem; margin-top: 1rem;">UMBB I2A GL Master 1 - Semestre 3</p>
+    </div>
+</div>
+{% endblock %}

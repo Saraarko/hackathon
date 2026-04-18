@@ -30,4 +30,5 @@ urlpatterns = [
     path('', accueil),  # Page d'accueil
     path('api/', include(router.urls)),  # REST API avec DRF
     path('', include('ui_bibliotheque.urls')),  # Interface graphique
+    path('comptes/', include('comptes.urls')),  # Authentification
 ]

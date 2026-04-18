@@ -373,3 +373,26 @@ def emprunts_par_utilisateur(request, nom):
         for emprunt in emprunts
     ]
     return JsonResponse(data, safe=False)
+
+
+# ============================================
+# VIEWSETS AVEC DJANGO REST FRAMEWORK (TP4)
+# ============================================
+
+from rest_framework import viewsets
+from .serializers import AuteurSerializer, LivreSerializer, EmpruntSerializer
+
+
+class AuteurViewSet(viewsets.ModelViewSet):
+    queryset = Auteur.objects.all()
+    serializer_class = AuteurSerializer
+
+
+class LivreViewSet(viewsets.ModelViewSet):
+    queryset = Livre.objects.all()
+    serializer_class = LivreSerializer
+
+
+class EmpruntViewSet(viewsets.ModelViewSet):
+    queryset = Emprunt.objects.all()
+    serializer_class = EmpruntSerializer

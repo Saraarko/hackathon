@@ -16,10 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import routers
+from gestion.views import AuteurViewSet, LivreViewSet, EmpruntViewSet
 from pages.views import accueil
+
+router = routers.DefaultRouter()
+router.register(r'auteurs', AuteurViewSet)
+router.register(r'livres', LivreViewSet)
+router.register(r'emprunts', EmpruntViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', accueil),  # Page d'accueil
-    path('api/', include('gestion.urls')),  # Toutes nos URLs API commenceront par api/
+    path('api/', include(router.urls)),  # REST API avec DRF
 ]

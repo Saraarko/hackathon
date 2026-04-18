@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+
+{% block title %}Emprunts - Bibliothèque Numérique{% endblock %}
+
+{% block content %}
+<h2>Gestion des Emprunts</h2>
+
+<button class="btn btn-success" onclick="openEmpruntModal()">➕ Enregistrer un Emprunt</button>
+
+<table class="table" id="empruntsTable">
+    <thead>
+        <tr>
+            <th>Utilisateur</th>
+            <th>Livre</th>
+            <th>Auteur</th>
+            <th>Date d'Emprunt</th>
+            <th>Date de Retour Prévue</th>
+            <th>Statut</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="empruntsBody">
+        <tr>
+            <td colspan="7" class="loading">Chargement...</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Modal for adding/editing loan -->
+<div id="empruntModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modalTitle">Enregistrer un Emprunt</h2>
+            <button class="close" onclick="closeEmpruntModal()">&times;</button>
+        </div>
+        <form id="empruntForm" onsubmit="saveEmprunt(event)">
+            <div class="form-group">
+                <label for="utilisateur">Utilisateur:</label>
+                <input type="text" id="utilisateur" name="utilisateur" required>
+            </div>
+            <div class="form-group">
+                <label for="livre">Livre:</label>
+                <select id="livre" name="livre" required>
+                    <option value="">Sélectionner un livre</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dateRetourPrevue">Date de Retour Prévue:</label>
+                <input type="date" id="dateRetourPrevue" name="date_retour_prevue">
+            </div>
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal for marking as returned -->
+<div id="returnModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Enregistrer le Retour</h2>
+            <button class="close" onclick="closeReturnModal()">&times;</button>
+        </div>
+        <form id="returnForm" onsubmit="markAsReturned(event)">
+            <div class="form-group">
+                <label for="dateRetourEffective">Date de Retour Effective:</label>
+                <input type="date" id="dateRetourEffective" name="date_retour_effective" required>
+            </div>
+            <button type="submit" class="btn btn-success">Confirmer le Retour</button>
+        </form>
+    </div>
+</div>
+
+<script>
+let currentEmpruntId = null;
+let returnEmpruntId = null;
+const API_URL = '/api/emprunts/';
+const LIVRES_URL = '/api/livres/';
+
+// Load emprunts on page load
+document.addEventListener('DOMContentLoaded', () => {
+    loadLivres();
+    loadEmprunts();
+});
+
+async function loadLivres() {
+    try {
+        const data = await apiCall(LIVRES_URL);
+        const select = document.getElementById('livre');
+        const options = data.map(livre =>
+            `<option value="${livre.id}">${livre.titre}</option>`
+        ).join('');
+        select.innerHTML = '<option value="">Sélectionner un livre</option>' + options;
+    } catch (error) {
+        console.error('Error loading livres:', error);
+    }
+}
+
+async function loadEmprunts() {
+    try {
+        const data = await apiCall(API_URL);
+        const tbody = document.getElementById('empruntsBody');
+
+        if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Aucun emprunt enregistré</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = data.map(emprunt => {
+            const statut = emprunt.retourne ? '✅ Retourné' : '📕 En cours';
+            const boutonRetour = !emprunt.retourne ?
+                `<button class="btn" onclick="openReturnModal(${emprunt.id})">📤 Marquer comme Retourné</button>` :
+                '';
+
+            return `
+                <tr>
+                    <td>${emprunt.utilisateur}</td>
+                    <td>${emprunt.livre_titre}</td>
+                    <td>${emprunt.auteur_nom || 'N/A'}</td>
+                    <td>${emprunt.date_emprunt}</td>
+                    <td>${emprunt.date_retour_prevue || 'N/A'}</td>
+                    <td>${statut}</td>
+                    <td>
+                        ${boutonRetour}
+                        <button class="btn btn-danger" onclick="deleteEmprunt(${emprunt.id})">🗑️ Supprimer</button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    } catch (error) {
+        console.error('Error loading emprunts:', error);
+    }
+}
+
+function openEmpruntModal() {
+    currentEmpruntId = null;
+    document.getElementById('modalTitle').textContent = 'Enregistrer un Emprunt';
+    document.getElementById('empruntForm').reset();
+    document.getElementById('empruntModal').classList.add('show');
+}
+
+function closeEmpruntModal() {
+    document.getElementById('empruntModal').classList.remove('show');
+}
+
+function openReturnModal(id) {
+    returnEmpruntId = id;
+    document.getElementById('returnModal').classList.add('show');
+}
+
+function closeReturnModal() {
+    document.getElementById('returnModal').classList.remove('show');
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById('empruntModal');
+    const returnModal = document.getElementById('returnModal');
+    if (event.target === modal) {
+        closeEmpruntModal();
+    }
+    if (event.target === returnModal) {
+        closeReturnModal();
+    }
+}
+
+async function saveEmprunt(event) {
+    event.preventDefault();
+
+    const formData = {
+        utilisateur: document.getElementById('utilisateur').value,
+        livre: parseInt(document.getElementById('livre').value),
+        date_retour_prevue: document.getElementById('dateRetourPrevue').value || null
+    };
+
+    try {
+        await apiCall(API_URL, 'POST', formData);
+        showAlert('Emprunt enregistré avec succès!', 'success');
+        closeEmpruntModal();
+        loadEmprunts();
+    } catch (error) {
+        console.error('Error saving emprunt:', error);
+    }
+}
+
+async function markAsReturned(event) {
+    event.preventDefault();
+
+    const formData = {
+        date_retour_effective: document.getElementById('dateRetourEffective').value,
+        retourne: true
+    };
+
+    try {
+        await apiCall(`${API_URL}${returnEmpruntId}/`, 'PATCH', formData);
+        showAlert('Retour enregistré avec succès!', 'success');
+        closeReturnModal();
+        loadEmprunts();
+    } catch (error) {
+        console.error('Error marking as returned:', error);
+    }
+}
+
+async function deleteEmprunt(id) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cet emprunt?')) {
+        try {
+            await apiCall(`${API_URL}${id}/`, 'DELETE');
+            showAlert('Emprunt supprimé avec succès!', 'success');
+            loadEmprunts();
+        } catch (error) {
+            console.error('Error deleting emprunt:', error);
+        }
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block title %}Auteurs - Bibliothèque Numérique{% endblock %}
+
+{% block content %}
+<h2>Gestion des Auteurs</h2>
+
+<button class="btn btn-success" onclick="openAuteurModal()">➕ Ajouter un Auteur</button>
+
+<table class="table" id="auteursTable">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Date de Naissance</th>
+            <th>Biographie</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="auteursBody">
+        <tr>
+            <td colspan="5" class="loading">Chargement...</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Modal for adding/editing author -->
+<div id="auteurModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modalTitle">Ajouter un Auteur</h2>
+            <button class="close" onclick="closeAuteurModal()">&times;</button>
+        </div>
+        <form id="auteurForm" onsubmit="saveAuteur(event)">
+            <div class="form-group">
+                <label for="nom">Nom:</label>
+                <input type="text" id="nom" name="nom" required>
+            </div>
+            <div class="form-group">
+                <label for="prenom">Prénom:</label>
+                <input type="text" id="prenom" name="prenom" required>
+            </div>
+            <div class="form-group">
+                <label for="dateNaissance">Date de Naissance:</label>
+                <input type="date" id="dateNaissance" name="date_naissance">
+            </div>
+            <div class="form-group">
+                <label for="biographie">Biographie:</label>
+                <textarea id="biographie" name="biographie"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+        </form>
+    </div>
+</div>
+
+<script>
+let currentAuteurId = null;
+const API_URL = '/api/auteurs/';
+
+// Load auteurs on page load
+document.addEventListener('DOMContentLoaded', loadAuteurs);
+
+async function loadAuteurs() {
+    try {
+        const data = await apiCall(API_URL);
+        const tbody = document.getElementById('auteursBody');
+
+        if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Aucun auteur trouvé</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = data.map(auteur => `
+            <tr>
+                <td>${auteur.nom}</td>
+                <td>${auteur.prenom}</td>
+                <td>${auteur.date_naissance || 'N/A'}</td>
+                <td>${auteur.biographie || 'N/A'}</td>
+                <td>
+                    <button class="btn" onclick="editAuteur(${auteur.id})">✏️ Modifier</button>
+                    <button class="btn btn-danger" onclick="deleteAuteur(${auteur.id})">🗑️ Supprimer</button>
+                </td>
+            </tr>
+        `).join('');
+    } catch (error) {
+        console.error('Error loading auteurs:', error);
+    }
+}
+
+function openAuteurModal() {
+    currentAuteurId = null;
+    document.getElementById('modalTitle').textContent = 'Ajouter un Auteur';
+    document.getElementById('auteurForm').reset();
+    document.getElementById('auteurModal').classList.add('show');
+}
+
+function closeAuteurModal() {
+    document.getElementById('auteurModal').classList.remove('show');
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById('auteurModal');
+    if (event.target === modal) {
+        closeAuteurModal();
+    }
+}
+
+async function editAuteur(id) {
+    try {
+        const auteur = await apiCall(`${API_URL}${id}/`);
+        currentAuteurId = id;
+        document.getElementById('modalTitle').textContent = 'Modifier un Auteur';
+        document.getElementById('nom').value = auteur.nom;
+        document.getElementById('prenom').value = auteur.prenom;
+        document.getElementById('dateNaissance').value = auteur.date_naissance || '';
+        document.getElementById('biographie').value = auteur.biographie || '';
+        document.getElementById('auteurModal').classList.add('show');
+    } catch (error) {
+        console.error('Error loading auteur:', error);
+    }
+}
+
+async function saveAuteur(event) {
+    event.preventDefault();
+
+    const formData = {
+        nom: document.getElementById('nom').value,
+        prenom: document.getElementById('prenom').value,
+        date_naissance: document.getElementById('dateNaissance').value || null,
+        biographie: document.getElementById('biographie').value || ''
+    };
+
+    try {
+        if (currentAuteurId) {
+            await apiCall(`${API_URL}${currentAuteurId}/`, 'PUT', formData);
+            showAlert('Auteur modifié avec succès!', 'success');
+        } else {
+            await apiCall(API_URL, 'POST', formData);
+            showAlert('Auteur créé avec succès!', 'success');
+        }
+        closeAuteurModal();
+        loadAuteurs();
+    } catch (error) {
+        console.error('Error saving auteur:', error);
+    }
+}
+
+async function deleteAuteur(id) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cet auteur?')) {
+        try {
+            await apiCall(`${API_URL}${id}/`, 'DELETE');
+            showAlert('Auteur supprimé avec succès!', 'success');
+            loadAuteurs();
+        } catch (error) {
+            console.error('Error deleting auteur:', error);
+        }
+    }
+}
+</script>
+{% endblock %}

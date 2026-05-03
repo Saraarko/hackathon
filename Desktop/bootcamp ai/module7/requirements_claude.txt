@@ -1,4 +1,0 @@
-anthropic
-python-dotenv
-openpyxl
-reportlab

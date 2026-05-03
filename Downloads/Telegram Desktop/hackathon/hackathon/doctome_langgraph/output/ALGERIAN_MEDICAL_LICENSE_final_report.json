@@ -1,0 +1,43 @@
+{
+  "status": "success",
+  "timestamp": "2026-05-02T18:49:18.105138",
+  "document": {
+    "path": "data/ALGERIAN_MEDICAL_LICENSE.pdf",
+    "name": "ALGERIAN_MEDICAL_LICENSE",
+    "entity_type": "medecin_individuel"
+  },
+  "practitioner": {
+    "practitioner_id": "doctor_001",
+    "full_name": "Dr. Ahmed Ben Ali",
+    "specialty": "Cardiology",
+    "country": "Algeria",
+    "registration_number": "12345ABC"
+  },
+  "scoring": {
+    "document_trust_score": 3.25,
+    "structural_score": 0,
+    "semantic_score": 0
+  },
+  "decision": {
+    "status": "REJECTED",
+    "type": "AUTO_REJECTED",
+    "requires_human_review": false,
+    "reasoning": "Verification failed due to low Trust Score (3.25/100) and numerous critical issues (ID incomplete, Diploma incomplete, School not in WDOMS database, and License number required).",
+    "priority": "HIGH",
+    "llm_analysis": "Decision enhanced with Groq LLM analysis"
+  },
+  "issues_found": [
+    "ID incomplete - NFC data required",
+    "Diploma incomplete",
+    "School None not in WDOMS database",
+    "License number required for verification"
+  ],
+  "analysis_summary": "Verified via medecin_individuel pipeline",
+  "next_steps": [
+    "Verify NFC data to complete ID",
+    "Request and verify completed Diploma",
+    "Update or correct school data in WDOMS database",
+    "Verify and update License number",
+    "Resubmit verification for review after addressing all critical issues"
+  ]
+}

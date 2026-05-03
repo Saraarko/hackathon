@@ -1,0 +1,42 @@
+{
+  "status": "success",
+  "timestamp": "2026-05-03T07:14:21.246939",
+  "document": {
+    "path": "data/uploads\\ac661e7d-db89-4086-82c7-96077bd4b707\\DOCTOR_DIPLOMA_FR.pdf",
+    "name": "DOCTOR_DIPLOMA_FR",
+    "entity_type": "medecin_individuel"
+  },
+  "practitioner": {
+    "practitioner_id": "ac661e7d-db89-4086-82c7-96077bd4b707",
+    "full_name": "Dr. Ahmed Ben Ali",
+    "specialty": "Cardiology",
+    "country": "Algeria",
+    "registration_number": "12345ABC"
+  },
+  "scoring": {
+    "document_trust_score": 3.25,
+    "structural_score": 0,
+    "semantic_score": 0
+  },
+  "decision": {
+    "status": "REJECTED",
+    "type": "AUTO_REJECTED",
+    "requires_human_review": false,
+    "reasoning": "The practitioner's verification score of 3.25/100 is below the threshold of 50, indicating a high risk of ineligibility.",
+    "priority": "HIGH",
+    "llm_analysis": "Decision enhanced with Groq LLM analysis"
+  },
+  "issues_found": [
+    "Face match failed (Score: 0.0)",
+    "Diploma incomplete or unreadable",
+    "School None not in WDOMS accreditation list",
+    "License number required for legal practice check"
+  ],
+  "analysis_summary": "Verified via medecin_individuel pipeline",
+  "next_steps": [
+    "Request the practitioner to provide a valid and readable diploma.",
+    "Verify the school's accreditation using WDOMS or an alternative method.",
+    "Have the practitioner provide a valid license number for a legal practice check.",
+    "Check the practitioner's face match failed score and investigate the reason behind it."
+  ]
+}

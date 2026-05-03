@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "timestamp": "2026-05-02T18:49:13.837087",
+  "document": "data/HOSPITAL_LICENSE.pdf",
+  "entity_type": "clinique_hopital",
+  "scoring_details": {
+    "final_average_score": 1.5
+  },
+  "issues_found": [
+    "Missing MOH registration details",
+    "Address required",
+    "No doctors listed",
+    "License required"
+  ],
+  "analysis_summary": "Verified via clinique_hopital pipeline"
+}

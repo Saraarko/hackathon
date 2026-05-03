@@ -1,0 +1,14 @@
+{
+  "practitioner": {
+    "full_name": "Dr. Ahmed Ben Ali",
+    "specialty": "Cardiology"
+  },
+  "decision": {
+    "status": "PENDING_REVIEW",
+    "reasoning": "Requires human verification"
+  },
+  "overall_scoring": {
+    "average_trust_score": 72.5
+  },
+  "timestamp": "2026-05-02T14:00:00Z"
+}

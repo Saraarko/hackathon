@@ -1,0 +1,28 @@
+{
+  "status": "success",
+  "agent": "extraction",
+  "document": {
+    "file_path": "data/ALGERIAN_MEDICAL_LICENSE.pdf",
+    "document_type": "license",
+    "entity_type": "medecin_individuel"
+  },
+  "timestamp": "2026-05-02T18:48:50.090868",
+  "results": {
+    "extracted_text": "\n--- PAGE 1 ---\nORDRE NATIONAL DES MÉDECINS\nPERMIS D'EXERCER\nPRATICIEN Dr. Hassan Bouvier\nSPÉCIALITÉ Pédiatre\nNUMÉRO D'INSCRIPTION OM-2019-81976\nDATE DE DÉLIVRANCE 14/10/2024\nDATE D'EXPIRATION 13/10/2029\nRÉGIONS AUTORISÉES Tout le territoire algérien\nSTATUT Actif et en règle\nPour vérification: www.ordremedecins.dz\nCertificat valide jusqu'au 13/10/2029",
+    "structured_data": {
+      "status": "raw_extraction",
+      "text": "\n--- PAGE 1 ---\nORDRE NATIONAL DES MÉDECINS\nPERMIS D'EXERCER\nPRATICIEN Dr. Hassan Bouvier\nSPÉCIALITÉ Pédiatre\nNUMÉRO D'INSCRIPTION OM-2019-81976\nDATE DE DÉLIVRANCE 14/10/2024\nDATE D'EXPIRATION 13/10/2029\nRÉGIONS AUTORISÉES Tout le territoire algérien\nSTATUT Actif et en règle\nPour vérification: www.ordremedecins.dz\nCertificat valide jusqu'au 13/10/2029"
+    },
+    "document_quality": 0.45,
+    "doc_anomalies": [
+      "missing_field: nom"
+    ],
+    "anomalies_count": 1
+  },
+  "metadata": {
+    "text_length": 353,
+    "quality_score": 0.45,
+    "entity_type": "medecin_individuel"
+  },
+  "errors": []
+}

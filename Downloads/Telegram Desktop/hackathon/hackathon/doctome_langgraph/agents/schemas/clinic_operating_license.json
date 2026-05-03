@@ -1,0 +1,36 @@
+{
+  "entity_type": "clinique_hopital",
+  "name": "Clinic/Hospital Operating License Schema",
+  "required_fields": [
+    "nom légal",
+    "adresse",
+    "capacité lits",
+    "agréments",
+    "numéro de licence"
+  ],
+  "weights": {
+    "nom légal": 0.25,
+    "adresse": 0.2,
+    "capacité lits": 0.15,
+    "agréments": 0.2,
+    "numéro de licence": 0.2
+  },
+  "field_rules": {
+    "nom légal": {
+      "type": "string",
+      "min_length": 5
+    },
+    "adresse": {
+      "type": "string",
+      "min_length": 5
+    },
+    "capacité lits": {
+      "type": "string",
+      "pattern": "\\d+"
+    },
+    "numéro de licence": {
+      "type": "string",
+      "min_length": 5
+    }
+  }
+}

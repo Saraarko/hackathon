@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "timestamp": "2026-05-02T20:57:06.426602",
+  "document": "C:\\Users\\High Tech\\Downloads\\hackathon-main (4)\\hackathon-main\\doctome_langgraph\\data\\certificat_iso.jpg",
+  "entity_type": "laboratoire",
+  "scoring_details": {
+    "final_average_score": 8.25
+  },
+  "issues_found": [
+    "Missing lab name or registration number",
+    "ISO accreditation required"
+  ],
+  "analysis_summary": "Verified via laboratoire pipeline"
+}

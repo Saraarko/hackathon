@@ -1,0 +1,39 @@
+{
+  "status": "success",
+  "agent": "extraction",
+  "document": {
+    "file_path": "C:\\Users\\High Tech\\Downloads\\hackathon-main (4)\\hackathon-main\\doctome_langgraph\\data\\certificat_iso.jpg",
+    "document_type": "LICENSE",
+    "entity_type": "laboratoire"
+  },
+  "timestamp": "2026-05-02T20:57:06.395802",
+  "results": {
+    "extracted_text": "CERTIFICAT\ndqs\nCe document certife que\nLaboratoire d'analyses médicales\nDr Kheireddine BELKHIRAT\nPP\nBELKHIRAT\nbiologie medicale\n29, Avenue de la republique\nB050 Hainiamet\nTurslo\nmls en œuvre Un systeme de management de la quallte\nDomalne d'appllcatlon\nReallsatlon des analyses de blologie medicale\nPar un audlt documente par un rapport Ilu été établl que\nsysteme de management\ncorrespond aux exigences de la normne El-dessous\nISO 9001\n2015\nN\" d'enregistrement du certlfical\n40551238 QM15\nAP\nValable\npartir du\n2024-08-15\nValoble jusqu'au\n2027-08-14\nDate de certlfication\n2024-08-15\nDAkkS\nauvnleile\nValnl\nDQS GmbH\nRoriavinik\n0 GJ~\nIQNET\nChristian Gerlino\nOIrerteur Gencral\nAccrodlted Body Dos GmbH Auqust-SchanrStralle 21, 6043) Frinkturtom Mun\nGormanv\nrimninaatun\nDQs Maghreu,\nAvanm HdANnullrs\nInrrpulk\nForumn\nSnni\n7037 Aran ,\nIuniu\nIne Volldliy oiule (euviceuor (ap Ohby UeVerinieu u\nIhe Olecoue\nOinca",
+    "structured_data": {
+      "nom_laboratoire": "Laboratoire d'analyses médicales",
+      "directeur": "Dr Kheireddine BELKHIRAT",
+      "adresse": "29, Avenue de la republique, B050 Hainiamet, Turslo",
+      "types_analyses": "biologie medicale",
+      "equipements": "NOT_FOUND",
+      "accreditation": "ISO 9001",
+      "numero_accreditation": "40551238 QM15",
+      "date_validite_debut": "2024-08-15",
+      "date_validite_fin": "2027-08-14",
+      "certifications": "IQNET",
+      "organisme_certification": "DQS GmbH"
+    },
+    "document_quality": 0.51,
+    "doc_anomalies": [
+      "missing_field: directeur",
+      "missing_field: types d'analyses",
+      "missing_field: équipements"
+    ],
+    "anomalies_count": 3
+  },
+  "metadata": {
+    "text_length": 901,
+    "quality_score": 0.51,
+    "entity_type": "laboratoire"
+  },
+  "errors": []
+}

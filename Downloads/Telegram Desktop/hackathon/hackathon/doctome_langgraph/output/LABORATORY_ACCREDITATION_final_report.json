@@ -1,0 +1,42 @@
+{
+  "status": "success",
+  "timestamp": "2026-05-02T18:49:21.730378",
+  "document": {
+    "path": "data/LABORATORY_ACCREDITATION.pdf",
+    "name": "LABORATORY_ACCREDITATION",
+    "entity_type": "laboratoire"
+  },
+  "practitioner": {
+    "practitioner_id": "doctor_001",
+    "full_name": "Dr. Ahmed Ben Ali",
+    "specialty": "Cardiology",
+    "country": "Algeria",
+    "registration_number": "12345ABC"
+  },
+  "scoring": {
+    "document_trust_score": 3.0,
+    "structural_score": 0,
+    "semantic_score": 0
+  },
+  "decision": {
+    "status": "PENDING_REVIEW",
+    "type": "PENDING_HUMAN_REVIEW",
+    "requires_human_review": true,
+    "reasoning": "The practitioner's verification score is below the threshold for AUTO_APPROVED, and there are critical issues found during the verification process.",
+    "priority": "HIGH",
+    "llm_analysis": "Decision enhanced with Groq LLM analysis"
+  },
+  "issues_found": [
+    "Missing MOH registration",
+    "ISO accreditation required",
+    "Equipment calibration required",
+    "Staff list required"
+  ],
+  "analysis_summary": "Verified via laboratoire pipeline",
+  "next_steps": [
+    "Verify and upload the missing MOH registration",
+    "Acquire ISO accreditation",
+    "Schedule equipment calibration",
+    "Obtain and upload the staff list"
+  ]
+}

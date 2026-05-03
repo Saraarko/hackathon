@@ -1,0 +1,36 @@
+{
+  "entity_type": "laboratoire",
+  "name": "Laboratory Accreditation Schema",
+  "required_fields": [
+    "directeur",
+    "types d'analyses",
+    "équipements",
+    "accréditation",
+    "numéro d'accréditation"
+  ],
+  "weights": {
+    "directeur": 0.2,
+    "types d'analyses": 0.25,
+    "équipements": 0.2,
+    "accréditation": 0.2,
+    "numéro d'accréditation": 0.15
+  },
+  "field_rules": {
+    "directeur": {
+      "type": "string",
+      "min_length": 3
+    },
+    "types d'analyses": {
+      "type": "string",
+      "min_length": 5
+    },
+    "équipements": {
+      "type": "string",
+      "min_length": 5
+    },
+    "accréditation": {
+      "type": "string",
+      "min_length": 5
+    }
+  }
+}

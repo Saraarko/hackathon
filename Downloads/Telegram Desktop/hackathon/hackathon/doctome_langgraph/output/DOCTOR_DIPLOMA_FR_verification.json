@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "timestamp": "2026-05-03T07:14:20.341437",
+  "document": "data/uploads\\ac661e7d-db89-4086-82c7-96077bd4b707\\DOCTOR_DIPLOMA_FR.pdf",
+  "entity_type": "medecin_individuel",
+  "scoring_details": {
+    "final_average_score": 3.25
+  },
+  "issues_found": [
+    "Face match failed (Score: 0.0)",
+    "Diploma incomplete or unreadable",
+    "School None not in WDOMS accreditation list",
+    "License number required for legal practice check"
+  ],
+  "analysis_summary": "Verified via medecin_individuel pipeline"
+}

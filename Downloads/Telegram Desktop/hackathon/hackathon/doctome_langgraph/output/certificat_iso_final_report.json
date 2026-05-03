@@ -1,0 +1,38 @@
+{
+  "status": "success",
+  "timestamp": "2026-05-02T20:57:08.059145",
+  "document": {
+    "path": "C:\\Users\\High Tech\\Downloads\\hackathon-main (4)\\hackathon-main\\doctome_langgraph\\data\\certificat_iso.jpg",
+    "name": "certificat_iso",
+    "entity_type": "laboratoire"
+  },
+  "practitioner": {
+    "practitioner_id": "IMG_PIPELINE_001",
+    "full_name": "Dr Kheireddine BELKHIRAT",
+    "specialty": "Biologie médicale",
+    "country": "Algeria",
+    "registration_number": "40551238-QM15"
+  },
+  "scoring": {
+    "document_trust_score": 8.25,
+    "structural_score": 0,
+    "semantic_score": 0
+  },
+  "decision": {
+    "status": "PENDING_REVIEW",
+    "type": "PENDING_HUMAN_REVIEW",
+    "requires_human_review": true,
+    "reasoning": "The Trust Score of 8.25 is below the 85 threshold, and critical issues, including a Missing lab name or registration number and lack of ISO accreditation, were found.",
+    "priority": "HIGH",
+    "llm_analysis": "Decision enhanced with Groq LLM analysis"
+  },
+  "issues_found": [
+    "Missing lab name or registration number",
+    "ISO accreditation required"
+  ],
+  "analysis_summary": "Verified via laboratoire pipeline",
+  "next_steps": [
+    "Verify the lab name or registration number",
+    "Obtain the necessary ISO accreditation"
+  ]
+}

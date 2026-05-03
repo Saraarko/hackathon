@@ -1,0 +1,32 @@
+{
+  "status": "success",
+  "agent": "extraction",
+  "document": {
+    "file_path": "data/HOSPITAL_LICENSE.pdf",
+    "document_type": "LICENSE",
+    "entity_type": "clinique_hopital"
+  },
+  "timestamp": "2026-05-02T18:48:50.140838",
+  "results": {
+    "extracted_text": "\n--- PAGE 1 ---\nMINISTÈRE DE LA SANTÉ\nLICENCE D'EXPLOITATION - ÉTABLISSEMENT DE\nSANTÉ\nNOM DE L'ÉTABLISSEMENT Clinique Médicale Moderne\nLOCALISATION Constantine\nNUMÉRO DE LICENCE LIC-HOP-2011-4608\nCAPACITÉ (LITS) 250\nAGRÉMENTATION ISO ISO 9001:2015\nAGRÉMENT HAS Oui\nDATE DE DÉLIVRANCE 01/01/2023\nDATE D'EXPIRATION 31/12/2027\nCet établissement est autorisé à fonctionner selon les normes en vigueur.",
+    "structured_data": {
+      "status": "raw_extraction",
+      "text": "\n--- PAGE 1 ---\nMINISTÈRE DE LA SANTÉ\nLICENCE D'EXPLOITATION - ÉTABLISSEMENT DE\nSANTÉ\nNOM DE L'ÉTABLISSEMENT Clinique Médicale Moderne\nLOCALISATION Constantine\nNUMÉRO DE LICENCE LIC-HOP-2011-4608\nCAPACITÉ (LITS) 250\nAGRÉMENTATION ISO ISO 9001:2015\nAGRÉMENT HAS Oui\nDATE DE DÉLIVRANCE 01/01/2023\nDATE D'EXPIRATION 31/12/2027\nCet établissement est autorisé à fonctionner selon les normes en vigueur."
+    },
+    "document_quality": 0.35,
+    "doc_anomalies": [
+      "name_not_found_in_document",
+      "missing_field: nom légal",
+      "missing_field: adresse",
+      "missing_field: capacité lits",
+      "missing_field: agréments"
+    ],
+    "anomalies_count": 5
+  },
+  "metadata": {
+    "text_length": 397,
+    "quality_score": 0.35,
+    "entity_type": "clinique_hopital"
+  },
+  "errors": []
+}

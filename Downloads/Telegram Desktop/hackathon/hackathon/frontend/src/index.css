@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-50: #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-200: #bfdbfe;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased transition-colors duration-300;
+    background-image:
+      radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 25%),
+      radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.05), transparent 25%);
+    background-attachment: fixed;
+  }
+
+  .dark body {
+    @apply bg-[#0d0f1a] text-slate-100;
+    background-image:
+      radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.12), transparent 30%),
+      radial-gradient(circle at 85% 30%, rgba(99, 102, 241, 0.08), transparent 30%);
+  }
+}
+
+@layer components {
+  /* ── Light glass card ── */
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.06)] rounded-2xl
+           dark:bg-[#161926]/80 dark:border-white/6 dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)];
+  }
+
+  .glass-panel {
+    @apply bg-white/60 backdrop-blur-lg border border-slate-200/60 shadow-sm rounded-xl
+           dark:bg-white/4 dark:border-white/8;
+  }
+
+  .premium-input {
+    @apply w-full rounded-xl border border-slate-200 bg-white/50 px-4 py-3 text-slate-900
+           placeholder:text-slate-400
+           transition-all focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/10
+           dark:border-white/10 dark:bg-white/5 dark:text-slate-100 dark:placeholder:text-slate-500
+           dark:focus:border-brand-500 dark:focus:bg-white/8 dark:focus:ring-brand-500/20;
+  }
+
+  .premium-button {
+    @apply inline-flex items-center justify-center rounded-xl bg-brand-600 px-6 py-3 text-sm font-semibold text-white
+           shadow-lg shadow-brand-500/30 transition-all
+           hover:bg-brand-700 hover:shadow-brand-500/40 hover:-translate-y-0.5
+           active:translate-y-0 disabled:opacity-50 disabled:pointer-events-none
+           dark:shadow-brand-500/20 dark:hover:shadow-brand-500/30;
+  }
+
+  /* ── Dark mode option element fix ── */
+  option {
+    @apply dark:bg-[#1e2130] dark:text-slate-100;
+  }
+}

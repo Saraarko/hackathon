@@ -1,0 +1,60 @@
+{
+  "status": "success",
+  "timestamp": "2026-05-03T07:14:20.342673",
+  "total_documents_verified": 1,
+  "scoring": {
+    "category_scores": {
+      "medecin_individuel": 3.25
+    },
+    "average_trust_score": 3.25
+  },
+  "category_breakdown": {
+    "medecin_individuel": {
+      "count": 1,
+      "average_score": 3.25,
+      "documents": [
+        {
+          "status": "success",
+          "timestamp": "2026-05-03T07:14:20.341437",
+          "document": "data/uploads\\ac661e7d-db89-4086-82c7-96077bd4b707\\DOCTOR_DIPLOMA_FR.pdf",
+          "entity_type": "medecin_individuel",
+          "scoring_details": {
+            "final_average_score": 3.25
+          },
+          "issues_found": [
+            "Face match failed (Score: 0.0)",
+            "Diploma incomplete or unreadable",
+            "School None not in WDOMS accreditation list",
+            "License number required for legal practice check"
+          ],
+          "analysis_summary": "Verified via medecin_individuel pipeline"
+        }
+      ]
+    }
+  },
+  "documents_verified": [
+    {
+      "status": "success",
+      "timestamp": "2026-05-03T07:14:20.341437",
+      "document": "data/uploads\\ac661e7d-db89-4086-82c7-96077bd4b707\\DOCTOR_DIPLOMA_FR.pdf",
+      "entity_type": "medecin_individuel",
+      "scoring_details": {
+        "final_average_score": 3.25
+      },
+      "issues_found": [
+        "Face match failed (Score: 0.0)",
+        "Diploma incomplete or unreadable",
+        "School None not in WDOMS accreditation list",
+        "License number required for legal practice check"
+      ],
+      "analysis_summary": "Verified via medecin_individuel pipeline"
+    }
+  ],
+  "all_issues_found": [
+    "Diploma incomplete or unreadable",
+    "School None not in WDOMS accreditation list",
+    "License number required for legal practice check",
+    "Face match failed (Score: 0.0)"
+  ],
+  "total_issues": 4
+}

@@ -1,0 +1,50 @@
+{
+  "status": "success",
+  "agent": "extraction",
+  "timestamp": "2026-05-03T07:14:20.328031",
+  "summary": {
+    "total_documents": 1,
+    "average_quality": 0.55,
+    "total_anomalies": 0,
+    "quality_scores": [
+      0.55
+    ]
+  },
+  "documents": [
+    {
+      "status": "success",
+      "agent": "extraction",
+      "document": {
+        "file_path": "data/uploads\\ac661e7d-db89-4086-82c7-96077bd4b707\\DOCTOR_DIPLOMA_FR.pdf",
+        "document_type": "DIPLOMA",
+        "entity_type": "medecin_individuel"
+      },
+      "timestamp": "2026-05-03T07:14:20.323709",
+      "results": {
+        "extracted_text": "\n--- PAGE 1 ---\nMINISTÈRE DE L'ENSEIGNEMENT\nSUPÉRIEUR\nET DE LA RECHERCHE SCIENTIFIQUE\nDIPLÔME DE MÉDECINE GÉNÉRALE\nNom complet: Dr. Karim Belhadj\nUniversité: Université de Tlemcen\nSpécialité: Psychiatrie\nAnnée d'obtention: 2023\nNuméro d'inscription: D-2023-5039\nDate de validité: 02/05/2026\nCe diplôme certifie que le titulaire a satisfait aux exigences du cursus de médecine.\nDélivré par l'université d'origine.\nDocument généré le 02/05/2026",
+        "structured_data": {
+          "nom": "Dr. Karim Belhadj",
+          "spécialité": "Psychiatrie",
+          "numéro d'inscription": "D-2023-5039",
+          "date de validité": "02/05/2026",
+          "titre": "Dr.",
+          "lieu_exercice": "NOT_FOUND"
+        },
+        "document_quality": 0.55,
+        "doc_anomalies": [],
+        "anomalies_count": 0
+      },
+      "metadata": {
+        "text_length": 442,
+        "quality_score": 0.55,
+        "entity_type": "medecin_individuel"
+      },
+      "errors": []
+    }
+  ],
+  "metadata": {
+    "total_text_length": 442,
+    "documents_processed": 1
+  },
+  "errors": []
+}

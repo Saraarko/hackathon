@@ -1,0 +1,42 @@
+{
+  "status": "success",
+  "timestamp": "2026-05-02T18:49:19.875922",
+  "document": {
+    "path": "data/HOSPITAL_LICENSE.pdf",
+    "name": "HOSPITAL_LICENSE",
+    "entity_type": "clinique_hopital"
+  },
+  "practitioner": {
+    "practitioner_id": "doctor_001",
+    "full_name": "Dr. Ahmed Ben Ali",
+    "specialty": "Cardiology",
+    "country": "Algeria",
+    "registration_number": "12345ABC"
+  },
+  "scoring": {
+    "document_trust_score": 1.5,
+    "structural_score": 0,
+    "semantic_score": 0
+  },
+  "decision": {
+    "status": "REJECTED",
+    "type": "AUTO_REJECTED",
+    "requires_human_review": false,
+    "reasoning": "The practitioner's Trust Score of 1.5/100 is below the threshold of 50, indicating a high risk and therefore the automatic rejection.",
+    "priority": "HIGH",
+    "llm_analysis": "Decision enhanced with Groq LLM analysis"
+  },
+  "issues_found": [
+    "Missing MOH registration details",
+    "Address required",
+    "No doctors listed",
+    "License required"
+  ],
+  "analysis_summary": "Verified via clinique_hopital pipeline",
+  "next_steps": [
+    "Obtain valid MOH registration details",
+    "Verify practitioner's address",
+    "List all doctors",
+    "Obtain license"
+  ]
+}

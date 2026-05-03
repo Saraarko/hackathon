@@ -1,0 +1,28 @@
+{
+  "status": "success",
+  "agent": "extraction",
+  "document": {
+    "file_path": "data/LABORATORY_ACCREDITATION.pdf",
+    "document_type": "certification",
+    "entity_type": "laboratoire"
+  },
+  "timestamp": "2026-05-02T18:48:50.205370",
+  "results": {
+    "extracted_text": "\n--- PAGE 1 ---\nLABORATOIRE D'ANALYSES MÉDICALES\nACCRÉDITATION ISO 15189\nNOM DU LABORATOIRE Diagnostics Plus\nDIRECTEUR SCIENTIFIQUE Dr. Leila Hamza\nLOCALISATION Oran\nNUMÉRO D'ACCRÉDITATION ISO15189-2021-5335\nNORME ISO ISO 15189:2022\nAGRÉMENT SÉCURITÉ SOCIALE Oui\nTYPES D'ANALYSES Hématologie, Biochimie, Microbiologie, Immunologie\nVALIDE JUSQU'AU 31/12/2026\nAccrédité pour les analyses listées ci-dessus selon ISO 15189:2022",
+    "structured_data": {
+      "status": "raw_extraction",
+      "text": "\n--- PAGE 1 ---\nLABORATOIRE D'ANALYSES MÉDICALES\nACCRÉDITATION ISO 15189\nNOM DU LABORATOIRE Diagnostics Plus\nDIRECTEUR SCIENTIFIQUE Dr. Leila Hamza\nLOCALISATION Oran\nNUMÉRO D'ACCRÉDITATION ISO15189-2021-5335\nNORME ISO ISO 15189:2022\nAGRÉMENT SÉCURITÉ SOCIALE Oui\nTYPES D'ANALYSES Hématologie, Biochimie, Microbiologie, Immunologie\nVALIDE JUSQU'AU 31/12/2026\nAccrédité pour les analyses listées ci-dessus selon ISO 15189:2022"
+    },
+    "document_quality": 0.35,
+    "doc_anomalies": [
+      "missing_field: équipements"
+    ],
+    "anomalies_count": 1
+  },
+  "metadata": {
+    "text_length": 424,
+    "quality_score": 0.35,
+    "entity_type": "laboratoire"
+  },
+  "errors": []
+}
